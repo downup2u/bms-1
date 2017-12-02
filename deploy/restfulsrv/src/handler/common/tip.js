@@ -6,8 +6,8 @@ const async = require('async');
 const moment = require('moment');
 
 const getmoment =()=>{
-  //return moment();
-  return moment('2017-11-18 02:03:05');//for test
+  return moment();
+  //return moment('2017-11-18 02:03:05');//for test
 }
 
 exports.gettipcount = (actiondata,ctx,callback)=>{
