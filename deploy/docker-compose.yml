@@ -1,34 +1,6 @@
 version: '2'
 services:
-  nginxbms:
-    image: nginx
-    restart: always
-    ports:
-        - "80:8080"
-    volumes:
-        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-        - ./dist:/usr/share/nginx/html
-  zookeeper:
-      image: wurstmeister/zookeeper
-      restart: always
-      ports:
-        - "2181:2181"
-  kafka:
-    image: wurstmeister/kafka
-    restart: always
-    ports:
-      - "9092:9092"
-    depends_on:
-      - zookeeper
-    links:
-      - zookeeper:zk
-    environment:
-      KAFKA_CREATE_TOPICS: "BMS.Data:2:2,BMS.bms:2:2,BMS.position:2:2"
-      KAFKA_ADVERTISED_HOST_NAME: 118.31.41.232
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-  bmsserver:
+  bmscatlserver:
     image: node:6.11.2
     restart: always
     command: node ./index.js
@@ -38,17 +10,17 @@ services:
     environment:
       - MONGO_URL=mongodb://172.17.0.1:27018/bms
       - KAFKA_HOST=172.17.0.1:2181
-      - listenport=5012
+      - listenport=5013
     network_mode: "host"
     ports:
-       - "5012:5012"
+       - "5013:5013"
     expose:
-       - "5012"
+       - "5013"
     depends_on:
        - mongodb
        - zookeeper
        - kafka
-  kafkadb:
+  bmscatlkafkadb:
     image: node:6.11.2
     restart: always
     command: node ./index.js
@@ -56,19 +28,10 @@ services:
     volumes:
       - ./kafkadb:/app
     environment:
-      - MONGO_URL=mongodb://172.17.0.1:27018/bms
+      - MONGO_URL=mongodb://172.17.0.1:27018/bmscatl
       - KAFKA_HOST=172.17.0.1:2181
     network_mode: "host"
     depends_on:
        - mongodb
        - zookeeper
        - kafka
-  mongodb:
-    image:  mongo:3.4
-    restart: always
-    expose:
-       - "27018"
-    volumes:
-       - "/var/db100/dbdata:/data/db -d"
-    ports:
-       - "27018:27017"
