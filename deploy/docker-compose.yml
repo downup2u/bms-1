@@ -16,10 +16,6 @@ services:
        - "5013:5013"
     expose:
        - "5013"
-    depends_on:
-       - mongodb
-       - zookeeper
-       - kafka
   bmscatlkafkadb:
     image: node:6.11.2
     restart: always
@@ -31,7 +27,3 @@ services:
       - MONGO_URL=mongodb://172.17.0.1:27018/bmscatl
       - KAFKA_HOST=172.17.0.1:2181
     network_mode: "host"
-    depends_on:
-       - mongodb
-       - zookeeper
-       - kafka
