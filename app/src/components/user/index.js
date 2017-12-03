@@ -23,6 +23,9 @@ import Settingicon from '../../img/20.png';
 import Users from '../../img/21.png';
 import Rightlnk from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import {ui_menuclick_logout}  from '../../actions';
+import config from '../../env/config';
+
+
 const { RangePicker } = DatePicker;
 
 class Page extends React.Component {
@@ -56,13 +59,12 @@ class Page extends React.Component {
                             onClick={()=>{this.props.history.push("/setting")}}
                             />
                             <div style={{height:"1px",width : "100%", background:"#EEE"}}></div>
-                        <ListItem
-                            primaryText="关于"
-                            leftIcon={<img src={Users} />}
-                            rightIcon={<Rightlnk />}
-                            style={{background : "#FFF"}}
-                            onClick={()=>{}}
-                            />
+                    <ListItem
+                        primaryText={`${config.appversion}`}
+                        leftIcon={<img src={Users} />}
+                        style={{background : "#FFF"}}
+                        onClick={()=>{}}
+                        />
                     </List>
                     <div className="loginout" onClick={
                       ()=>{
