@@ -19,6 +19,7 @@ import translate from 'redux-polyglot/translate';
 import TableComponents from "./table.js";
 import TreeSearchmessage from './search/searchmessage';
 import { Button } from 'antd';
+import {bridge_deviceinfo} from '../sagas/datapiple/bridgedb';
 
 
 class Page extends React.Component {
@@ -32,504 +33,35 @@ class Page extends React.Component {
       this.props.dispatch(searchbatteryalarm_request(query));
     }
     render(){
-      // const datasz = [
-      //   {
-      //     groupname:'基本参数',
-      //     fieldnames:[
-      //       {name:'RealtimeAlarm.SN'},
-      //       {name:'RealtimeAlarm.BAT_U_Out_HVS'},
-      //       {name:'RealtimeAlarm.BAT_U_TOT_HVS'},
-      //       {name:'RealtimeAlarm.BAT_I_HVS'},
-      //       {name:'RealtimeAlarm.BAT_SOC_HVS'},
-      //       {name:'RealtimeAlarm.BAT_SOH_HVS'},
-      //     ]
-      //   },
-      //   {
-      //     groupname:'电压参数',
-      //     fieldnames:[
-      //       {name:'RealtimeAlarm.BAT_Ucell_Max'},
-      //       {name:'RealtimeAlarm.BAT_Ucell_Min'},
-      //       {name:'RealtimeAlarm.BAT_Ucell_Max_CSC'},
-      //       {name:'RealtimeAlarm.BAT_Ucell_Max_CELL'},
-      //       {name:'RealtimeAlarm.BAT_Ucell_Min_CSC'},
-      //       {name:'RealtimeAlarm.BAT_Ucell_Min_CELL'},
-      //     ]
-      //   },
-      //   {
-      //     groupname:'温度参数',
-      //     fieldnames:[
-      //       {name:'RealtimeAlarm.BAT_T_Max'},
-      //       {name:'RealtimeAlarm.BAT_T_Min'},
-      //       {name:'RealtimeAlarm.BAT_T_Avg'},
-      //       {name:'RealtimeAlarm.BAT_T_Max_CSC'},
-      //       {name:'RealtimeAlarm.BAT_T_Min_CSC'},
-      //     ]
-      //   },
-      //   {
-      //     groupname:'继电器状态',
-      //     fieldnames:[
-      //       {name:'RealtimeAlarm.ST_AC_SW_HVS'},
-      //       {name:'RealtimeAlarm.ST_Aux_SW_HVS'},
-      //       {name:'RealtimeAlarm.ST_Main_Neg_SW_HVS'},
-      //       {name:'RealtimeAlarm.ST_Pre_SW_HVS'},
-      //       {name:'RealtimeAlarm.ST_Main_Pos_SW_HVS'},
-      //     ]
-      //   },
-      //   {
-      //     groupname:'位置参数',
-      //     fieldnames:[
-      //       {name:'LastHistoryTrack.Longitude'},
-      //       {name:'LastHistoryTrack.Latitude'},
-      //       {name:'LastHistoryTrack.Speed'},
-      //       {name:'LastHistoryTrack.Course'},
-      //       {name:'LastHistoryTrack.DeviceStatus'},
-      //     ]
-      //   },
-      //   {
-      //     groupname:'地理参数',
-      //     fieldnames:[
-      //       {name:'LastHistoryTrack.Province'},
-      //       {name:'LastHistoryTrack.City'},
-      //       {name:'LastHistoryTrack.County'},
-      //     ]
-      //   },
-      // ];
+      const {carcollections,g_devicesdb,mapdetailfields,mapdict} = this.props;
+        let deviceid = this.props.match.params.deviceid;
+        let isincollections = false;
+        map(carcollections,(id)=>{
+            if(id === deviceid){
+                isincollections = true;
+            }
+        });
+        let deviceitem = bridge_deviceinfo(g_devicesdb[deviceid]);
+        let datadevice = [];
+        map(mapdetailfields,(v)=>{
+          let record = {};
+          let kv = [];
+          map(v.fieldslist,(fieldname)=>{
+            if(!!mapdict[fieldname]){
+              kv.push({
+                name:mapdict[fieldname].showname,
+                value:get(deviceitem,mapdict[fieldname].name,'')
+              });
+            }
+          });
+          record = {
+            groupname:v.groupname,
+            kv:kv
+          };
 
-      const {mapseldeviceid,g_devicesdb,p, columns, alaram_data} = this.props;
-      let deviceitem = g_devicesdb[mapseldeviceid];
-      let datadevice = {
-
-          "基本信息" :[ {
-                  name:'采集时间',
-                  value:get(deviceitem,'采集时间'),
-              },
-              {
-                  name:'车速(km/h)',
-                  value: get(deviceitem,'车速(km/h)'),
-              },
-              {
-                name:'驱动有效',
-                value: get(deviceitem,'驱动有效'),
-              },
-              {
-                name:'制动有效',
-                value: get(deviceitem,'制动有效'),
-              },
-              {
-                name:'里程(km)',
-                value: get(deviceitem,'里程(km)'),
-              },
-              {
-                name:'空调温度(℃)',
-                value: get(deviceitem,'空调温度(℃)'),
-              },
-              {
-                name:'档位',
-                value:get(deviceitem,'档位'),
-              },
-              {
-                name:'加速踏板行程值(%)',
-                value:get(deviceitem,'加速踏板行程值(%)'),
-              },
-              {
-                name:'制动踏板行程值(%)',
-                value:get(deviceitem,'制动踏板行程值(%)'),
-              },
-              {
-                name:'充放电状态',
-                value: get(deviceitem,'充放电状态'),
-              },
-              {
-                name:'驱动电机控制器温度(℃)',
-                value:  get(deviceitem,'驱动电机控制器温度(℃)'),
-              },
-              {
-                name:'驱动电机转速(r/min)',
-                value:  get(deviceitem,'驱动电机转速(r/min)'),
-              },
-              {
-                name:'驱动电机温度(℃)',
-                value:get(deviceitem,'驱动电机温度(℃)'),
-              },
-              {
-                name:'电机控制器输入电压',
-                value: get(deviceitem,'电机控制器输入电压'),
-              },
-              {
-                name:'电机控制器直流母线电流',
-                value: get(deviceitem,'电机控制器直流母线电流'),
-              },
-            ],
-            "GPS信息" : [
-              {
-                name:'定位状态',
-                value: get(deviceitem,'定位状态'),
-              },
-              {
-                name:'纬度信息',
-                value: get(deviceitem,'纬度信息'),
-              },
-              {
-                name:'经度信息',
-                value:get(deviceitem,'经度信息'),
-              },
-              {
-                name:'经度',
-                value: get(deviceitem,'经度'),
-              },
-              {
-                name:'纬度',
-                value: get(deviceitem,'纬度'),
-              },
-              {
-                name:'GPS速度(km/h)',
-                value: get(deviceitem,'GPS速度(km/h)'),
-              },
-              {
-                name:'方向',
-                value: get(deviceitem,'方向'),
-              },
-          ],
-          "车辆状态" : [
-              {
-                name:'动力系统就绪',
-                value:  get(deviceitem,'动力系统就绪'),
-              },
-              {
-                name:'紧急下电请求',
-                value:  get(deviceitem,'紧急下电请求'),
-              },
-              {
-                name:'电池均衡激活',
-                value:  get(deviceitem,'电池均衡激活'),
-              }
-        ],
-
-        "电池类信息" : [
-
-            {
-                name:'总电压(V)',
-                value: get(deviceitem,'总电压(V)'),
-            },
-            {
-                name:'SOC(%)',
-                value: get(deviceitem,'SOC(%)'),
-            },
-            {
-                name:'总电流(A)',
-                value: get(deviceitem,'总电流(A)'),
-            },
-            {
-                name:'电池绝缘电阻(KΩ)',
-                value:get(deviceitem,'电池绝缘电阻(KΩ)'),
-            },
-            {
-                name:'最高电压动力蓄电池包序号',
-                value: get(deviceitem,'最高电压动力蓄电池包序号'),
-            },
-            {
-                name:'最高电压单体蓄电池序号',
-                value: get(deviceitem,'最高电压单体蓄电池序号'),
-            },
-            {
-                name:'电池单体最高电压值(V)',
-                value: get(deviceitem,'电池单体最高电压值(V)'),
-            },
-            {
-                name:'最低电压动力蓄电池包序号',
-                value: get(deviceitem,'最低电压动力蓄电池包序号'),
-            },
-            {
-                name:'最低电压单体蓄电池序号',
-                value: get(deviceitem,'最低电压单体蓄电池序号'),
-            },
-
-
-            {
-                name:'电池单体最低电压值(V)',
-                value: get(deviceitem,'电池单体最低电压值(V)'),
-            },
-            {
-                name:'最高温度动力蓄电池包序号',
-                value:get(deviceitem,'最高温度动力蓄电池包序号'),
-            },
-            {
-                name:'最高温度探针序号',
-                value:get(deviceitem,'最高温度探针序号'),
-            },
-            {
-                name:'最高温度值(℃)',
-                value: get(deviceitem,'最高温度值(℃)'),
-            },
-            {
-                name:'最低温度动力蓄电池包序号',
-                value: get(deviceitem,'最低温度动力蓄电池包序号'),
-            },
-            {
-                name:'最低温度探针序号',
-                value: get(deviceitem,'最低温度探针序号'),
-            },
-
-
-            {
-                name:'最低温度值(℃)',
-                value:get(deviceitem,'最低温度值(℃)'),
-            },
-            {
-                name:'剩余能量(KW*h)',
-                value: get(deviceitem,'剩余能量(KW*h)'),
-            },
-            {
-                name:'最高电压电池总数',
-                value:get(deviceitem,'最高电压电池总数'),
-            },
-            {
-                name:'最低电压电池总数',
-                value: get(deviceitem,'最低电压电池总数'),
-            },
-            {
-                name:'最高温度探针总数',
-                value:get(deviceitem,'最高温度探针总数'),
-            },
-            {
-                name:'最低温度探针总数',
-                value: get(deviceitem,'最低温度探针总数'),
-            },
-            {
-                name:'单体蓄电池总数',
-                value: get(deviceitem,'最低电压单体蓄电池序号'),
-            },
-            {
-                name:'动力蓄电池包总数(单体)',
-                value: get(deviceitem,'动力蓄电池包总数(单体)'),
-            },
-            {
-                name:'温度探针总数',
-                value: get(deviceitem,'温度探针总数'),
-            },
-            {
-                name:'动力蓄电池包总数(动力)',
-                value: get(deviceitem,'动力蓄电池包总数(动力)'),
-            },
-          ]
-      };
-      let datadeviceclone = {...datadevice};
-      datadevice = [];
-      map(datadeviceclone,(v,k)=>{
-        datadevice = datadevice.concat(v);
-      });
-      // datadevice = flattenDeep(datadevice);
-      // const datadevice = [
-      //   {
-      //       name:'采集时间',
-      //       value: "2017-09-13 18:16:57",
-      //   },
-      //   {
-      //       name:'车速(km/h)',
-      //       value: "14.0",
-      //   },
-      //   {
-      //       name:'驱动有效',
-      //       value: "驱动有效",
-      //   },
-      //   {
-      //       name:'制动有效',
-      //       value: "制动有效",
-      //   },
-      //   {
-      //       name:'里程(km)',
-      //       value: "27196",
-      //   },
-      //   {
-      //       name:'空调温度(℃)',
-      //       value: "23",
-      //   },
-      //   {
-      //       name:'档位',
-      //       value: "自动档/D",
-      //   },
-      //   {
-      //       name:'加速踏板行程值(%)',
-      //       value: "缺省值",
-      //   },
-      //   {
-      //       name:'充放电状态',
-      //       value: "放电",
-      //   },
-      //   {
-      //       name:'驱动电机控制器温度(℃)',
-      //       value: "51",
-      //   },
-      //   {
-      //       name:'驱动电机转速(r/min)',
-      //       value: "991",
-      //   },
-      //   {
-      //       name:'驱动电机温度(℃)',
-      //       value: "49",
-      //   },
-      //   {
-      //       name:'电机控制器输入电压',
-      //       value: "371.0",
-      //   },
-      //   {
-      //       name:'电机控制器直流母线电流',
-      //       value: "-7.0",
-      //   },
-      //
-      //   {
-      //       name:'定位状态',
-      //       value: "有效定位",
-      //   },
-      //   {
-      //       name:'纬度信息',
-      //       value: "北纬",
-      //   },
-      //   {
-      //       name:'经度信息',
-      //       value: "东经",
-      //   },
-      //   {
-      //       name:'经度',
-      //       value: "118.159387",
-      //   },
-      //   {
-      //       name:'纬度',
-      //       value: "24.499292",
-      //   },
-      //   {
-      //       name:'GPS速度(km/h)',
-      //       value: " 14.0",
-      //   },
-      //   {
-      //       name:'方向',
-      //       value: " 西偏北 76.0°",
-      //   },
-      //
-      //   {
-      //       name:'动力系统就绪',
-      //       value: "活跃亮灯",
-      //   },
-      //   {
-      //       name:'紧急下电请求',
-      //       value: "正常",
-      //   },
-      //   {
-      //       name:'电池均衡激活',
-      //       value: "无均衡",
-      //   },
-      //
-      //
-      //
-      //   {
-      //       name:'总电压(V)',
-      //       value: "374.0",
-      //   },
-      //   {
-      //       name:'SOC(%)',
-      //       value: "76.0",
-      //   },
-      //   {
-      //       name:'总电流(A)',
-      //       value: "-5.4",
-      //   },
-      //   {
-      //       name:'电池绝缘电阻(KΩ)',
-      //       value: "3015",
-      //   },
-      //
-      //
-      //   {
-      //       name:'最高电压动力蓄电池包序号',
-      //       value: "1",
-      //   },
-      //   {
-      //       name:'最高电压单体蓄电池序号',
-      //       value: "93",
-      //   },
-      //   {
-      //       name:'电池单体最高电压值(V)',
-      //       value: "3.870",
-      //   },
-      //   {
-      //       name:'最低电压动力蓄电池包序号',
-      //       value: "1",
-      //   },
-      //   {
-      //       name:'最低电压单体蓄电池序号',
-      //       value: "82",
-      //   },
-      //
-      //
-      //   {
-      //       name:'电池单体最低电压值(V):',
-      //       value: "3.830",
-      //   },
-      //   {
-      //       name:'最高温度动力蓄电池包序号',
-      //       value: "1",
-      //   },
-      //   {
-      //       name:'最高温度探针序号',
-      //       value: "1",
-      //   },
-      //   {
-      //       name:'最高温度值(℃)',
-      //       value: "39",
-      //   },
-      //   {
-      //       name:'最低温度动力蓄电池包序号',
-      //       value: "1",
-      //   },
-      //   {
-      //       name:'最低温度探针序号',
-      //       value: "4",
-      //   },
-      //
-      //
-      //   {
-      //       name:'最低温度值(℃)',
-      //       value: "37",
-      //   },
-      //   {
-      //       name:'剩余能量(KW*h)',
-      //       value: "30.2",
-      //   },
-      //   {
-      //       name:'最高电压电池总数',
-      //       value: "0",
-      //   },
-      //   {
-      //       name:'最低电压电池总数',
-      //       value: "0",
-      //   },
-      //   {
-      //       name:'最高温度探针总数',
-      //       value: "3",
-      //   },
-      //   {
-      //       name:'最低温度探针总数',
-      //       value: "13",
-      //   },
-      //   {
-      //       name:'单体蓄电池总数',
-      //       value: "97",
-      //   },
-      //   {
-      //       name:'动力蓄电池包总数(单体)',
-      //       value: "1",
-      //   },
-      //   {
-      //       name:'温度探针总数',
-      //       value: "34",
-      //   },
-      //   {
-      //       name:'动力蓄电池包总数(动力)',
-      //       value: "1",
-      //   },
-      //
-      //
-      // ];
+          datadevice.push(record);
+        });
+        console.log(datadevice);
       return (
 
             <div className="warningPage devicePage deviceinfoPage">
@@ -564,20 +96,36 @@ class Page extends React.Component {
 
                 <div className="lists deviceinfolist"
                     style={{
-                        flexGrow: 1,
+                        flexGrow: 0,
                         overflow: "scroll"
                     }}
                     >
                     {
-                      map(datadevice,(item,i)=>{
-                          return (
-                              <div className="li" key={i}>
-                                  <div>
-                                  <div className="name">{item.name}</div><div className="text">{item.value}</div>
-                                  </div>
-                              </div>
-                          )
+                      map(datadevice,(item,index)=>{
+                        return (
+                            <div key={index} className="li">
+                            <div>
+                                <div className="tit">{item.groupname}</div>
+                                {
+                                    map(item.kv,(i,k)=>{
+                                        return (<div key={k} ><span>{`${i.name}`}</span><span>{`${i.value}`}</span></div>);
+                                    })
+                                }
+                                </div>
+                            </div>
+                        );
                       })
+                    }
+                    {
+                      // map(datadevice,(item,i)=>{
+                      //     return (
+                      //         <div className="li" key={i}>
+                      //             <div>
+                      //             <div className="name">{item.name}</div><div className="text">{item.value}</div>
+                      //             </div>
+                      //         </div>
+                      //     )
+                      // })
                   }
                 </div>
 
@@ -586,8 +134,11 @@ class Page extends React.Component {
     }
 }
 
-const mapStateToProps = ({device:{mapseldeviceid,g_devicesdb}}) => {
-    return {mapseldeviceid,g_devicesdb, };
+
+const mapStateToProps = ({device,app}) => {
+    const { carcollections, g_devicesdb, mapseldeviceid } = device;
+    const { mapdetailfields, mapdict } = app;
+    return { carcollections, g_devicesdb, mapdetailfields, mapdict, mapseldeviceid };
 }
 const DeviceComponentWithPProps = translate('showdevice')(Page);
 export default connect(mapStateToProps)(DeviceComponentWithPProps);

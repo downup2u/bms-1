@@ -31,3 +31,5 @@ export const ui_viewdevicedetail = createAction('ui_viewdevicedetail');
 
 export const gettipcount_request = createAction('gettipcount_request');
 export const gettipcount_result = createAction('gettipcount_result');
+
+export const download_excel = createAction('download_excel');

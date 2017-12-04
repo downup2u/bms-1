@@ -16,6 +16,9 @@ import {
 
 const initial = {
     app: {
+        mappopfields:[],
+        mappopclusterfields:[],
+        mapdict:{},
         tabindex:0,
         selstatus:0,//for index
         ui_mydeivce_showtype:0,

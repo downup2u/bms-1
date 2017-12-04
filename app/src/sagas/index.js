@@ -10,10 +10,11 @@ import {createmapmainflow} from './mapmain';
 import {createmaptrackhistoryplaybackflow} from './mapplayback';
 import {socketflow} from './socketflow';
 import {uiflow} from './ui';
+import {downloadexcel} from './downloadexcel';
 
 export default function* rootSaga() {
   try{
-
+    yield fork(downloadexcel);
     yield fork(socketflow);
     yield fork(createmapmainflow);
     yield fork(createmaptrackhistoryplaybackflow);

@@ -28,9 +28,6 @@ export class PageForm extends Component {
                     <span className="logospan">CATL</span>
                 </div>
                 <div className="li" >
-                    <span className="icon">
-                        <img src="./newimg/25.png" alt='' />
-                    </span>
                     <Field
                         name="phonenumber"
                         id="phonenumber"
@@ -41,9 +38,6 @@ export class PageForm extends Component {
                     />
                 </div>
                 <div className="li">
-                    <span className="icon">
-                        <img src="newimg/26.png" alt='' />
-                    </span>
                     <Field
                         name="password"
                         id="password"

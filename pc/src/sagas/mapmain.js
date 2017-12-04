@@ -732,7 +732,9 @@ export function* createmapmainflow(){
             const adcodetop = parseInt(result.adcode);
             //展开左侧树结构
             yield put(mapmain_seldistrict({adcodetop,forcetoggled:true}));
+            if(config.softmode === 'pc'){//pc端才有树啊
             yield take(`${mapmain_getdistrictresult}`);//等待数据完成
+            }
 
       }
       catch(e){

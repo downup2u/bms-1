@@ -17,6 +17,9 @@ let config =  {
   authexptime:120,//验证码有效期，2分钟
   loginuserexptime:60*60*24*30,//用户登录有效期,30天
   mongodburl:process.env.MONGO_URL || 'mongodb://localhost/bms',
+  defaultmappopclusterfields:[
+    'TotalWorkCycle','ChargeACVoltage','BAT_I_HVS',
+  ],
   defaultmappopfields:[
     'TotalWorkCycle','ChargeACVoltage','BAT_I_HVS','BAT_ISO_R_Pos','BAT_ISO_R_Neg',
     'BAT_Ucell_Max','BAT_Ucell_Min','BAT_Ucell_Avg','BAT_T_Max','BAT_T_Min','BAT_T_Avg'],

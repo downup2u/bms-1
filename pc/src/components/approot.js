@@ -24,7 +24,9 @@ import WeuiTool from './tools/weuitool';
 
 import Alaraminfo from './alarm/alarminfo';
 import Workorderinfo from './workorder/info';
-
+import ReportAlarm from './reports/alarm';
+import ReportPosition from './reports/position';
+import ReportAlarmDetail from './reports/alarmdetail';
 
 import {requireAuthentication} from './requireauthentication';
 import { carmapshow_createmap, carmapshow_destorymap} from '../actions';
@@ -58,6 +60,10 @@ class AppRoot extends React.Component {
                 <WeuiTool />
                 <Switch>
                     <Route exact path="/" component={()=>(<Redirect to="/index"/>)} />
+                    <Route path="/reports/alarm" component={requireAuthentication(ReportAlarm)} />
+                    <Route path="/reports/alarmdetail" component={requireAuthentication(ReportAlarmDetail)} />
+                    <Route path="/reports/position" component={requireAuthentication(ReportPosition)} />
+
                     <Route path="/index" component={requireAuthentication(()=>(<div></div>))} />
                     <Route path="/datatable" component={requireAuthentication(Datatable)} />
                     <Route path="/login" component={Login} />

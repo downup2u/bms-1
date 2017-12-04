@@ -25,8 +25,8 @@ import Rightlnk from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import {ui_menuclick_logout}  from '../../actions';
 import config from '../../env/config';
 
-
 const { RangePicker } = DatePicker;
+
 
 class Page extends React.Component {
 

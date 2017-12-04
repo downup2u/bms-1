@@ -4,6 +4,61 @@ let mongoose  = require('mongoose');
 const winston = require('../../log/log.js');
 const _ = require('lodash');
 
+//app中的报警分页
+exports.ui_searchposition =  (actiondata,ctx,callback)=>{
+  // PC端获取数据--->{"cmd":"searchbatteryalarm","data":{"query":{"queryalarm":{"warninglevel":0}}}}
+  const historytrackModel = DBModels.HistoryTrackModel;
+  const query = actiondata.query || {};
+  historytrackModel.paginate(query,actiondata.options,(err,result)=>{
+    if(!err){
+      callback({
+        cmd:'ui_searchposition_result',
+        payload:{result}
+      });
+    }
+    else{
+      callback({
+        cmd:'common_err',
+        payload:{errmsg:err.message,type:'ui_searchposition'}
+      });
+    }
+  });
+}
+
+
+exports.exportposition = (actiondata,ctx,callback)=>{
+  console.log(`exportposition==>${JSON.stringify(actiondata)}`);
+  //let HistoryTrackModel =mongoose.model('historytrack',  HistoryTrackSchema);
+  const historytrackModel = DBModels.HistoryTrackModel;
+  const query = actiondata.query || {};
+  const fields = actiondata.fields ||
+    'DeviceId Latitude Longitude GPSTime';
+  historytrackModel.find(query,fields,(err,list)=>{
+    if(!err){
+      list = JSON.parse(JSON.stringify(list));
+      if(list.length > 0){
+        callback({
+          cmd:'exportposition_result',
+          payload:{list}
+        });
+      }
+      else{
+        callback({
+          cmd:'common_err',
+          payload:{errmsg:`该时间段没有回放数据`,type:'exportposition'}
+        });
+      }
+    }
+    else{
+      callback({
+        cmd:'common_err',
+        payload:{errmsg:err.message,type:'exportposition'}
+      });
+    }
+  });
+}
+
+
 exports.queryhistorytrack = (actiondata,ctx,callback)=>{
   console.log(`queryhistorytrack==>${JSON.stringify(actiondata)}`);
   //let HistoryTrackModel =mongoose.model('historytrack',  HistoryTrackSchema);

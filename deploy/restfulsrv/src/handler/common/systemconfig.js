@@ -10,7 +10,7 @@ exports.getsystemconfig = (actiondata,ctx,callbackfn)=>{
             let payload = {};
             let mappopfields = systemconfig.mappopfields || config.defaultmappopfields;
             let mapdetailfields = systemconfig.mapdetailfields || config.defaultmapdetailfields;
-
+            let mappopclusterfields = systemconfig.mappopclusterfields || config.defaultmappopclusterfields;
             let allfieldslist = [];
             allfieldslist = _.concat(allfieldslist,mappopfields);
             _.map(mapdetailfields,(v)=>{
@@ -40,6 +40,7 @@ exports.getsystemconfig = (actiondata,ctx,callbackfn)=>{
               payload = {
                 mappopfields,
                 mapdetailfields,
+                mappopclusterfields,
                 mapdict
               };
               callbackfn({

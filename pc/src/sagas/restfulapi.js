@@ -1,10 +1,7 @@
-let islocalhost = true;
-if (process.env.NODE_ENV === 'production') {
-    islocalhost = false;
-} else {
-    islocalhost = true;
-}
-const fetchurl = islocalhost?`http://localhost:50002/api`:`http://101.89.141.136:50002/api`;
+import config from '../env/config';
+
+const fetchurl =`${config.serverurlrestful}`;
+
 const statusHelper = (response)=> {
   if (response.status >= 200 && response.status < 300) {
     return Promise.resolve(response)
@@ -14,6 +11,17 @@ const statusHelper = (response)=> {
 }
 
 const restfulapi = {
+  getexcelfile({type,query}){
+    return fetch(`${fetchurl}/${type}`, {
+      method  : 'POST',
+      headers : {
+        'Content-Type'  : 'application/json'
+      },
+      body    : JSON.stringify(query)
+    })
+    .then(statusHelper)
+    .then(response => response.blob());
+  },
   getdevicegeo (userData) {
     return fetch(`${fetchurl}/getdevicegeo`)
     .then(statusHelper)
