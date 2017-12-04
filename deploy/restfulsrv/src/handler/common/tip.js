@@ -76,7 +76,7 @@ exports.gettipcount = (actiondata,ctx,callback)=>{
       });
     }
     else{
-      callbackfn({
+      callback({
         cmd:'common_err',
         payload:{errmsg:`获取个数失败`,type:'gettipcount'}
       });
