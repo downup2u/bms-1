@@ -12,7 +12,11 @@ import {
     InputValidation,
     length4
 } from "../tools/formvalidation-material-ui"
-import Loginbg from "../../img/1.png";
+
+import Loginlogo from "../../img/loginlogo.png";
+import Login1 from "../../img/login1.png";
+import Login2 from "../../img/login2.png";
+import Login3 from "../../img/login3.png";
 
 export class PageForm extends Component {
     render(){
@@ -24,24 +28,25 @@ export class PageForm extends Component {
                 onSubmit={handleSubmit(onClickLogin)}
                 >
                 <div className="logo">
-                    <span className="logoimg"></span>
-                    <span className="logospan">CATL</span>
+                    <span className="logoimg"><img src={Loginlogo} /></span>
                 </div>
                 <div className="li" >
+                    <img src={Login1} className="loginicon" />
                     <Field
                         name="phonenumber"
                         id="phonenumber"
-                        placeholder="用户名"
+                        placeholder="请输入账号"
                         type="text"
                         component={ InputValidation }
-                        validate={[ required, phone ]}
+                        validate={[ required ]}
                     />
                 </div>
                 <div className="li">
+                    <img src={Login2} className="loginicon" />
                     <Field
                         name="password"
                         id="password"
-                        placeholder="密码"
+                        placeholder="请输入密码"
                         type="password"
                         component={ InputValidation }
                         validate={[ required ]}
@@ -52,17 +57,14 @@ export class PageForm extends Component {
                 <br/>
 
                 <div className="submitBtn">
-                    <span
+                    <img
                         className="btn Default"
                         disabled={pristine || submitting}
                         onClick={handleSubmit(onClickLogin)}
-                        >
-                        登录
-                    </span>
-
-
+                        src={Login3}
+                        />                                                
                 </div>
-            </Form>
+            </Form>                                                 
         )
     }
 }
