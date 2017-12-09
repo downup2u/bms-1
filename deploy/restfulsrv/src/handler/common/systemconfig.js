@@ -7,6 +7,7 @@ exports.getsystemconfig = (actiondata,ctx,callbackfn)=>{
     const dbModel = DBModels.SystemConfigModel;
     dbModel.findOne({},(err,systemconfig)=>{
         if(!err && !!systemconfig){
+            systemconfig = JSON.parse(JSON.stringify(systemconfig));
             let payload = {};
             let mappopfields = systemconfig.mappopfields || config.defaultmappopfields;
             let mapdetailfields = systemconfig.mapdetailfields || config.defaultmapdetailfields;
@@ -17,7 +18,6 @@ exports.getsystemconfig = (actiondata,ctx,callbackfn)=>{
               allfieldslist = _.concat(allfieldslist,v.fieldslist);
             });
             allfieldslist = _.uniq(allfieldslist);
-            console.log(`allfieldslist==>${JSON.stringify(allfieldslist)}`)
             const alname = 'AL_';
             //还应该包括所有AL开头字母的信息
             const dbdictModel = DBModels.DataDictModel;
@@ -47,6 +47,8 @@ exports.getsystemconfig = (actiondata,ctx,callbackfn)=>{
                 cmd:'getsystemconfig_result',
                 payload
               });
+
+              config.mapdict = _.merge(config.mapdict,mapdict);
             });
 
         }

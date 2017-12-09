@@ -18,6 +18,13 @@ const DataDictTitle = ({record}) => {
   return <span>数据字典</span>
 };
 
+export const DDFilter = props => (
+    <Filter {...props}>
+        <TextInput label="搜索字典" source="name_q" />
+    </Filter>
+);
+
+
 const DataDictCreate = (props) => (
   <Create title="创建数据字典字段" {...props}>
     <SimpleForm>
@@ -46,7 +53,7 @@ const DataDictEdit = (props) => {
 };
 
 const DataDictList = (props) => (
-  <List title={<DataDictTitle />} {...props}>
+  <List title={<DataDictTitle />} {...props} filters={<DDFilter/>}>
     <Datagrid>
       <TextField label="字段名" source="name" />
       <TextField label="字段显示名" source="showname" />

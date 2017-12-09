@@ -76,7 +76,8 @@ const getpop_device =({deviceitem,kvlist})=>{
   let contentxt = '';
   lodashmap(kvlist,(v)=>{
     const fieldvalue = get(deviceitem,v.name,'');
-    contentxt += `<p class='l'><span class='t'>${v.showname}</span><span class='color_warning'>${fieldvalue}${v.unit}</span></p>`;
+    const unit = get(deviceitem,v.name,'');
+    contentxt += `<p class='l'><span class='t'>${v.showname}</span><span class='color_warning'>${fieldvalue}${unit}</span></p>`;
   });
 
   return {
@@ -104,7 +105,8 @@ export const getlistpopinfowindowstyle = (deviceitemlist)=>{
         let contentxt = '';
         lodashmap(kvlist,(v)=>{
           const fieldvalue = get(deviceitem,v.name,'');
-          contentxt += `${v.showname}${fieldvalue}${v.unit}|`;
+          const unit = get(deviceitem,v.name,'');
+          contentxt += `${v.showname}${fieldvalue}${unit}|`;
         });
 
         info +=  `<p onclick="clickfn_device(${deviceitem.DeviceId})">

@@ -48,7 +48,6 @@ const HistoryTrackShow = (props)=> {
     <TextField label="设备ID" source="DeviceId" />
     <TextField label="设备状态" source="DeviceStatus" />
     <NumberField label="主板温度，单位：摄氏度" source="ADC1" />
-    <DateField label="定位时间" source="created_at" showTime />
     <DateField label="接受数据时间" source="MessageTime" showTime />
     <NumberField label="Position数据包序号" source="SN" />
     <SelectField label="GPS定位" source="GPSStatus" choices={choices} optionValue="_id" optionText="status" />
@@ -72,8 +71,8 @@ const HistoryTrackList = (props)=> (
   <List title={<HistoryTrackTitle />} sort={{field:'created_at',order:'DESC'}} {...props}>
     <Datagrid>
       <TextField label="设备ID" source="DeviceId" />
-      <TextField label="设备状态" source="DeviceStatus" />
-      <DateField label="定位时间" source="created_at" showTime />
+      <TextField label="CellId" source="CellId" />
+      <DateField label="定位时间" source="GPSTime" showTime />
       <NumberField label="经度" source="Longitude" />
       <NumberField label="纬度" source="Latitude" />
       <NumberField label="速度" source="Speed" />
@@ -84,4 +83,3 @@ const HistoryTrackList = (props)=> (
 );
 
 export {HistoryTrackList,HistoryTrackShow};
-

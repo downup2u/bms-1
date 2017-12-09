@@ -8,7 +8,7 @@ import { Button, Modal, Icon, message } from 'antd';
 import { ui_alarm_selcurdevice,createworkorder_request } from '../../actions';
 import moment from 'moment';
 import {bridge_alarminfo} from '../../sagas/datapiple/bridgedb';
-
+import get from 'lodash.get';
 moment.locale('zh-cn');
 
 class Page extends React.Component {
@@ -21,60 +21,65 @@ class Page extends React.Component {
     }
     componentWillMount () {
     }
-    showworderlist=(showmodal)=>{
-        this.setState({ showmodal });
-    }
-    selworderdone=()=>{
-        if(this.state.selworderid===''){
-            message.warning('您还没有制定派单人员！');
-        }else{
-            console.log(`开始派发工单给${this.state.selworderid}`);
-            const {g_devicesdb,alarms,workusers} = this.props;
-            let alarmid = this.props.match.params.alarmid;
-            let curalarm =  alarms[alarmid];
-            let cloneitem = {};
-            cloneitem.createtime = moment().format('YYYY-MM-DD HH:mm:ss');
-            cloneitem['assignto'] = this.state.selworderid;
-            cloneitem['车牌'] = '';
-            cloneitem['项目'] = '';
-            cloneitem['故障类型'] = '';
-            cloneitem['车辆ID'] = curalarm['车辆ID'];
-            cloneitem['故障描述'] = curalarm['故障描述'];
-            // cloneitem['部位'] = test_workorder_part_text[getrandom(0,test_workorder_part_text.length-1)];
-            cloneitem['责任人'] = workusers[this.state.selworderid].name;
-            cloneitem['故障地点'] =curalarm['报警位置'];
-            cloneitem.isdone = false;
-            cloneitem.pics = [];
-            this.props.dispatch(createworkorder_request(cloneitem));
-            this.showworderlist(false);
-        }
-    }
-    selworderfn=(selworderid)=>{
-        this.setState({ selworderid });
-    }
+    // showworderlist=(showmodal)=>{
+    //     this.setState({ showmodal });
+    // }
+    // selworderdone=()=>{
+    //     if(this.state.selworderid===''){
+    //         message.warning('您还没有制定派单人员！');
+    //     }else{
+    //         console.log(`开始派发工单给${this.state.selworderid}`);
+    //         const {g_devicesdb,alarms,workusers} = this.props;
+    //         let alarmid = this.props.match.params.alarmid;
+    //         let curalarm =  alarms[alarmid];
+    //         let cloneitem = {};
+    //         cloneitem.createtime = moment().format('YYYY-MM-DD HH:mm:ss');
+    //         cloneitem['assignto'] = this.state.selworderid;
+    //         cloneitem['车牌'] = '';
+    //         cloneitem['项目'] = '';
+    //         cloneitem['故障类型'] = '';
+    //         cloneitem['车辆ID'] = curalarm['车辆ID'];
+    //         cloneitem['故障描述'] = curalarm['故障描述'];
+    //         // cloneitem['部位'] = test_workorder_part_text[getrandom(0,test_workorder_part_text.length-1)];
+    //         cloneitem['责任人'] = workusers[this.state.selworderid].name;
+    //         cloneitem['故障地点'] =curalarm['报警位置'];
+    //         cloneitem.isdone = false;
+    //         cloneitem.pics = [];
+    //         this.props.dispatch(createworkorder_request(cloneitem));
+    //         this.showworderlist(false);
+    //     }
+    // }
+    // selworderfn=(selworderid)=>{
+    //     this.setState({ selworderid });
+    // }
     render() {
-        const {g_devicesdb,alarms,workusers} = this.props;
+        const {alarms} = this.props;
         let alarmid = this.props.match.params.alarmid;
         let curalarm =  alarms[alarmid];
-        curalarm = bridge_alarminfo(curalarm);
-        let deviceid = curalarm['车辆ID'];
+        if(!!curalarm){
+          if(!curalarm['key']){//没有key，需要转换，否则不用转（来自报表）
+            curalarm = bridge_alarminfo(curalarm);
+          }
+        }
+
+        let deviceid = get(curalarm,'车辆ID','');
 
         const datadevice = {
             "基本信息" :[ {
                     name:'报警等级',
-                    value: `${curalarm['报警等级']}`,
+                    value: `${get(curalarm,'报警等级','')}`,
                 },
                 {
                     name:'车辆ID',
-                    value: `${curalarm['车辆ID']}`,
+                    value: `${get(curalarm,'车辆ID','')}`,
                 },
                 {
                   name:'报警时间',
-                  value: `${curalarm['报警时间']}`,
+                  value: `${get(curalarm,'报警时间','')}`,
                 },
                 {
                   name:'报警信息',
-                  value: `${curalarm['报警信息']}`,
+                  value: `${get(curalarm,'报警信息','')}`,
                 },
             ],
             // "位置信息" : [
@@ -122,7 +127,7 @@ class Page extends React.Component {
                     }
 
                 </div>
-                <Modal
+                {/* <Modal
                     title="派发工单"
                     wrapClassName="vertical-center-modal"
                     visible={this.state.showmodal}
@@ -143,17 +148,15 @@ class Page extends React.Component {
                                         :<Icon type="check-circle" style={{color: "#EEEEEE"}} />}</p>);
                         })
                     }
-                </Modal>
+                </Modal> */}
             </div>
         );
     }
 }
 
-const mapStateToProps = ({device,searchresult,workorder}) => {
-    const {g_devicesdb} = device;
+const mapStateToProps = ({searchresult}) => {
     const {alarms} = searchresult;
-    const {workusers} = workorder;
-    return {g_devicesdb,alarms,workusers};
+    return {alarms};
 }
 
 export default connect(mapStateToProps)(Page);

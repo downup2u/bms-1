@@ -24,7 +24,9 @@ const DeviceGroupCreate = (props) => (
       <TextInput label="分组名称" source="name" validate={required} />
       <TextInput label="备注" source="memo" />
       <TextInput label="联系人" source="contact" />
-      <ReferenceArrayInput source="deviceids" reference="device" allowEmpty>
+      <ReferenceArrayInput source="deviceids" reference="device" allowEmpty
+        options={{ fullWidth: true }}
+        filterToQuery={searchText => ({ DeviceId_q: searchText })}>
           <SelectArrayInput optionText="DeviceId" />
       </ReferenceArrayInput>
     </SimpleForm>
@@ -37,7 +39,9 @@ const DeviceGroupEdit = (props) => {
       <TextInput label="分组名称" source="name" validate={required} />
       <TextInput label="备注" source="memo" />
       <TextInput label="联系人" source="contact" />
-      <ReferenceArrayInput source="deviceids" reference="device" allowEmpty>
+      <ReferenceArrayInput source="deviceids" reference="device" allowEmpty
+        options={{ fullWidth: true }}
+        filterToQuery={searchText => ({ DeviceId_q: searchText })}>
           <SelectArrayInput optionText="DeviceId" />
       </ReferenceArrayInput>
     </SimpleForm>
@@ -48,7 +52,6 @@ const DeviceGroupEdit = (props) => {
 const DeviceGroupList = (props) => (
   <List title={<DeviceGroupTitle />} {...props}>
     <Datagrid>
-      <TextField source="id" />
       <TextField label="分组名称" source="name" />
       <TextField label="备注" source="memo" />
       <TextField label="联系人" source="contact" />

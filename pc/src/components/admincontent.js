@@ -8,24 +8,39 @@ import {
     carmapshow_destorymap,
 } from '../actions';
 const divmapid = 'mapmain';
+
+let resizetimemap = null;
+
 class MapPage extends React.Component {
-    componentWillMount () {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            height : this.props.height || window.innerHeight-64
+        };
     }
-    componentWillUnmount(){
-
-        this.props.dispatch(carmapshow_destorymap({divmapid}));
-    }
-    componentDidMount () {
-
+    componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
         this.props.dispatch(carmapshow_createmap({divmapid}));
     }
-    render() {
-        const height = this.props.height || window.innerHeight-64;
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+        this.props.dispatch(carmapshow_destorymap({divmapid}));
+    }
 
+    onWindowResize=()=> {
+        window.clearTimeout(resizetimemap);
+        resizetimemap = window.setTimeout(()=>{
+            this.setState({
+                height: this.props.height || window.innerHeight-64
+            });
+
+        }, 10)
+    }
+    render() {
         return (
             <div className="AdminContent">
-                <div id={divmapid} style={{height:`${height}px`}}/>
+                <div id={divmapid} style={{height:`${this.state.height}px`}}/>
             </div>
         );
     }

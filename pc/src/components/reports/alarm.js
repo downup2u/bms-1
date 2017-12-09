@@ -9,13 +9,13 @@ import map from 'lodash.map';
 import "../../css/message.css";
 import AntdTable from "../controls/antdtable.js";
 
-import {bridge_alarminfo} from '../../sagas/datapiple/bridgedb';
+// import {bridge_alarminfo} from '../../sagas/datapiple/bridgedb';
 import moment from 'moment';
 
 import TreeSearchreport from '../search/searchreport_alarm';
 import {download_excel} from '../../actions';
 import {
-  callthen,ui_searchalarm_request,ui_searchalarm_result
+  callthen,uireport_searchalarm_request,uireport_searchalarm_result
 } from '../../sagas/pagination';
 import get from 'lodash.get';
 
@@ -85,7 +85,8 @@ class TableAlarm extends React.Component {
       // this.props.dispatch(searchbatteryalarm_request({query:queryalarm}));
     }
     onItemConvert(item){
-      return bridge_alarminfo(item);
+      // return bridge_alarminfo(item);
+      return item;
     }
     render(){
         let warninglevel = this.props.match.params.warninglevel;
@@ -133,7 +134,7 @@ class TableAlarm extends React.Component {
             <div className="warningPage" style={{height : window.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.push("./")}}></i>
+                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
                     <div className="title">报警报表</div>
                 </div>
                 <div className="TreeSearchBattery">
@@ -149,7 +150,7 @@ class TableAlarm extends React.Component {
                       query={this.state.query}
                       sort={{DataTime: -1}}
                       queryfun={(payload)=>{
-                        return callthen(ui_searchalarm_request,ui_searchalarm_result,payload);
+                        return callthen(uireport_searchalarm_request,uireport_searchalarm_result,payload);
                       }}
                     />
                 </div>

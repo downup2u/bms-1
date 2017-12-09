@@ -4,21 +4,21 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import map from 'lodash.map';
 
 import "../../css/message.css";
 import AntdTable from "../controls/antdtable.js";
 
-import {bridge_alarminfo} from '../../sagas/datapiple/bridgedb';
+import {getalarmfieldallfields} from '../../sagas/datapiple/bridgedb';
 import {download_excel} from '../../actions';
 import moment from 'moment';
 
 import TreeSearchreport from '../search/searchreport_alarmdetail';
 
 import {
-  callthen,ui_searchalarmdetail_request,ui_searchalarmdetail_result
+  callthen,uireport_searchalarmdetail_request,uireport_searchalarmdetail_result
 } from '../../sagas/pagination';
 import get from 'lodash.get';
+import map from 'lodash.map';
 
 class TableAlarmDetail extends React.Component {
 
@@ -41,15 +41,65 @@ class TableAlarmDetail extends React.Component {
         }
 
         this.state = {
-          query:queryalarm
+          query:queryalarm,
+          columndata_extra:[]
         }
     }
 
+    getqueryfromstate(){
+      let query = {};
+
+      if(this.state.columndata_extra.length > 0){
+        let query2 = {
+          '$or':[]
+        };
+        map(this.state.columndata_extra,(v)=>{
+          let queryfield = {};
+          queryfield[v.key] = {$exists:true};
+          query2[`$or`].push(queryfield);
+        });
+
+        query[`$and`] = [
+          this.state.query,
+          query2
+        ]
+      }
+      else{
+        query = this.state.query;
+      }
+
+      console.log(`query:${JSON.stringify(query)}`)
+      return query;
+    }
+
+    setListColumnFields(values){
+      const {mapdict} = this.props;
+      let columndata_extra = [];
+      map(values,(fname,i)=>{
+        if(!!mapdict[fname]){
+          columndata_extra.push({
+            key:fname,
+            title:mapdict[fname].showname || fname,
+            dataIndex:i
+          });
+        }
+        else{
+          console.log(values);
+        }
+
+      });
+      this.setState({columndata_extra});
+      // window.setTimeout(()=>{
+      //   console.log(this.refs);
+      //   this.refs.antdtablealarm.getWrappedInstance().onRefresh();
+      // },0);
+    }
+
     onClickExport(){
-      const payload = {
-              type:'report_alarmdetail',
-              query:this.state.query
-      };
+       const payload = {
+            type:'report_alarmdetail',
+            query:this.getqueryfromstate()
+       };
       console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
     }
@@ -80,12 +130,12 @@ class TableAlarmDetail extends React.Component {
       window.setTimeout(()=>{
         console.log(this.refs);
         this.refs.antdtablealarm.getWrappedInstance().onRefresh();
-          // this.refs.alarmdatalist.getWrappedInstance().onRefresh();
       },0);
-      // this.props.dispatch(searchbatteryalarm_request({query:queryalarm}));
     }
     onItemConvert(item){
-      return bridge_alarminfo(item);
+      console.log(`item--->${JSON.stringify(item)}`)
+      // return bridge_alarminfo(item);
+      return item;
     }
     render(){
         let warninglevel = this.props.match.params.warninglevel;
@@ -114,31 +164,28 @@ class TableAlarmDetail extends React.Component {
           return column_item;
         });
 
-
-        let viewrow = (row)=>{
-            console.log(row);
-            // this.props.history.push(`/alarminfodetail/${row.key}`);
-        }
-
-        let columns_action ={
-            title: "操作",
-            dataIndex: '',
-            key: 'x',
-            render: (text, row, index) => {
-                return (<a onClick={()=>{viewrow(row)}}>查看</a>);
-            }
-        }
-        columns.push(columns_action);
+        // const columeindex = columns.length;
+        // map(this.state.columndata_extra,(v)=>{
+        //   let columns_action ={
+        //     title:v.title,
+        //     dataIndex:v.dataIndex+columeindex,
+        //     key:v.key
+        //   };
+        //   columns.push(columns_action);
+        // });
         return (
             <div className="warningPage" style={{height : window.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.push("./")}}></i>
+                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
                     <div className="title">报警明细报表</div>
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)} warninglevel={warninglevel}
-                      onClickExport={this.onClickExport.bind(this)}/>
+                      onClickExport={this.onClickExport.bind(this)}
+                      setListColumnFields={this.setListColumnFields.bind(this)}
+                      selectoptions={getalarmfieldallfields(this.props.mapdict)}
+                    />
                 </div>
                 <div className="tablelist">
                     <AntdTable
@@ -146,10 +193,10 @@ class TableAlarmDetail extends React.Component {
                       onItemConvert={this.onItemConvert.bind(this)}
                       columns={columns}
                       pagenumber={30}
-                      query={this.state.query}
+                      query={this.getqueryfromstate()}
                       sort={{DataTime: -1}}
                       queryfun={(payload)=>{
-                        return callthen(ui_searchalarmdetail_request,ui_searchalarmdetail_result,payload);
+                        return callthen(uireport_searchalarmdetail_request,uireport_searchalarmdetail_result,payload);
                       }}
                     />
                 </div>
@@ -159,5 +206,7 @@ class TableAlarmDetail extends React.Component {
     }
 }
 
-
-export default connect()(TableAlarmDetail);
+const mapStateToProps = ({app:{mapdict}}) => {
+    return {mapdict};
+}
+export default connect(mapStateToProps)(TableAlarmDetail);

@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import { set_weui } from '../../actions';
 import '../../css/login.css';
 import RaisedButton from 'material-ui/RaisedButton';
+import Loginbg from "../../img/9.png";
+import Loginlogo from "../../img/10.png";
 
 import {
     required,
@@ -74,7 +76,6 @@ PageForm = reduxForm({
 //     }
 // )(PageForm)
 // PageForm = withRouter(PageForm);
-
 export class Page extends Component {
     componentWillReceiveProps (nextProps) {
 
@@ -114,7 +115,11 @@ export class Page extends Component {
     render(){
         return (
             <div className="loginPage AppPage">
+                <img src={Loginbg} className="bg" />
                 <div className="content">
+                    <div className="head">
+                        <img src={Loginlogo} className="logo" />
+                    </div>
                     <PageForm onClickLogin={this.onClickLogin}/>
                 </div>
             </div>

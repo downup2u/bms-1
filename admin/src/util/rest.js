@@ -63,10 +63,10 @@ export default (apiUrl, httpClient = fetchJson) => {
               delete obj._id;
               data.push(obj);
             });
-            console.log("GET_LIST|json data:" + JSON.stringify( {
-                data: data,
-                total: json.total,
-            }));
+            // console.log("GET_LIST|json data:" + JSON.stringify( {
+            //     data: data,
+            //     total: json.total,
+            // }));
             return {
                 data: data,
                 total: json.total,
@@ -77,7 +77,7 @@ export default (apiUrl, httpClient = fetchJson) => {
         case DELETE:
             json.id = json._id;
             delete json._id;
-            console.log("UPDATE| json data:" + JSON.stringify( {data:json}));
+            // console.log("UPDATE| json data:" + JSON.stringify( {data:json}));
             return {data:json};
         case GET_MANY:
             json.forEach((obj)=>{

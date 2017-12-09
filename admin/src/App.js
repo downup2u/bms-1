@@ -51,13 +51,12 @@ class App extends Component {
 
             {
               permissions => [
-
-                <Resource name="devicegroup" list={DeviceGroupList} edit={DeviceGroupEdit} create={DeviceGroupCreate} />,
-                <Resource name="device" list={DeviceList} edit={DeviceEdit} create={DeviceCreate} />,
+                <Resource name="devicegroup" list={DeviceGroupList} edit={DeviceGroupEdit} create={DeviceGroupCreate}  remove={Delete} />,
+                <Resource name="device" list={DeviceList} edit={DeviceEdit} create={DeviceCreate}  remove={Delete} />,
                 <Resource name="user" list={UserList} edit={UserEdit} create={UserCreate} />,
-                <Resource name="role" list={RoleList} edit={RoleEdit} create={RoleCreate} />,
-                <Resource name="permission" list={PermissionList} edit={PermissionEdit} create={PermissionCreate} />,
-                <Resource name="datadict" list={DataDictList} edit={DataDictEdit} create={DataDictCreate} />,
+                <Resource name="role" list={RoleList} edit={RoleEdit} create={RoleCreate}  remove={Delete} />,
+                <Resource name="permission" list={PermissionList} edit={PermissionEdit} create={PermissionCreate}  remove={Delete} />,
+                <Resource name="datadict" list={DataDictList} edit={DataDictEdit} create={DataDictCreate}  remove={Delete} />,
                 <Resource name="historytrack" list={HistoryTrackList} show={HistoryTrackShow} />,
                 <Resource name="realtimealarm" list={RealtimeAlarmList} show={RealtimeAlarmShow} />,
                 <Resource name="userlog" list={UserlogList} />,

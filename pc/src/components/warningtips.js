@@ -198,10 +198,18 @@ class UserMenu extends React.Component {
                 this.props.dispatch(ui_changemodeview('device'));
                 this.props.history.push("/workorder");
             }}/> */}
-            {/* {<MenuItem primaryText="查询报表" leftIcon={<Car />} onClick={()=>{
+          {<MenuItem primaryText="查询报表【位置】" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
-                this.props.history.push("/device");
-            }}/>} */}
+                this.props.history.push("/reports/position");
+            }}/>}
+          {<MenuItem primaryText="查询报表【报警】" leftIcon={<Car />} onClick={()=>{
+                this.handleRequestClose();
+                this.props.history.push("/reports/alarm");
+            }}/>}
+          {<MenuItem primaryText="查询报表【报警明细】" leftIcon={<Car />} onClick={()=>{
+                this.handleRequestClose();
+                this.props.history.push("/reports/alarmdetail");
+            }}/>}
             {/* <MenuItem primaryText="后台管理" leftIcon={<Settings />} onClick={()=>{
                 this.handleRequestClose();
                 window.open('http://catldemo.com28.cn/admin/build/','_blank');

@@ -9,13 +9,13 @@ import map from 'lodash.map';
 import "../../css/message.css";
 import AntdTable from "../controls/antdtable.js";
 
-import {bridge_alarminfo} from '../../sagas/datapiple/bridgedb';
+import {bridge_positioninfo} from '../../sagas/datapiple/bridgedb';
 import {download_excel} from '../../actions';
 import moment from 'moment';
 
 import TreeSearchreport from '../search/searchreport_position';
 import {
-  callthen,ui_searchposition_request,ui_searchposition_result
+  callthen,uireport_searchposition_request,uireport_searchposition_result
 } from '../../sagas/pagination';
 import get from 'lodash.get';
 
@@ -35,8 +35,8 @@ class TablePosition extends React.Component {
 
     onClickExport(){
       const payload = {
-              type:'report_position',
-              query:this.state.query
+          type:'report_position',
+          query:this.state.query
       };
       console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
@@ -61,11 +61,20 @@ class TablePosition extends React.Component {
       },0);
     }
     onItemConvert(item){
-      return bridge_alarminfo(item);
+      let itemnew = {...item};
+      //DeviceId Latitude Longitude GPSTime
+      itemnew['key'] = get(item,'_id','');
+      itemnew['设备编号'] = get(item,'DeviceId','');
+      itemnew['定位时间'] = get(item,'GPSTime','');
+      itemnew['省'] = get(item,'Provice','');
+      itemnew['市'] = get(item,'City','');
+      itemnew['区'] = get(item,'Area','');
+      return itemnew;
     }
     render(){
         let column_data = {
           "设备编号" : "",
+          "定位时间" : "",
           "省" : "",
           "市" : "",
           "区" : "",
@@ -90,7 +99,7 @@ class TablePosition extends React.Component {
             <div className="warningPage" style={{height : window.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.push("./")}}></i>
+                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
                     <div className="title">位置报表</div>
                 </div>
                 <div className="TreeSearchBattery">
@@ -105,7 +114,7 @@ class TablePosition extends React.Component {
                       query={this.state.query}
                       sort={{DataTime: -1}}
                       queryfun={(payload)=>{
-                        return callthen(ui_searchposition_request,ui_searchposition_result,payload);
+                        return callthen(uireport_searchposition_request,uireport_searchposition_result,payload);
                       }}
                     />
                 </div>

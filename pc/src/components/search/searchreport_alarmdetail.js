@@ -7,12 +7,18 @@ import {connect} from 'react-redux';
 import map from 'lodash.map';
 import Seltime from './seltime.js';
 import { Input,Select, AutoComplete,Button } from 'antd';
-
+import MultiSelect from 'react-select';
 import moment from 'moment';
+
+import 'react-select/dist/react-select.css';
+
 moment.locale('zh-cn');
 
 const InputGroup = Input.Group;
 const Option = Select.Option;
+
+//sample:https://github.com/JedWatson/react-select/blob/master/examples/src/components/Multiselect.js
+
 
 class TreeSearchBattery extends React.Component {
     constructor(props) {
@@ -22,8 +28,15 @@ class TreeSearchBattery extends React.Component {
             alarmlevel: warninglevel,
             startDate:moment(moment().format('YYYY-MM-DD 00:00:00')),
             endDate:moment(moment().format('YYYY-MM-DD 23:59:59')),
+            selectedvalue: [],
           };
     }
+    onSelectChange (value) {
+      let sz = value.split(',');
+  		console.log(`${JSON.stringify(sz)}`);
+  		this.setState({ selectedvalue:sz });
+      this.props.setListColumnFields(sz);
+	 }
 
     onChangeSelDate(startDate,endDate){
       this.setState({
@@ -74,6 +87,19 @@ class TreeSearchBattery extends React.Component {
                         <Option value={"1"} >紧急报警</Option>
                         <Option value={"2"} >一般报警</Option>
                     </Select>
+
+
+                </div>
+                <div className="i">
+                    <MultiSelect
+                        closeOnSelect={true}
+                        multi
+                        onChange={this.onSelectChange.bind(this)}
+                        options={this.props.selectoptions}
+                        placeholder="选择报警字段"
+                        simpleValue
+                        value={this.state.selectedvalue}
+                      />
                 </div>
                 <div className="b">
                     <Button type="primary" icon="search" onClick={this.onClickQuery}>查询</Button>

@@ -733,7 +733,7 @@ export function* createmapmainflow(){
             //展开左侧树结构
             yield put(mapmain_seldistrict({adcodetop,forcetoggled:true}));
             if(config.softmode === 'pc'){//pc端才有树啊
-            yield take(`${mapmain_getdistrictresult}`);//等待数据完成
+              yield take(`${mapmain_getdistrictresult}`);//等待数据完成
             }
 
       }
@@ -1015,7 +1015,7 @@ export function* createmapmainflow(){
 
         //在树中将其他结点搜索，该节点展开
         if(config.softmode === 'pc'){//pc端才有树啊
-        yield put(mapmain_getdistrictresult({adcode:adcodetop,forcetoggled}));
+          yield put(mapmain_getdistrictresult({adcode:adcodetop,forcetoggled}));
         }
 
     });

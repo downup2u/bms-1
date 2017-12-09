@@ -20,7 +20,8 @@ export function* createloadingflow(){
       actionstring = 'login';
     }
 
-    if(actionstring !== 'login' && actionstring !== 'logout'){
+    if(actionstring !== 'login' && actionstring !== 'logout'
+    && actionstring !== 'uireport_searchposition'){
       let action_result = (action)=>{
         let actiontype = action.type;
         let isresult = endsWith(actiontype,`${actionstring}_result`);

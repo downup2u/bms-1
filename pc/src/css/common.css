@@ -2,10 +2,6 @@
 *{
     overflow-scrolling:touch;
     -webkit-overflow-scrolling:touch;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
@@ -1111,3 +1107,22 @@
     justify-content: space-between;
     border-bottom:1px solid #EEE;
 }   
+.Select.Select--multi{
+    min-width : 180px;
+    max-width: 100%
+}
+.Select--multi .Select-multi-value-wrapper{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+
+}
+.Select--multi .Select-value{
+    margin-top:0;
+}

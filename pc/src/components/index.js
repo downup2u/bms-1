@@ -32,6 +32,7 @@ import {
 import translate from 'redux-polyglot/translate';
 import Historytrackplayback from "./historytrackplayback";
 let resizetime = null;
+let resizetimecontent = null;
 // this.props.dispatch(ui_showmenu(menuitemstring));
 
 class Page extends React.Component {
@@ -39,16 +40,38 @@ class Page extends React.Component {
         super(props);
         this.state = {
             innerWidth : window.innerWidth,
+            innerHeight : window.innerHeight,
             openaddress : false,
         };
     }
     componentWillMount() {
-        window.onresize = ()=>{
-            window.clearTimeout(resizetime);
-            resizetime = window.setTimeout(()=>{
-                this.setState({innerWidth: window.innerWidth});
-            }, 10)
-        }
+        // window.onresize = ()=>{
+        //     window.clearTimeout(resizetime);
+        //     resizetime = window.setTimeout(()=>{
+        //         this.setState({
+        //             innerWidth: window.innerWidth,
+        //             innerHeight: window.innerHeight,
+        //         });
+        //     }, 10)
+        // }
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize=()=> {
+        window.clearTimeout(resizetimecontent);
+        resizetimecontent = window.setTimeout(()=>{
+            this.setState({
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+            });
+
+        }, 10)
     }
     //主菜单点击事件
     menuevent = () => this.props.dispatch(ui_showmenu(""));
@@ -95,7 +118,7 @@ class Page extends React.Component {
         const treestyle = this.getdrawstyle("400px");
 
         return (
-            <div className="AppPage">
+            <div className="AppPage" id="AppPage" style={{height : `${this.state.innerHeight}px`}}>
                 <div className="content">
                     <div className="headcontent">
                         <AppBar
@@ -120,7 +143,7 @@ class Page extends React.Component {
                         />
                     </div>
 
-                    <div className="bodycontainer">
+                    <div className="bodycontainer" style={{height: `${this.state.innerHeight-64}px`, overflow: "hidden"}}>
 
                         <Drawer
                             open={showmenu==="addressbox" || true}

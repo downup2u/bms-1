@@ -24,6 +24,9 @@ export default {
     },
     devicegroup:{
       name: '设备分组管理 |||| 设备分组管理',
+      fields:{
+        deviceids:'设备列表',
+      }
     },
     user:{
       name: '用户管理 |||| 用户管理',

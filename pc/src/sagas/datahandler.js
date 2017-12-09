@@ -59,18 +59,21 @@ import {
 import {
   ui_searchalarm_request,
   ui_searchalarm_result,
-  ui_searchalarmdetail_request,
-  ui_searchalarmdetail_result,
-  ui_searchposition_request,
-  ui_searchposition_result
+  uireport_searchalarm_request,
+  uireport_searchalarm_result,
+  uireport_searchalarmdetail_request,
+  uireport_searchalarmdetail_result,
+  uireport_searchposition_request,
+  uireport_searchposition_result
 } from './pagination';
 
 //接收的对应关系
 let recvmessagetoresultpair = {
   'gettipcount_result':gettipcount_result,
   'ui_searchalarm_result':ui_searchalarm_result,
-  'ui_searchalarmdetail_result':ui_searchalarmdetail_result,
-  'ui_searchposition_result':ui_searchposition_result,
+  'uireport_searchalarm_result':uireport_searchalarm_result,
+  'uireport_searchalarmdetail_result':uireport_searchalarmdetail_result,
+  'uireport_searchposition_result':uireport_searchposition_result,
   'searchbatteryalarmsingle_result':searchbatteryalarmsingle_result,
   'serverpush_devicegeo_sz_result':serverpush_devicegeo_sz_result,
   'getnotifymessage_result':getnotifymessage_result,
@@ -122,8 +125,9 @@ let sendmessageauthfnsz = {
   'searchbatteryalarm':`${searchbatteryalarm_request}`,
   'searchbatteryalarmsingle':`${searchbatteryalarmsingle_request}`,
   'ui_searchalarm':`${ui_searchalarm_request}`,
-  'ui_searchalarmdetail':`${ui_searchalarm_request}`,
-  'ui_searchposition':`${ui_searchposition_request}`,
+  'uireport_searchalarm':`${uireport_searchalarm_request}`,
+  'uireport_searchalarmdetail':`${uireport_searchalarmdetail_request}`,
+  'uireport_searchposition':`${uireport_searchposition_request}`,
 };
 
 export default {recvmessagetoresultpair,sendmessagefnsz,sendmessageauthfnsz};

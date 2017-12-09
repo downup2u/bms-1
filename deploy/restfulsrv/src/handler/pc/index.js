@@ -29,8 +29,9 @@ const authhandler = {
   'searchbatteryalarm':realtimealarm.searchbatteryalarm,
   'searchbatteryalarmsingle':realtimealarm.searchbatteryalarmsingle,
   'ui_searchalarm':realtimealarm.ui_searchalarm,
-  'ui_searchalarmdetail':realtimealarm.ui_searchalarmdetail,
-  'ui_searchposition':historytrack.ui_searchposition,
+  'uireport_searchalarm':realtimealarm.uireport_searchalarm,
+  'uireport_searchalarmdetail':realtimealarm.uireport_searchalarmdetail,
+  'uireport_searchposition':historytrack.uireport_searchposition,
 };
 
 module.exports = (socket,actiondata,ctx)=>{

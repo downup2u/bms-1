@@ -21,9 +21,16 @@ import TreeBysearchresult from './trees/tree_bysearchresult';
 import {searchbatterylocal_request} from '../actions';
 
 const TabPane = Tabs.TabPane;
+let resizetimetree = null;
 
 class TreeExample extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            height : window.innerHeight-109
+        };
+    }
 
     onFilterMouseUp(e) {
         const filter = e.target.value.trim();
@@ -39,6 +46,23 @@ class TreeExample extends React.Component {
       //SERACH LOCAL
     }
 
+    componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize=()=> {
+        window.clearTimeout(resizetimetree);
+        resizetimetree = window.setTimeout(()=>{
+            this.setState({
+                height: window.innerHeight-109
+            });
+
+        }, 10)
+    }
+
     render(){
         const {modeview} = this.props;
 
@@ -52,7 +76,7 @@ class TreeExample extends React.Component {
                     modeview === 'device' &&
                     <Tabs
                         defaultActiveKey="1"
-                        style={{ height: window.innerHeight-109}}
+                        style={{ height: `${this.state.height}px`}}
                         tabBarStyle={{width : "400px"}}
                         className="treetabs"
                         >

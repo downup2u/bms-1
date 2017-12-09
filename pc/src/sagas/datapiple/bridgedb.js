@@ -9,6 +9,19 @@ export const bridge_deviceinfo = (deviceinfo)=>{
   return deviceinfonew;
 }
 
+export const getalarmfieldallfields = (mapdict)=>{
+  let alarmfileds = [];
+  map(mapdict,(v,k)=>{
+    if(startsWith(v.name, 'AL_')){
+      alarmfileds.push({
+        label:v.showname || v.name,
+        value:v.name
+      });
+    }
+  });
+  return alarmfileds;
+}
+
 export const getalarmfieldtotxt = (alarmfield)=>{
     const {mapdict} = store.getState().app;
     if(startsWith(alarmfield, 'AL_') || startsWith(alarmfield, 'F[')){
@@ -40,7 +53,6 @@ export const bridge_alarminfo = (alarminfo)=>{
   alarminfonew[`报警等级`] = alarminfo[`warninglevel`];
   alarminfonew[`报警信息`] = alarmtxt;
   return alarminfonew;
-
 }
 
 export const bridge_deviceinfo_pop =(deviceitem)=>{
