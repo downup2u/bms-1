@@ -4,6 +4,14 @@ import map from 'lodash.map';
 import get from 'lodash.get';
 import { connect } from 'react-redux';
 
+const listtypeiddata = {
+
+};
+/*
+'productlist':{
+    currentpage
+}
+*/
 class AntdTable extends React.Component {
 
     constructor(props) {
@@ -16,12 +24,13 @@ class AntdTable extends React.Component {
             total:1
           },
           refreshing: false,
+          pos:0
         }
     }
 
-    componentWillUnmount() {
-      this.mounted = false;
-    }
+    // componentWillUnmount() {
+    //   this.mounted = false;
+    // }
     handleTableChange = (pagination, filters, sorter) => {
       const pager = { ...this.state.pagination };
       pager.current = pagination.current;
@@ -62,10 +71,39 @@ class AntdTable extends React.Component {
       });
     }
 
+    // componentWillMount() {
+    //
+    // }
+    componentWillUnmount() {
+      this.mounted = false;
+      let pos = get(this,'refs.antdtable.scrollProperties.offset',0);
+      listtypeiddata[this.props.listtypeid] = {
+        dataSource:this.state.dataSource,
+        pagination:this.state.pagination,
+        pos:pos//document.body.scrollTop||document.documentElement.scrollTop
+      };
+
+    }
+
     componentDidMount() {
       this.mounted = true;
-      this.setState({ refreshing: true });
-      this.onAjax(this.props.query,this.props.sort,this.props.pagenumber,1);
+      let saveddata = listtypeiddata[this.props.listtypeid];
+      if(!!saveddata && this.props.usecache){//first time
+        this.setState({
+          dataSource:saveddata.dataSource,
+          refreshing:false,
+          pagination:saveddata.pagination
+        });
+      }
+      else{
+        if(!!saveddata){
+          delete listtypeiddata[this.props.listtypeid];
+        }
+        this.onRefresh();
+      }
+      // this.refs.antdtable.scrollTo(0,this.state.pos);
+      // this.setState({ refreshing: true });
+      // this.onAjax(this.props.query,this.props.sort,this.props.pagenumber,1);
      }
      onRefresh() {
        this.setState({ refreshing: true });
@@ -80,7 +118,9 @@ class AntdTable extends React.Component {
         const { columns } = this.props;
 
         return (
-          <Table columns={columns}
+          <Table
+            ref='antdtable'
+            columns={columns}
             rowKey={record => record.key}
             dataSource={this.state.dataSource}
             pagination={this.state.pagination}

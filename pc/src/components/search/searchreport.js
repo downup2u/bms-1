@@ -46,15 +46,33 @@ const selitem_alarmfields = [
 class TreeSearchBattery extends React.Component {
     constructor(props) {
         super(props);
-        let warninglevel = props.warninglevel || "-1";
+
+        let warninglevel = "-1";
+        if(!!props.query.warninglevel){
+          if(props.query.warninglevel = '高'){
+            warninglevel = '0';
+          }
+          else if(props.query.warninglevel = '中'){
+            warninglevel = '1';
+          }
+          else if(props.query.warninglevel = '低'){
+            warninglevel = '2';
+          }
+        }
+        let startDate = moment(moment().format('YYYY-MM-DD 00:00:00'));
+        let endDate = moment(moment().format('YYYY-MM-DD 23:59:59'));
+        if(!!props.query.DataTime){
+          startDate = moment(props.query.DataTime['$gte']);
+          endDate = moment(props.query.DataTime['$lte']);
+        }
         this.state = {
             notype:  '',
             notypevalue : '',
             alarmtype : '',
             alarmtypevalue:'',
             alarmlevel: warninglevel,
-            startDate:moment(moment().format('YYYY-MM-DD 00:00:00')),
-            endDate:moment(moment().format('YYYY-MM-DD 23:59:59')),
+            startDate,
+            endDate,
             groupid:'0',
             adcode:10000
         };

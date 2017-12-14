@@ -18,29 +18,49 @@ import {
   callthen,uireport_searchalarm_request,uireport_searchalarm_result
 } from '../../sagas/pagination';
 
-
+let g_querysaved;
+let resizetimecontent = null;
 
 class TableAlarm extends React.Component {
 
     constructor(props) {
         super(props);
-        let query = {};
-        query['DataTime'] = {
+        let queryalarm = {};
+        queryalarm['DataTime'] = {
           $gte: moment(moment().format('YYYY-MM-DD 00:00:00')),
           $lte: moment(moment().format('YYYY-MM-DD 23:59:59')),
         };
         let warninglevel = props.warninglevel || "-1";
         if(warninglevel === '0'){
-          query['warninglevel'] = '高';
+          queryalarm['warninglevel'] = '高';
         }
         else if(warninglevel === '1'){
-          query['warninglevel'] = '中';
+          queryalarm['warninglevel'] = '中';
         }
         else if(warninglevel === '2'){
-          query['warninglevel'] = '低';
+          queryalarm['warninglevel'] = '低';
         }
+        this.state = {
+          query: g_querysaved || queryalarm,
+          innerHeight: window.innerHeight
+        };
+    }
 
-        this.state = {query};
+    componentDidMount() {
+        g_querysaved = null;
+        window.addEventListener('resize', this.onWindowResize);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize=()=> {
+        window.clearTimeout(resizetimecontent);
+        resizetimecontent = window.setTimeout(()=>{
+            this.setState({
+                innerHeight: window.innerHeight,
+            });
+        },10)
     }
 
     onClickExport(query){
@@ -96,6 +116,7 @@ class TableAlarm extends React.Component {
 
         let viewrow = (row)=>{
             console.log(row);
+            g_querysaved = this.state.query;
             this.props.history.push(`/alarminfo/${row.key}`);
         }
 
@@ -109,18 +130,21 @@ class TableAlarm extends React.Component {
         }
         columns.push(columns_action);
         return (
-            <div className="warningPage" style={{height : window.innerHeight+"px"}}>
+            <div className="warningPage" style={{height : this.state.innerHeight+"px"}}>
 
                 <div className="appbar">
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
                     <div className="title">报警报表</div>
                 </div>
                 <div className="TreeSearchBattery">
-                    <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)} warninglevel={warninglevel}
+                    <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)}
+                      query={this.state.query}
                       onClickExport={this.onClickExport.bind(this)}/>
                 </div>
                 <div className="tablelist">
                     <AntdTable
+                      listtypeiddata = 'alarm'
+                      usecache = {!!g_querysaved}
                       ref='antdtablealarm'
                       onItemConvert={this.onItemConvert.bind(this)}
                       columns={columns}
