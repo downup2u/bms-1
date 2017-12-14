@@ -1,59 +1,224 @@
 const map = require('lodash.map');
+const _ = require('lodash');
+const csvwriter = require('csvwriter');
 const device = require('../handler/common/device.js');
 const historytrack = require('../handler/common/historytrack');
 const kafakautil = require('../kafka/producer');
 const realtimealarm = require('../handler/common/realtimealarm.js');
+let DBModels = require('../db/models.js');
+const utilposition = require('../handler/common/util_position');
+
+const getpoint = (v)=>{
+  return [v.Longitude,v.Latitude];
+}
 
 
 let startmodule = (app)=>{
   app.post('/api/report_position',(req,res)=>{
-    const query = req.body;
-    const actiondata = {
-      query,
-      fields:'DeviceId Latitude Longitude GPSTime Course'
+    let query = {};
+    try{
+      let sv = new Buffer(req.body.queryparam, 'hex').toString();
+      console.log(`sv:${sv}`);
+      query = JSON.parse(sv);
     }
-    historytrack.exportposition(actiondata,{},(result)=>{
-      console.log(`search position:${JSON.stringify(result)}`);
-      let resultList = [];
-      if(result.cmd === 'exportposition_result'){
-        resultList = result.payload.list;
-      }
+    catch(e){
+      console.dir(e);
+    }
 
-      res.xls('data.xlsx',resultList );
+    console.dir(query);
+
+    const historytrackModel = DBModels.HistoryTrackModel;
+    const fields = 'DeviceId Latitude Longitude GPSTime';
+
+    let sz = fields.split(' ');
+    sz.push('Provice');
+    sz.push('City');
+    sz.push('Area');
+    const csvfields = sz.join(',');
+    console.log(`csvfields-->${csvfields}`);
+
+    const filename = 'db-data-' + new Date().getTime() + '.csv';
+    res.set({'Content-Disposition': 'attachment; filename=\"' + filename + '\"', 'Content-type': 'text/csv'});
+    res.write(csvfields + '\n');
+
+    let cancelRequest = false;
+    req.on('close', (err)=>{
+       cancelRequest = true;
     });
 
+    const cursor = historytrackModel.find(query,fields).cursor();
+    cursor.on('error', (err)=> {
+      // res.write('Error:' + err);
+      // throw new Error(err);
+      console.log(`算结束了啊..............`);
+      res.end('');
+    });
+
+    cursor.on('data', (doc)=>
+    {
+      if(cancelRequest){
+        cursor.close();
+        console.log(`取消下载了..............`);
+      }
+      else{
+        doc = JSON.parse(JSON.stringify(doc));
+        // console.log(`doc-->${JSON.stringify(doc)}`);
+        utilposition.getpostion_frompos(getpoint(doc),(retobj)=>{
+          const newdoc = _.merge(doc,retobj);
+          // console.log(`newdoc-->${JSON.stringify(newdoc)}`);
+          // console.log(`retobj-->${JSON.stringify(retobj)}`);
+          csvwriter(newdoc, {header: false, fields: csvfields}, (err, csv)=> {
+            // console.log(`csv-->${csv}`);
+             if (!err && !!csv && !cancelRequest) {
+               res.write(csv);
+             }
+           });
+         });
+      }
+    }).
+    on('end', ()=> {
+      setTimeout(()=> {
+        res.end('');
+      }, 1000);
+    });
 
   });
   app.post('/api/report_alarm',(req,res)=>{
     // res.xls('data.xlsx', jsonArr);？???//exportalarm
-    const query = req.body;
-    const actiondata = {
-      query,
+    let query = {};
+    try{
+      let sv = new Buffer(req.body.queryparam, 'hex').toString();
+      console.log(`sv:${sv}`);
+      query = JSON.parse(sv);
     }
-    realtimealarm.exportalarm(actiondata,{},(result)=>{
-      console.log(`search realtimealarm:${JSON.stringify(result)}`);
-      let resultList = [];
-      if(result.cmd === 'exportalarm_result'){
-        resultList = result.payload.list;
-      }
+    catch(e){
+      console.dir(e);
+    }
 
-      res.xls('data.xlsx',resultList );
+    console.dir(query);
+    const realtimealarmModel = DBModels.RealtimeAlarmModel;
+    const fields = '车辆ID 报警时间 报警等级 报警信息';
+
+    let sz = fields.split(' ');
+    const csvfields = sz.join(',');
+    console.log(`csvfields-->${csvfields}`);
+
+    const filename = 'db-data-' + new Date().getTime() + '.csv';
+    res.set({'Content-Disposition': 'attachment; filename=\"' + filename + '\"', 'Content-type': 'text/csv'});
+    res.write(csvfields + '\n');
+    let cancelRequest = false;
+    req.on('close', (err)=>{
+       cancelRequest = true;
     });
+
+    const cursor = realtimealarmModel.find(query).cursor();
+    cursor.on('error', (err)=> {
+      console.log(`算结束了啊..............`);
+      res.end('');
+    });
+
+    cursor.on('data', (doc)=>
+    {
+      if(cancelRequest){
+        cursor.close();
+        console.log(`取消下载了..............`);
+      }
+      else{
+        doc = JSON.parse(JSON.stringify(doc));
+      // console.log(`doc-->${JSON.stringify(doc)}`);
+      // utilposition.getpostion_frompos(getpoint(doc),(retobj)=>{
+        const newdoc = realtimealarm.bridge_alarminfo(doc);
+        // console.log(`newdoc-->${JSON.stringify(newdoc)}`);
+        // console.log(`retobj-->${JSON.stringify(retobj)}`);
+        csvwriter(newdoc, {header: false, fields: csvfields}, (err, csv)=> {
+          // console.log(`csv-->${csv}`);
+           if (!err && !!csv && !cancelRequest) {
+             res.write(csv);
+           }
+         });
+       }
+      //  });
+    }).
+    on('end', ()=> {
+      setTimeout(()=> {
+        res.end('');
+      }, 1000);
+    });
+
 
   });
   app.post('/api/report_alarmdetail',(req,res)=>{
-    const query = req.body;
-    const actiondata = {
-      query,
+    let query = {};
+    try{
+      let sv = new Buffer(req.body.queryparam, 'hex').toString();
+      console.log(`sv:${sv}`);
+      query = JSON.parse(sv);
     }
-    realtimealarm.exportalarmdetail(actiondata,{},(result)=>{
-      console.log(`search exportalarmdetail:${JSON.stringify(result)}`);
-      let resultList = [];
-      if(result.cmd === 'exportalarmdetail_result'){
-        resultList = result.payload.list;
-      }
-      res.xls('data.xlsx',resultList );
+    catch(e){
+      console.dir(e);
+    }
+
+    console.dir(query);
+    const realtimealarmrawModel = DBModels.RealtimeAlarmRawModel;
+    const fields = '车辆ID 报警时间 报警等级 报警信息';
+
+    let sz = fields.split(' ');
+    const csvfields = sz.join(',');
+    console.log(`csvfields-->${csvfields}`);
+
+    const filename = 'db-data-' + new Date().getTime() + '.csv';
+    res.set({'Content-Disposition': 'attachment; filename=\"' + filename + '\"', 'Content-type': 'text/csv'});
+    res.write(csvfields + '\n');
+    let cancelRequest = false;
+    req.on('close', (err)=>{
+       cancelRequest = true;
     });
+    const cursor = realtimealarmrawModel.find(query).cursor();
+    cursor.on('error', (err)=> {
+      console.log(`算结束了啊..............`);
+      res.end('');
+    });
+
+    cursor.on('data', (doc)=>
+    {
+      if(cancelRequest){
+        cursor.close();
+        console.log(`取消下载了..............`);
+      }
+      else{
+        doc = JSON.parse(JSON.stringify(doc));
+      // console.log(`doc-->${JSON.stringify(doc)}`);
+      // utilposition.getpostion_frompos(getpoint(doc),(retobj)=>{
+        const newdoc = realtimealarm.bridge_alarmrawinfo(doc);
+        // console.log(`newdoc-->${JSON.stringify(newdoc)}`);
+        // console.log(`retobj-->${JSON.stringify(retobj)}`);
+        csvwriter(newdoc, {header: false, fields: csvfields}, (err, csv)=> {
+          // console.log(`csv-->${csv}`);
+           if (!err && !!csv && !cancelRequest) {
+             res.write(csv);
+           }
+         });
+       }
+      //  });
+    }).
+    on('end', ()=> {
+      setTimeout(()=> {
+        res.end('');
+      }, 1000);
+    });
+
+    // const query = req.body;
+    // const actiondata = {
+    //   query,
+    // }
+    // realtimealarm.exportalarmdetail(actiondata,{},(result)=>{
+    //   console.log(`search exportalarmdetail:${JSON.stringify(result)}`);
+    //   let resultList = [];
+    //   if(result.cmd === 'exportalarmdetail_result'){
+    //     resultList = result.payload.list;
+    //   }
+    //   res.xls('data.xlsx',resultList );
+    // });
   });
 
   app.post('/m2mgw/setdata',(req,res)=>{

@@ -9,7 +9,6 @@ import map from 'lodash.map';
 import "../../css/message.css";
 import AntdTable from "../controls/antdtable.js";
 
-import {bridge_positioninfo} from '../../sagas/datapiple/bridgedb';
 import {download_excel} from '../../actions';
 import moment from 'moment';
 
@@ -23,20 +22,18 @@ class TablePosition extends React.Component {
 
     constructor(props) {
         super(props);
-        let queryalarm = {};
-        queryalarm['GPSTime'] = {
+        let query = {};
+        query['GPSTime'] = {
           $gte: moment(moment().format('YYYY-MM-DD 00:00:00')),
           $lte: moment(moment().format('YYYY-MM-DD 23:59:59')),
         };
-        this.state = {
-          query:queryalarm
-        }
+        this.state = {query};
     }
 
-    onClickExport(){
+    onClickExport(query){
       const payload = {
           type:'report_position',
-          query:this.state.query
+          query
       };
       console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
@@ -44,22 +41,14 @@ class TablePosition extends React.Component {
 
     onClickQuery(query){
       console.log(query);
-      const startDate = get(query,'query.queryalarm.startDate','');
-      const endDate = get(query,'query.queryalarm.endDate','');
-      // 【searchreport】查询条件:{"querydevice":{},"queryalarm":{"startDate":"2017-11-18 10:51:10","endDate":"2017-11-25 10:51:10","warninglevel":0}}
-      let queryalarm = {};
-      queryalarm['GPSTime'] = {
-        $gte: startDate,
-        $lte: endDate,
-      };
 
-      console.log(`查询报警信息:${JSON.stringify(queryalarm)}`);
-      this.setState({query:queryalarm});
+      this.setState({query});
       window.setTimeout(()=>{
         console.log(this.refs);
         this.refs.antdtablealarm.getWrappedInstance().onRefresh();
       },0);
     }
+
     onItemConvert(item){
       let itemnew = {...item};
       //DeviceId Latitude Longitude GPSTime

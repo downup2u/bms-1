@@ -29,22 +29,22 @@ class TreeSearchBattery extends React.Component {
 
     onClickExport=()=>{
       if(!!this.props.onClickExport){
-        this.props.onClickExport();
+        this.props.onClickExport(this.getQueryObj());
       }
     }
-    onClickQuery=()=>{
-      let query = {
-        querydevice:{},
-        queryalarm:{}
+    getQueryObj = ()=>{
+      let query = {};
+      query['GPSTime'] = {
+        $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
+        $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
       };
+      return query;
+    }
 
 
-      query.queryalarm['startDate'] = this.state.startDate.format('YYYY-MM-DD HH:mm:ss');
-      query.queryalarm['endDate'] = this.state.endDate.format('YYYY-MM-DD HH:mm:ss');
-
-      console.log(`【searchreport】查询条件:${JSON.stringify(query)}`);
+    onClickQuery=()=>{
       if(!!this.props.onClickQuery){
-        this.props.onClickQuery({query});
+        this.props.onClickQuery(this.getQueryObj());
       }
     }
     render(){

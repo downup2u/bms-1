@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import map from 'lodash.map';
 import Seltime from './seltime.js';
 import { Input,Select, AutoComplete,Button } from 'antd';
+import {getalarmfieldallfields} from '../../sagas/datapiple/bridgedb';
 import MultiSelect from 'react-select';
 import moment from 'moment';
 
@@ -29,14 +30,72 @@ class TreeSearchBattery extends React.Component {
             startDate:moment(moment().format('YYYY-MM-DD 00:00:00')),
             endDate:moment(moment().format('YYYY-MM-DD 23:59:59')),
             selectedvalue: [],
+            columndata_extra:[]
           };
     }
     onSelectChange (value) {
       let sz = value.split(',');
   		console.log(`${JSON.stringify(sz)}`);
   		this.setState({ selectedvalue:sz });
-      this.props.setListColumnFields(sz);
+      this.setListColumnFields(sz);
 	 }
+
+   setListColumnFields =(values)=>{
+     const {mapdict} = this.props;
+     let columndata_extra = [];
+     map(values,(fname,i)=>{
+       if(!!mapdict[fname]){
+         columndata_extra.push({
+           key:fname,
+           title:mapdict[fname].showname || fname,
+           dataIndex:i
+         });
+       }
+       else{
+         console.log(values);
+       }
+
+     });
+     this.setState({columndata_extra});
+   }
+
+    getQueryObj = ()=>{
+         let query1 = {};
+         query1['DataTime'] = {
+           $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
+           $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
+         };
+         if(this.state.alarmlevel === '0'){
+           query1['warninglevel'] = '高';
+         }
+         else if(this.state.alarmlevel === '1'){
+           query1['warninglevel'] = '中';
+         }
+         else if(this.state.alarmlevel === '2'){
+           query1['warninglevel'] = '低';
+         }
+         let query = {};
+         if(this.state.columndata_extra.length > 0){
+           let query2 = {
+             '$or':[]
+           };
+           map(this.state.columndata_extra,(v)=>{
+             let queryfield = {};
+             queryfield[v.key] = {$exists:true};
+             query2[`$or`].push(queryfield);
+           });
+
+           query[`$and`] = [
+             query1,
+             query2
+           ]
+         }
+         else{
+           query = query1;
+         }
+         console.log(`query:${JSON.stringify(query)}`)
+         return query;
+    }
 
     onChangeSelDate(startDate,endDate){
       this.setState({
@@ -51,25 +110,12 @@ class TreeSearchBattery extends React.Component {
 
     onClickExport=()=>{
       if(!!this.props.onClickExport){
-        this.props.onClickExport();
+        this.props.onClickExport(this.getQueryObj());
       }
     }
     onClickQuery=()=>{
-      let query = {
-        querydevice:{},
-        queryalarm:{}
-      };
-
-
-      query.queryalarm['startDate'] = this.state.startDate.format('YYYY-MM-DD HH:mm:ss');
-      query.queryalarm['endDate'] = this.state.endDate.format('YYYY-MM-DD HH:mm:ss');
-      if(this.state.alarmlevel !== '-1'){
-        query.queryalarm['warninglevel'] = parseInt(this.state.alarmlevel);
-      }
-
-      console.log(`【searchreport】查询条件:${JSON.stringify(query)}`);
       if(!!this.props.onClickQuery){
-        this.props.onClickQuery({query});
+        this.props.onClickQuery(this.getQueryObj());
       }
     }
     render(){
@@ -95,7 +141,7 @@ class TreeSearchBattery extends React.Component {
                         closeOnSelect={true}
                         multi
                         onChange={this.onSelectChange.bind(this)}
-                        options={this.props.selectoptions}
+                        options={getalarmfieldallfields(this.props.mapdict)}
                         placeholder="选择报警字段"
                         simpleValue
                         value={this.state.selectedvalue}

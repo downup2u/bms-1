@@ -12,8 +12,10 @@ import searchresult from './searchresult';
 import workorder from './workorder';
 import pic from './pic';
 import tip from './tip';
+import alarmpop from './alarmpop';
 
 export default combineReducers({
+  alarmpop,
   tip,
   pic,
   app,

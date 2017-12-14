@@ -7,12 +7,10 @@ const historytrack = require('../common/historytrack');
 const tip = require('../common/tip');
 //司机端
 const actiondatahandler = {
-
   'getsystemconfig':systemconfig.getsystemconfig,
   'loginwithtoken':userlogin.loginwithtoken,
   'logout':userlogin.logout,
   'login':userlogin.loginuser,
-
   //正式版本中下面的删除
 };
 
@@ -32,6 +30,7 @@ const authhandler = {
   'uireport_searchalarm':realtimealarm.uireport_searchalarm,
   'uireport_searchalarmdetail':realtimealarm.uireport_searchalarmdetail,
   'uireport_searchposition':historytrack.uireport_searchposition,
+  'serverpush_alarm_sz':realtimealarm.serverpush_alarm_sz,
 };
 
 module.exports = (socket,actiondata,ctx)=>{

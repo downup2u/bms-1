@@ -54,7 +54,10 @@ import {
     changepwd_result,
 
     gettipcount_request,
-    gettipcount_result
+    gettipcount_result,
+
+    serverpush_alarm_sz_request,
+    serverpush_alarm_sz_result
   } from '../actions';
 import {
   ui_searchalarm_request,
@@ -69,6 +72,7 @@ import {
 
 //接收的对应关系
 let recvmessagetoresultpair = {
+  'serverpush_alarm_sz_result':serverpush_alarm_sz_result,
   'gettipcount_result':gettipcount_result,
   'ui_searchalarm_result':ui_searchalarm_result,
   'uireport_searchalarm_result':uireport_searchalarm_result,
@@ -111,6 +115,7 @@ let sendmessagefnsz = {
 
 //验证发送接口
 let sendmessageauthfnsz = {
+  'serverpush_alarm_sz':`${serverpush_alarm_sz_request}`,
   'gettipcount':`${gettipcount_request}`,
   'changepwd':`${changepwd_request}`,
   'collectdevice':`${collectdevice_request}`,

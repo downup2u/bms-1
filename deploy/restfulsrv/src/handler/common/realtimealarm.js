@@ -3,6 +3,7 @@ const DBModels = require('../../db/models.js');
 const mongoose  = require('mongoose');
 const winston = require('../../log/log.js');
 const _ = require('lodash');
+const moment = require('moment');
 
 const getalarmfieldtotxt = (alarmfield)=>{
     const mapdict = config.mapdict;
@@ -75,7 +76,8 @@ const bridge_alarmrawinfo = (alarmrawinfo)=>{
   console.log(`alarminfonew===>${JSON.stringify(alarminfonew)}`);
   return alarminfonew;
 }
-
+exports.bridge_alarminfo = bridge_alarminfo;
+exports.bridge_alarmrawinfo = bridge_alarmrawinfo;
 // bridge_alarminfo({"_id":"5a1bfa0f86ce24f6ce62f6d2","CurDay":"2017-11-18","DeviceId":"1702100387","__v":0,"F[214]":6,"DataTime":"2017-11-18 10:04:47","warninglevel":"","Longitude":121.177748,"Latitude":31.442289});
 // console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
 // config.mapdict = _.merge(config.mapdict,{'AL':1});
@@ -302,6 +304,40 @@ exports.exportalarmdetail = (actiondata,ctx,callback)=>{
       callback({
         cmd:'common_err',
         payload:{errmsg:err.message,type:'exportalarmdetail'}
+      });
+    }
+  });
+}
+
+//<<=============报警推送===============================
+exports.serverpush_alarm_sz = (actiondata,ctx,callback)=>{
+  const realtimealarmModel = DBModels.RealtimeAlarmModel;
+  const query = {
+    CurDay:moment().format('YYYY-MM-DD')
+  };
+  realtimealarmModel.find(query,null,{
+    skip: 0,
+    limit: 10,
+    sort:{ "DataTime":-1}
+  },(err,list)=>{
+    if(!err){
+      list = JSON.parse(JSON.stringify(list));
+      let docs = [];
+      _.map(list,(record)=>{
+        let recordnew = bridge_alarminfo(record);
+        recordnew = _.omit(recordnew,['key']);
+        docs.push(recordnew);
+      });
+      list = docs;
+      callback({
+        cmd:'serverpush_alarm_sz_result',
+        payload:{list}
+      });
+    }
+    else{
+      callback({
+        cmd:'common_err',
+        payload:{errmsg:err.message,type:'serverpush_alarm_sz'}
       });
     }
   });

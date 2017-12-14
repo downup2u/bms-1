@@ -48,9 +48,14 @@ export const devicelistgeochange_geotreemenu_refreshtree = createAction('devicel
 //每秒发送一次请求
 export const serverpush_devicegeo_sz_request = createAction('serverpush_devicegeo_sz_request');
 export const serverpush_devicegeo_sz_result = createAction('serverpush_devicegeo_sz_result');
+export const serverpush_alarm_sz_request =  createAction('serverpush_alarm_sz_request');
+export const serverpush_alarm_sz_result =  createAction('serverpush_alarm_sz_result');
 
 export const start_serverpush_devicegeo_sz= createAction('start_serverpush_devicegeo_sz');
 export const stop_serverpush_devicegeo_sz= createAction('stop_serverpush_devicegeo_sz');
+
+export const start_serverpush_alarm_sz = createAction('start_serverpush_alarm_sz');
+export const stop_serverpush_alarm_sz= createAction('stop_serverpush_alarm_sz');
 
 //设置报警信息已读
 export const setalarmreaded_request= createAction('setalarmreaded_request');
@@ -61,6 +66,3 @@ export const collectdevice_request = createAction('collectdevice_request');
 export const collectdevice_result = createAction('collectdevice_result');
 
 export const set_treesearchlist = createAction('set_treesearchlist');
-
-
-

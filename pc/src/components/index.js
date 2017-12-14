@@ -20,6 +20,7 @@ import Warning from "./warning";
 import Message from "./message";
 import Device from "./device";
 import Warningtips from "./warningtips";
+import Prompt from "./prompt";
 import { Icon } from "antd";
 import Logo from "../img/logo.png";
 import {
@@ -174,7 +175,7 @@ class Page extends React.Component {
 
                     </div>
                 </div>
-
+                <Prompt />
             </div>
         );
     }

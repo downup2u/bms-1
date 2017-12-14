@@ -38,27 +38,33 @@ class TreeSearchBattery extends React.Component {
 
     onClickExport=()=>{
       if(!!this.props.onClickExport){
-        this.props.onClickExport();
+        this.props.onClickExport(this.getQueryObj());
       }
     }
-    onClickQuery=()=>{
-      let query = {
-        querydevice:{},
-        queryalarm:{}
+    getQueryObj = ()=>{
+      let query = {};
+      query['DataTime'] = {
+        $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
+        $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
       };
-
-
-      query.queryalarm['startDate'] = this.state.startDate.format('YYYY-MM-DD HH:mm:ss');
-      query.queryalarm['endDate'] = this.state.endDate.format('YYYY-MM-DD HH:mm:ss');
-      if(this.state.alarmlevel !== '-1'){
-        query.queryalarm['warninglevel'] = parseInt(this.state.alarmlevel);
+      if(this.state.alarmlevel === '0'){
+        query['warninglevel'] = '高';
       }
+      else if(this.state.alarmlevel === '1'){
+        query['warninglevel'] = '中';
+      }
+      else if(this.state.alarmlevel === '2'){
+        query['warninglevel'] = '低';
+      }
+      return query;
+    }
 
-      console.log(`【searchreport】查询条件:${JSON.stringify(query)}`);
+    onClickQuery=()=>{
       if(!!this.props.onClickQuery){
-        this.props.onClickQuery({query});
+        this.props.onClickQuery(this.getQueryObj());
       }
     }
+
     render(){
         return (
             <div className="searchreport" style={{textAlign: "center"}}>

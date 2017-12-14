@@ -17,66 +17,44 @@ import {download_excel} from '../../actions';
 import {
   callthen,uireport_searchalarm_request,uireport_searchalarm_result
 } from '../../sagas/pagination';
-import get from 'lodash.get';
+
 
 
 class TableAlarm extends React.Component {
 
     constructor(props) {
         super(props);
-        let warninglevel = props.warninglevel || "-1";
-        let queryalarm = {};
-        queryalarm['DataTime'] = {
+        let query = {};
+        query['DataTime'] = {
           $gte: moment(moment().format('YYYY-MM-DD 00:00:00')),
           $lte: moment(moment().format('YYYY-MM-DD 23:59:59')),
         };
-        if(warninglevel === 0){
-          queryalarm['warninglevel'] = '高';
+        let warninglevel = props.warninglevel || "-1";
+        if(warninglevel === '0'){
+          query['warninglevel'] = '高';
         }
-        else if(warninglevel === 1){
-          queryalarm['warninglevel'] = '中';
+        else if(warninglevel === '1'){
+          query['warninglevel'] = '中';
         }
-        else if(warninglevel === 2){
-          queryalarm['warninglevel'] = '低';
+        else if(warninglevel === '2'){
+          query['warninglevel'] = '低';
         }
 
-        this.state = {
-          query:queryalarm
-        }
+        this.state = {query};
     }
 
-    onClickExport(){
+    onClickExport(query){
       const payload = {
-              type:'report_alarm',
-              query:this.state.query
+          type:'report_alarm',
+          query
       };
       console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
     }
 
     onClickQuery(query){
-      console.log(query);
-      const startDate = get(query,'query.queryalarm.startDate','');
-      const endDate = get(query,'query.queryalarm.endDate','');
-      const warninglevel = get(query,'query.queryalarm.warninglevel',-1);
-      // 【searchreport】查询条件:{"querydevice":{},"queryalarm":{"startDate":"2017-11-18 10:51:10","endDate":"2017-11-25 10:51:10","warninglevel":0}}
-      let queryalarm = {};
-      queryalarm['DataTime'] = {
-        $gte: startDate,
-        $lte: endDate,
-      };
-      if(warninglevel === 0){
-        queryalarm['warninglevel'] = '高';
-      }
-      else if(warninglevel === 1){
-        queryalarm['warninglevel'] = '中';
-      }
-      else if(warninglevel === 2){
-        queryalarm['warninglevel'] = '低';
-      }
-
-      console.log(`查询报警信息:${JSON.stringify(queryalarm)}`);
-      this.setState({query:queryalarm});
+      console.log(`查询报警信息:${JSON.stringify(query)}`);
+      this.setState({query});
       window.setTimeout(()=>{
         console.log(this.refs);
         this.refs.antdtablealarm.getWrappedInstance().onRefresh();

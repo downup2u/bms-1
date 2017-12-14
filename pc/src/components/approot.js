@@ -65,19 +65,22 @@ class AppRoot extends React.Component {
                     <Route path="/reports/position" component={requireAuthentication(ReportPosition)} />
 
                     <Route path="/index" component={requireAuthentication(()=>(<div></div>))} />
-                    <Route path="/datatable" component={requireAuthentication(Datatable)} />
+
                     <Route path="/login" component={Login} />
                     <Route path="/message/:warninglevel" component={requireAuthentication(Message)} />
-                    <Route path="/device" component={requireAuthentication(Device)} />
+
                     <Route path="/deviceinfo/:deviceid" component={requireAuthentication(Deviceinfo)} />
-                    <Route path="/chargingpileinfo/:id" component={requireAuthentication(Chargingpileinfo)} />
-                    <Route path="/devicemessage/:id" component={requireAuthentication(Devicemessage)} />
-                    <Route path="/devicedata/:id" component={requireAuthentication(Devicedata)} />
-                    <Route path="/historyplay/:deviceid" component={requireAuthentication(Historyplay)} />
-                    <Route path="/workorder" component={requireAuthentication(Workorder)} />
-                    <Route path="/chartlist/:id" component={requireAuthentication(Chartlist)} />
                     <Route path="/alarminfo/:alarmid" component={Alaraminfo} />
-                    <Route path="/workorderinfo/:workid" component={Workorderinfo} />
+                    <Route path="/devicemessage/:id" component={requireAuthentication(Devicemessage)} />
+                    <Route path="/historyplay/:deviceid" component={requireAuthentication(Historyplay)} />
+
+                    // <Route path="/device" component={requireAuthentication(Device)} />
+                    // <Route path="/chartlist/:id" component={requireAuthentication(Chartlist)} />
+                    // <Route path="/devicedata/:id" component={requireAuthentication(Devicedata)} />
+                    // <Route path="/chargingpileinfo/:id" component={requireAuthentication(Chargingpileinfo)} />
+                    // <Route path="/workorder" component={requireAuthentication(Workorder)} />
+                    // <Route path="/datatable" component={requireAuthentication(Datatable)} />
+                    // <Route path="/workorderinfo/:workid" component={Workorderinfo} />
                 </Switch>
                 <div>
                     <Index history={this.props.history}/>

@@ -10,6 +10,22 @@ const adminaction = require('../db/adminaction.js');
 const pwd = require('../util/pwd.js');
 
 let startmodule = (app)=>{
+  app.post('/findone/:resourcename',(req,res)=>{
+    console.log("findone:" + req.params.resourcename);
+    let schmodel = dbs[req.params.resourcename];
+    let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
+    dbModel.findOne({},(err,result)=>{
+      if(!err && !!result){
+        result = result.toJSON();
+        res.status(200).json(result);
+      }
+      else{
+        res.status(404).json({});
+      }
+    });
+  });
+
+
   app.post('/adminapi/resetuserpassword',middlewareauth,(req,res)=>{
     let actiondata =   req.body;
     console.log("actiondata=>" + JSON.stringify(actiondata));

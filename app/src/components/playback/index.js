@@ -197,7 +197,8 @@ class Page extends React.Component {
                     min={this.state.mindata}
                     max={new Date()}
                     showFormat='YYYY/MM/DD hh:mm'
-                    dateFormat={['YYYY年', 'MM月', 'DD日', 'hh时', 'mm分']} />
+                    dateFormat={['YY年', 'MM月', 'DD日', 'hh时', 'mm分']}
+                    theme="ios" />
             </div>
         );
     }

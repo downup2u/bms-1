@@ -10,7 +10,7 @@ import {
     ui_mycar_showtype,
     ui_index_selstatus,
     ui_sel_tabindex,
-    ui_setmapstyle
+    ui_setmapstyle,
 } from '../actions';
 
 
@@ -32,7 +32,7 @@ const initial = {
         mapstyle : {
             height : 0,
             top : 0
-        }
+        },
     },
 };
 
@@ -84,7 +84,6 @@ const app = createReducer({
     [ui_setmapstyle]:(state,style)=>{
         return {...state, mapstyle:style };
     },
-
 }, initial.app);
 
 export default app;

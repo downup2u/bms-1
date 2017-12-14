@@ -4,5 +4,4 @@ import Configuration from './configuration/Configuration';
 import SystemConfig from './components/systemconfig/sysconfig';
 
 export default [
-   <Route exact path="/systemconfig" component={SystemConfig} />,
 ];

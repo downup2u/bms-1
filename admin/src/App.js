@@ -14,8 +14,9 @@ import Menu from './Menu';
 import CustomRoutes from './routes';
 import translations from './i18n';
 import restClient from './restClient';
+import singledocumentpage from './components/singledocumentpage/reducer';
 
-import {SystemconfigList,SystemconfigShow,SystemconfigEdit,SystemconfigCreate} from './components/systemconfig/index.js';
+import {SystemconfigList} from './components/systemconfig/index.js';
 import {CanRawDataList,CanRawDataShow} from './components/canrowdatas/index.js';
 import {DataDictCreate,DataDictList,DataDictEdit} from './components/datadict/index.js';
 import {DeviceGroupCreate,DeviceGroupList,DeviceGroupEdit} from './components/devicegroups/index.js';
@@ -38,7 +39,7 @@ class App extends Component {
             <Admin
                 title="电池包监控平台"
                 restClient={restClient}
-                customReducers={{ theme:themeReducer,systemconfig:systemconfigreducer }}
+                customReducers={{ theme:themeReducer,systemconfig:systemconfigreducer,singledocumentpage }}
                 customSagas={sagas}
                 customRoutes={CustomRoutes}
                 authClient={authClient}
@@ -51,6 +52,7 @@ class App extends Component {
 
             {
               permissions => [
+                <Resource name="systemconfig" list={SystemconfigList} />,
                 <Resource name="devicegroup" list={DeviceGroupList} edit={DeviceGroupEdit} create={DeviceGroupCreate}  remove={Delete} />,
                 <Resource name="device" list={DeviceList} edit={DeviceEdit} create={DeviceCreate}  remove={Delete} />,
                 <Resource name="user" list={UserList} edit={UserEdit} create={UserCreate} />,

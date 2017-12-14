@@ -31,6 +31,7 @@ const authhandler = {
   'uireport_searchalarm':realtimealarm.uireport_searchalarm,
   'uireport_searchalarmdetail':realtimealarm.uireport_searchalarmdetail,
   'uireport_searchposition':historytrack.uireport_searchposition,
+  'serverpush_alarm_sz':realtimealarm.serverpush_alarm_sz,
 };
 
 module.exports = (socket,actiondata,ctx)=>{

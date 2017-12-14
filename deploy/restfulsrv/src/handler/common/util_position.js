@@ -60,7 +60,7 @@ const getpostion_frompos = (point,callback)=>{
     };
     if(!err && !!result){
       //[{"_id":"广西壮族自治区","admin_level":"4"},{"_id":"柳州市","admin_level":"5"},{"_id":"城中区","admin_level":"6"}]
-      console.log(`result=>${JSON.stringify(result)}`);
+      // console.log(`result=>${JSON.stringify(result)}`);
       _.map(result,(v)=>{
         if(_.get(v,'admin_level','') === '4'){
           resultobj['Provice'] = _.get(v,'_id','未知');

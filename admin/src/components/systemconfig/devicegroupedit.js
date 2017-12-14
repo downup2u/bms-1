@@ -9,6 +9,24 @@ import _ from 'lodash';
 const renderGroupEdit = ({ meta: { touched, error } = {}, input: { ...inputProps }, ...props }) =>{
   console.log(`renderGroupEdit form ==>inputProps:${JSON.stringify(inputProps)},props:${JSON.stringify(props)}`);
   let vsz = inputProps.value;
+  let onDelete =(values)=>{
+    console.log(`onDelete :${JSON.stringify(values)}`);
+    let index = _.get(values,'id',-1);
+    let newv = [];
+    if(index !== -1 && index < vsz.length ){
+      for(let i = 0;i < vsz.length; i++){
+        if(i !== index){
+          newv.push(vsz[i]);
+        }
+      }
+    }
+    else{
+      newv = _.clone(vsz);
+    }
+    console.log(`onDelete newv:${JSON.stringify(newv)}`);
+    inputProps.onChange(newv);
+    // onDelete :{"rowId":0,"row":{"columns":[{"value":"GPS信息","selected":false,"rowId":0,"id":0,"width":150},{"value":["ChargeACVoltage","AL_Under_Ucell","AL_Over_Tcell"],"selected":false,"rowId":0,"id":1,"width":150}],"id":0}}
+  };
   let onChange = (values)=>{
     console.log(`onChange :${JSON.stringify(values)}`);
     let newv = _.clone(vsz);
@@ -46,8 +64,10 @@ const renderGroupEdit = ({ meta: { touched, error } = {}, input: { ...inputProps
   });
 
   return (<EditTable
+    onDelete={onDelete}
     onChange={onChange}
     rows={rows}
+    enableDelete={true}
     headerColumns={headers}
   />);
 };

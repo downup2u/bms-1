@@ -1126,3 +1126,66 @@
 .Select--multi .Select-value{
     margin-top:0;
 }
+.prompt{
+    position: fixed;
+    z-index: 2000;
+    width: 260px;
+    border-radius: 10px;
+    background: #FFF;
+    padding: 10px;
+    box-shadow: 1px 1px 5px #888888;
+    bottom: 10px;
+    right: 10px;
+}
+.prompt .head,
+.prompt .btn{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+.prompt .body{
+    margin: 10px 0;
+}
+.prompt .btn a{
+    border: 1px solid #108ee9;
+    border-radius: 6px;
+    line-height: 20px;
+    padding: 0 5px;
+}
+.prompt.hide{
+    display: none;
+}
+.prompt.show{
+    display: block;
+}
+.prompt.show.min{
+    width: 32px;
+    line-height: 14px;
+    height: 103px;
+    cursor: pointer;
+    color: rgb(237, 148, 47);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -moz-box-direction:normal;
+        flex-direction:column;
+        -webkit-flex-direction:column;
+}
+
+
