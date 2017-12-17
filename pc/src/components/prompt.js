@@ -42,7 +42,7 @@ class Prompt extends React.Component{
     render(){
         const {promptdata} = this.props;
         const promptstyle = promptdata.length>0 ? "prompt show": "prompt hide";
-        
+
         if(promptdata.length>0){
             let curpromtinfo = promptdata[this.state.curmessage];
 
@@ -65,7 +65,6 @@ class Prompt extends React.Component{
                         </div>
                         <div className="btn">
                             <a onClick={this.getaddress.bind("设备id")}>快速定位</a>
-                            <a onClick={this.getdeviceinfo.bind("设备id")}>查看详情</a>
                             <a onClick={this.next} className={(this.state.curmessage+1===promptdata.length)?"cancle":""}>{`${this.state.curmessage+1}/${promptdata.length}`}下一条</a>
                         </div>
                     </div>
