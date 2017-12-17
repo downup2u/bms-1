@@ -27,6 +27,7 @@ import {
 const Option = Select.Option;
 moment.locale('zh-cn');
 
+let resizetimecontent = null;
 
 class Setspeed extends React.Component {
     handleChange=(value)=>{
@@ -98,7 +99,8 @@ class Page extends React.Component {
             startDate:moment().subtract(5, 'hours'),
             endDate:moment(),
             deviceid,
-            speed: 60
+            speed: 60,
+            innerHeight : window.innerHeight
           }
       }
       onSelDeviceid(deviceid){
@@ -115,6 +117,22 @@ class Page extends React.Component {
 
     handleChange=(value)=>{
       this.setState({speed: parseInt(value.key)});
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize=()=> {
+        window.clearTimeout(resizetimecontent);
+        resizetimecontent = window.setTimeout(()=>{
+            this.setState({
+                innerHeight: window.innerHeight,
+            });
+        },10)
     }
 
     onClickStart(){
@@ -154,8 +172,9 @@ class Page extends React.Component {
         const formstyle={width:"10px",flexGrow:"1"};
         const startdate_moment = this.state.startDate;
         const enddate_moment = this.state.endDate;
+
         return (
-            <div className="historytrackplayback" id="historytrackplayback">
+            <div className="historytrackplayback" id="historytrackplayback" style={{height: this.state.innerHeight+"px"}} >
                 <div className="appbar" style={{height: "72px"}}>
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.goBack();}}></i>
                     <div className="deviceinfo">
@@ -227,7 +246,7 @@ class Page extends React.Component {
                     </div>
                 </div>
 
-                <Map />
+                <Map height={this.state.innerHeight-72} />
             </div>
         );
     }

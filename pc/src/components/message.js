@@ -33,54 +33,8 @@ import {
   callthen,ui_searchalarm_request,ui_searchalarm_result
 } from '../sagas/pagination';
 import get from 'lodash.get';
-//
-// class ModalApp extends React.Component {
-//     state = {
-//         ModalText: 'Content of the modal',
-//         visible: false,
-//     }
-//     showModal = () => {
-//         this.setState({
-//             visible: true,
-//         });
-//     }
-//     handleOk = () => {
-//         this.setState({
-//             ModalText: 'The modal will be closed after two seconds',
-//             confirmLoading: true,
-//         });
-//         setTimeout(() => {
-//             this.setState({
-//                 visible: false,
-//                 confirmLoading: false,
-//             });
-//         }, 2000);
-//     }
-//     handleCancel = () => {
-//         console.log('Clicked cancel button');
-//         this.setState({
-//             visible: false,
-//         });
-//     }
-//     render() {
-//         const { visible, confirmLoading, ModalText } = this.state;
-//         return (
-//             <div>
-//                 <Button type="primary" onClick={this.showModal}>Open</Button>
-//                 <Modal
-//                     title="Title"
-//                     visible={visible}
-//                     onOk={this.handleOk}
-//                     confirmLoading={confirmLoading}
-//                     onCancel={this.handleCancel}
-//                     >
-//                     <p>{ModalText}</p>
-//                 </Modal>
-//             </div>
-//         );
-//     }
-// }
 
+let g_querysaved;
 class MessageAllDevice extends React.Component {
 
     constructor(props) {
@@ -102,10 +56,12 @@ class MessageAllDevice extends React.Component {
         }
 
         this.state = {
-          query:queryalarm
+          query: g_querysaved || queryalarm
         }
     }
-
+    componentDidMount () {
+      g_querysaved = null;
+    }
     onClickQuery(query){
       console.log(query);
       const startDate = get(query,'query.queryalarm.startDate','');
@@ -171,6 +127,7 @@ class MessageAllDevice extends React.Component {
 
         let viewrow = (row)=>{
             console.log(row);
+            g_querysaved = this.state.query;
             this.props.history.push(`/alarminfo/${row.key}`);
         }
 
@@ -191,10 +148,12 @@ class MessageAllDevice extends React.Component {
                     <div className="title">新消息</div>
                 </div>
                 <div className="TreeSearchBattery">
-                    <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)} warninglevel={warninglevel}/>
+                    <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)} query={this.state.query}/>
                 </div>
                 <div className="tablelist">
                     <AntdTable
+                      listtypeiddata = 'message'
+                      usecache = {!!g_querysaved}
                       ref='antdtablealarm'
                       onItemConvert={this.onItemConvert.bind(this)}
                       columns={columns}

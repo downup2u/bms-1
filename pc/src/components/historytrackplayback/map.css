@@ -10,7 +10,7 @@
 }
 
 .historytrackplayback{
-    padding-bottom: 15px;
+    
 }
 .historytrackplayback .formlist{
     display: -webkit-box;
@@ -24,6 +24,7 @@
 
 #historytrackplayback .appbar{
     background: #daf0e1;
+    color : #333;
 }
 #historytrackplayback .appbar .title{
     background: #FFF;

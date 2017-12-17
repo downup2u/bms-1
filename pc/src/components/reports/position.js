@@ -18,6 +18,8 @@ import {
 } from '../../sagas/pagination';
 import get from 'lodash.get';
 
+let resizetimecontent = null;
+
 class TablePosition extends React.Component {
 
     constructor(props) {
@@ -27,7 +29,23 @@ class TablePosition extends React.Component {
           $gte: moment(moment().format('YYYY-MM-DD 00:00:00')),
           $lte: moment(moment().format('YYYY-MM-DD 23:59:59')),
         };
-        this.state = {query};
+        this.state = {query, innerHeight: window.innerHeight};
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize=()=> {
+        window.clearTimeout(resizetimecontent);
+        resizetimecontent = window.setTimeout(()=>{
+            this.setState({
+                innerHeight: window.innerHeight,
+            });
+        },10)
     }
 
     onClickExport(query){
@@ -85,7 +103,7 @@ class TablePosition extends React.Component {
 
 
         return (
-            <div className="warningPage" style={{height : window.innerHeight+"px"}}>
+            <div className="warningPage" style={{height : this.state.innerHeight+"px"}}>
 
                 <div className="appbar">
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
