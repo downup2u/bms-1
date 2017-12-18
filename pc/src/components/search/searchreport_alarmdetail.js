@@ -26,13 +26,13 @@ class TreeSearchBattery extends React.Component {
         super(props);
         let warninglevel = "-1";
         if(!!props.query.warninglevel){
-          if(props.query.warninglevel = '高'){
+          if(props.query.warninglevel === '高'){
             warninglevel = '0';
           }
-          else if(props.query.warninglevel = '中'){
+          else if(props.query.warninglevel === '中'){
             warninglevel = '1';
           }
-          else if(props.query.warninglevel = '低'){
+          else if(props.query.warninglevel === '低'){
             warninglevel = '2';
           }
         }
@@ -42,7 +42,7 @@ class TreeSearchBattery extends React.Component {
           startDate = moment(props.query.DataTime['$gte']);
           endDate = moment(props.query.DataTime['$lte']);
         }
-        
+
         this.state = {
             alarmlevel: warninglevel,
             startDate,

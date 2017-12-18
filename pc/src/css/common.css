@@ -602,11 +602,8 @@
     font-size: 18px;
 }
 .topuser img{
-    border-radius: 30px;
     width: 30px;
     height: 30px;
-    border-radius: 30px;
-    border:2px solid #EEE;
 }
 .appbar{
     display: -webkit-box;
@@ -1061,7 +1058,7 @@
     font-size: 14px;
     flex-shrink: 0;
 }
-#historytrackplayback .ant-select-selection--single{
+#historytrackplayback .bfsd .ant-select-selection--single{
     width: 68px;
 }
 .devicePage .lists.deviceinfolist{

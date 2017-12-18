@@ -50,6 +50,11 @@ let dbs ={
     schema:db.RealtimeAlarmSchema,
     collectionname:'realtimealarm',
   },
+  'realtimealarmraw':{
+    urlname:'/realtimealarmraw',
+    schema:db.RealtimeAlarmRawSchema,
+    collectionname:'realtimealarmraw',
+  },
   'historytrack':{
     urlname:'/historytrack',
     schema:db.HistoryTrackSchema,

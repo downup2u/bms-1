@@ -30,7 +30,7 @@ class TableAlarmDetail extends React.Component {
           $gte: moment(moment().format('YYYY-MM-DD 00:00:00')),
           $lte: moment(moment().format('YYYY-MM-DD 23:59:59')),
         };
-        let warninglevel = props.warninglevel || "-1";
+        let warninglevel = "-1";
         if(warninglevel === '0'){
           queryalarm['warninglevel'] = '高';
         }

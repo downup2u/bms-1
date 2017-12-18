@@ -47,18 +47,18 @@ const HistoryTrackShow = (props)=> {
    <SimpleShowLayout>
     <TextField label="设备ID" source="DeviceId" />
     <TextField label="设备状态" source="DeviceStatus" />
-    <NumberField label="主板温度，单位：摄氏度" source="ADC1" />
+    <TextField label="主板温度，单位：摄氏度" source="ADC1" />
     <DateField label="接受数据时间" source="MessageTime" showTime />
-    <NumberField label="Position数据包序号" source="SN" />
+    <TextField label="Position数据包序号" source="SN" />
     <SelectField label="GPS定位" source="GPSStatus" choices={choices} optionValue="_id" optionText="status" />
     <DateField label="定位的UTC时间" source="GPSTime" showTime />
-    <NumberField label="经度" source="Longitude" />
-    <NumberField label="纬度" source="Latitude" />
-    <NumberField label="速度" source="Speed" />
-    <NumberField label="航向" source="Course" />
-    <NumberField label="蜂窝Location Area Code" source="LAC" />
-    <NumberField label="蜂窝Cell Id" source="CellId" />
-    <NumberField label="海拔,单位：米" source="Altitude" />
+    <TextField label="经度" source="Longitude" />
+    <TextField label="纬度" source="Latitude" />
+    <TextField label="速度" source="Speed" />
+    <TextField label="航向" source="Course" />
+    <TextField label="蜂窝Location Area Code" source="LAC" />
+    <TextField label="蜂窝Cell Id" source="CellId" />
+    <TextField label="海拔,单位：米" source="Altitude" />
     <TextField label="所在省" source="Province" />
     <TextField label="所在市" source="City" />
     <TextField label="所在区县" source="County" />
@@ -67,8 +67,14 @@ const HistoryTrackShow = (props)=> {
   );
 };
 
+const DeviceFilter = (props) => (
+  <Filter {...props}>
+    <TextInput label="搜索设备" source="DeviceId_q" />
+  </Filter>
+)
+
 const HistoryTrackList = (props)=> (
-  <List title={<HistoryTrackTitle />} sort={{field:'created_at',order:'DESC'}} {...props}>
+  <List title={<HistoryTrackTitle />}  filters={<DeviceFilter />} sort={{field:'created_at',order:'DESC'}} {...props}>
     <Datagrid>
       <TextField label="设备ID" source="DeviceId" />
       <TextField label="CellId" source="CellId" />

@@ -63,7 +63,7 @@ const UserList = (props) => (
         <TextField label="用户名" source="username" />
         <TextField label="真实姓名" source="truename" />
         <DateField label="注册时间" source="created_at" showTime />
-        <DateField label="上次登陆时间" source="updated_at" showTime />
+        <DateField label="上次登录时间" source="updated_at" showTime />
         <ReferenceField label="用户角色" source="roleid" reference="role" >
           <TextField source="name" />
         </ReferenceField>

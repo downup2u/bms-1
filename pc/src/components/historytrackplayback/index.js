@@ -214,7 +214,7 @@ class Page extends React.Component {
                         
                         <div className="Setspeed">
                           <span>播放速度: </span>
-                          <Select labelInValue defaultValue={{ key: '60' }} style={{ width: 40 }} onChange={this.handleChange}>
+                          <Select className="bfsd" labelInValue defaultValue={{ key: '60' }} style={{ width: 40 }} onChange={this.handleChange}>
                             <Option value="5">5</Option>
                             <Option value="10">10</Option>
                             <Option value="15">15</Option>

@@ -81,7 +81,13 @@ const curd = (schmodel)=>{
     else if(queryparam.type === GET_MANY){
       //"params":{"ids":["58e71be6ef4e8d02eca6e0e8","58eaecea130f4809a747d2f8"]}}
       //{ data: {Record[]} }
-      let ids = queryparam.params.ids;
+      let idstrings = queryparam.params.ids;
+      let ids = [];
+      _.map(idstrings,(id)=>{
+        if(typeof id === 'string'){
+          ids.push(mongoose.Types.ObjectId(id));
+        }
+      });
       let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
       dbModel.find({ _id: { "$in" : ids} },(err,result)=>{
         console.log("GET_MANY result=>" + JSON.stringify(result));
@@ -95,7 +101,7 @@ const curd = (schmodel)=>{
       query['organizationid'] = organizationid;
       console.log("GET_MANY_REFERENCE 查询条件=>" + JSON.stringify(query));
       let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
-      dbModel.find(query,(err,result)=>{
+      dbModel.paginate(query,options,(err,result)=>{
         console.log("GET_MANY_REFERENCE result=>" + JSON.stringify(result));
         res.status(200)
             .json(result);

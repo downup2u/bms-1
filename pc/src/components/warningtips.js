@@ -9,6 +9,9 @@ import IconButton from 'material-ui/IconButton';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 import CarOnline from "../img/1.png";
 import CarOutline from "../img/3.png";
+import D1 from "../img/d1.png";
+import D2 from "../img/d2.png";
+import D3 from "../img/d3.png";
 import Pow1 from "../img/pow1.png";
 import Pow2 from "../img/pow2.png";
 import Pow3 from "../img/pow3.png";
@@ -32,7 +35,7 @@ import Chart from "material-ui/svg-icons/editor/insert-chart";
 import Assignment from "material-ui/svg-icons/action/assignment";
 
 import Exit from "material-ui/svg-icons/action/exit-to-app";
-import Avatar from "../img/2.jpg";
+import Avatar from "../img/t1.png";
 
 import Userlist_4 from "../img/4.png";
 import Userlist_5 from "../img/5.png";
@@ -306,7 +309,7 @@ class Page extends React.Component {
                       }}
                       onClick={this.onClickMenu.bind(this,'online')}
                       >
-                      <img src={CarOnline} style={{marginBottom: "-6px", width:"27px", height:"32px"}} onClick={this.onClickMenu.bind(this,'online')} />
+                      <img src={CarOnline} style={{marginBottom: "-6px", width:"32px", height:"32px"}} onClick={this.onClickMenu.bind(this,'online')} />
                   </Badge>
                   <Badge
                       badgeContent={count_offline}
@@ -327,7 +330,7 @@ class Page extends React.Component {
                       }}
                       onClick={this.onClickMenu.bind(this,'offline')}
                       >
-                      <img src={CarOutline} style={{marginBottom: "-6px", width:"27px", height:"32px"}} onClick={this.onClickMenu.bind(this,'offline')} />
+                      <img src={CarOutline} style={{marginBottom: "-6px", width:"32px", height:"32px"}} onClick={this.onClickMenu.bind(this,'offline')} />
                   </Badge>
                   <Badge
                       badgeContent={`(${count_red})`}
@@ -348,7 +351,7 @@ class Page extends React.Component {
                       }}
                       onClick={this.onClickMenu.bind(this,'red')}
                       >
-                      <i className="fa fa-bus"  aria-hidden="true"  style={iconstyle1} />
+                      <img style={{ width: "40px", height: "40px"}} src={D1} />
                   </Badge>
                   <Badge
                       badgeContent={`(${count_orange})`}
@@ -369,7 +372,7 @@ class Page extends React.Component {
                       }}
                       onClick={this.onClickMenu.bind(this,'orange')}
                       >
-                      <i className="fa fa-bus"  aria-hidden="true" style={iconstyle2} />
+                      <img style={{ width: "40px", height: "40px"}} src={D2} />
                   </Badge>
                   <Badge
                       badgeContent={`(${count_yellow})`}
@@ -390,7 +393,7 @@ class Page extends React.Component {
                       }}
                       onClick={this.onClickMenu.bind(this,'yellow')}
                       >
-                      <i className="fa fa-bus"  aria-hidden="true" style={iconstyle3} />
+                      <img style={{ width: "40px", height: "40px"}} src={D3} />
                   </Badge>
 
                   <Badge

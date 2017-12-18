@@ -13,6 +13,46 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
+import _ from 'lodash';
+
+//<----打了个补丁----
+const SelectArrayInputEx = (props)=>{
+  console.log(props);
+  let {choices,input,...rest} = props;
+  let newchoices=[];
+  let mapoptions = {
+
+  };
+  _.map(choices,(v)=>{
+    newchoices.push({
+      id:v.id,
+      name:v.DeviceId
+    });
+    mapoptions[v.DeviceId] = v.id;
+  });
+  let onChangeNew = (vz)=>{
+    let nw = [];
+    _.map(vz,(v)=>{
+      if(!!mapoptions[v]){
+        nw.push(mapoptions[v]);
+      }
+      else{
+        nw.push(v);
+      }
+
+    });
+    input.onChange(nw);
+  };
+  console.log(newchoices);
+  let {value,onChange,...restinput} = input;
+  let newinput = {
+    value:input.value,
+    onChange:onChangeNew,
+    ...restinput
+  };
+  return <SelectArrayInput choices={newchoices} input={newinput} {...rest} />
+}
+//<----打了个补丁----
 
 const DeviceGroupTitle = ({record}) => {
   return <span>设备分组</span>
@@ -27,7 +67,7 @@ const DeviceGroupCreate = (props) => (
       <ReferenceArrayInput source="deviceids" reference="device" allowEmpty
         options={{ fullWidth: true }}
         filterToQuery={searchText => ({ DeviceId_q: searchText })}>
-          <SelectArrayInput optionText="DeviceId" />
+          <SelectArrayInputEx />
       </ReferenceArrayInput>
     </SimpleForm>
   </Create>
@@ -42,7 +82,7 @@ const DeviceGroupEdit = (props) => {
       <ReferenceArrayInput source="deviceids" reference="device" allowEmpty
         options={{ fullWidth: true }}
         filterToQuery={searchText => ({ DeviceId_q: searchText })}>
-          <SelectArrayInput optionText="DeviceId" />
+          <SelectArrayInputEx  />
       </ReferenceArrayInput>
     </SimpleForm>
   </Edit>

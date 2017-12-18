@@ -23,6 +23,7 @@ import {DeviceGroupCreate,DeviceGroupList,DeviceGroupEdit} from './components/de
 import {DeviceCreate,DeviceList,DeviceEdit} from './components/devices/index.js';
 import {HistoryTrackList,HistoryTrackShow} from './components/historytracks/index.js';
 import {RealtimeAlarmList,RealtimeAlarmShow} from './components/realtimealarms/index.js';
+import {RealtimeAlarmRawList,RealtimeAlarmRawShow} from './components/realtimealarmraws/index.js';
 import {UserCreate,UserList,UserEdit} from './components/users/index.js';
 import {UserlogList} from './components/userlogs/index.js';
 import {PermissionCreate,PermissionList,PermissionEdit} from './components/permissions/index.js';
@@ -55,12 +56,13 @@ class App extends Component {
                 <Resource name="systemconfig" list={SystemconfigList} />,
                 <Resource name="devicegroup" list={DeviceGroupList} edit={DeviceGroupEdit} create={DeviceGroupCreate}  remove={Delete} />,
                 <Resource name="device" list={DeviceList} edit={DeviceEdit} create={DeviceCreate}  remove={Delete} />,
-                <Resource name="user" list={UserList} edit={UserEdit} create={UserCreate} />,
+                <Resource name="user" list={UserList} edit={UserEdit} create={UserCreate} remove={Delete} />,
                 <Resource name="role" list={RoleList} edit={RoleEdit} create={RoleCreate}  remove={Delete} />,
                 <Resource name="permission" list={PermissionList} edit={PermissionEdit} create={PermissionCreate}  remove={Delete} />,
                 <Resource name="datadict" list={DataDictList} edit={DataDictEdit} create={DataDictCreate}  remove={Delete} />,
                 <Resource name="historytrack" list={HistoryTrackList} show={HistoryTrackShow} />,
                 <Resource name="realtimealarm" list={RealtimeAlarmList} show={RealtimeAlarmShow} />,
+                <Resource name="realtimealarmraw" list={RealtimeAlarmRawList} show={RealtimeAlarmRawShow} />,
                 <Resource name="userlog" list={UserlogList} />,
                 <Resource name="organization" list={OrganizationList} edit={OrganizationEdit} create={OrganizationCreate} />
               ]

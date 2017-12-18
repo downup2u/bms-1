@@ -13,15 +13,15 @@ class Prompt extends React.Component{
         };
     }
     //快速定位
-    getaddress=(id)=>{
-        console.log(id);
-        let DeviceId = '1727208808';
+    getaddress=(DeviceId)=>{
+        console.log(DeviceId);
+        // let DeviceId = '1727208808';
         this.props.dispatch(ui_alarm_selcurdevice(DeviceId));
     }
     //查看详情
-    getdeviceinfo=(id)=>{
-        console.log(id);
-        let DeviceId = '1727208808';
+    getdeviceinfo=(DeviceId)=>{
+        console.log(DeviceId);
+        // let DeviceId = '1727208808';
         this.props.history.push(`/deviceinfo/${DeviceId}`);
     }
     //查看下一条
@@ -59,12 +59,14 @@ class Prompt extends React.Component{
                         </div>
                         <div className="body">
                             <p><span>车辆ID:</span><span>{curpromtinfo['车辆ID']}</span></p>
-                            <p><span>告警时间:</span><span>{curpromtinfo['告警时间']}</span></p>
+                            <p><span>报警时间:</span><span>{curpromtinfo['报警时间']}</span></p>
                             <p><span>报警信息:</span><span>{curpromtinfo['报警信息']}</span></p>
-                            <p><span>位置信息:</span><span>{curpromtinfo['位置信息']}</span></p>
                         </div>
                         <div className="btn">
-                            <a onClick={this.getaddress.bind("设备id")}>快速定位</a>
+                            <a onClick={()=>{
+                              this.getaddress(curpromtinfo['车辆ID']);
+                            }
+                            }>快速定位</a>
                             <a onClick={this.next} className={(this.state.curmessage+1===promptdata.length)?"cancle":""}>{`${this.state.curmessage+1}/${promptdata.length}`}下一条</a>
                         </div>
                     </div>

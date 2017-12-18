@@ -18,11 +18,6 @@ const PermissionCreate = (props) => (
   <Create title="新建权限" {...props} >
     <SimpleForm>
       <TextInput label="名称" source="name" validate={required} />
-      <SelectInput  label="权限类型"  source="type" choices={[
-          { id: 'data', name: '数据权限' },
-  
-          { id: 'function', name: '功能权限' },
-      ]} />
       <TextInput label="备注" source="memo" />
     </SimpleForm>
   </Create>
@@ -39,11 +34,6 @@ const PermissionEdit = (props) => {
       <SimpleForm>
         <DisabledInput label="ID" source="id" />
         <TextInput label="名称" source="name" validate={required} />
-        <SelectInput  label="权限类型"  source="type" choices={[
-            { id: 'data', name: '数据权限' },
-
-            { id: 'function', name: '功能权限' },
-        ]} />
         <TextInput label="备注" source="memo" />
       </SimpleForm>
     </Edit>
@@ -54,11 +44,6 @@ const PermissionList = (props) => (
   <List title="用户权限列表" {...props}>
     <Datagrid>
       <TextField label="名称" source="name" />
-      <SelectField source="type" choices={[
-          { id: 'data', name: '数据权限' },
-          { id: 'operator', name: '操作权限' },
-          { id: 'function', name: '功能权限' },
-      ]}  optionText="name" optionValue="id" label="权限类型"/>
       <TextField label="备注" source="memo" />
       <EditButton />
     </Datagrid>

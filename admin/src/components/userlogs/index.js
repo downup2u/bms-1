@@ -49,7 +49,7 @@ const UserlogList = (props) => (
      <List title="用户登录信息列表" filters={<UserFilter />}  {...props} >
         <Datagrid>
           <TextField label="用户名" source="username" />
-          <DateField label="登陆时间" source="created_at" showTime />
+          <DateField label="登录时间" source="created_at" showTime />
           <ReferenceField label="用户" source="creator" reference="user" >
             <TextField source="username" />
           </ReferenceField>

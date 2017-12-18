@@ -26,7 +26,8 @@ import {
 import Chip from 'material-ui/Chip';
 
 import ShowPageOne from '../singledocumentpage/index.js';
-import {CfSelectArrayInputDetail,CfSelectArrayInput} from './cf.js';
+import {CfSelectArrayInputDetail,CfSelectArrayInput,CfAlaramRuleInput} from './cf.js';
+
 
 const SystemconfigTitle = ({ record }) => <span>系统设置</span>;
 
@@ -43,9 +44,9 @@ const SystemconfigCreateTitle = ({ record }) => {
           <CfSelectArrayInputDetail label="编辑车辆详情显示字段列表" source="mapdetailfields"/>
        </FormTab>
        <FormTab label="报警规则">
-       <TextInput label="报警规则设置(高)" source="warningrulelevel0" />
-       <TextInput label="报警规则设置(中)" source="warningrulelevel1" />
-       <TextInput label="报警规则设置(低)" source="warningrulelevel2" />
+       <CfAlaramRuleInput label="报警规则设置(高)" source="warningrulelevel0" />
+       <CfAlaramRuleInput label="报警规则设置(中)" source="warningrulelevel1" />
+       <CfAlaramRuleInput label="报警规则设置(低)" source="warningrulelevel2" />
          </FormTab>
        </TabbedForm>
        </Create>
@@ -60,9 +61,9 @@ const SystemconfigCreateTitle = ({ record }) => {
           <CfSelectArrayInputDetail label="编辑车辆详情显示字段列表" source="mapdetailfields"/>
           </FormTab>
           <FormTab label="报警规则">
-          <TextInput label="报警规则设置(高)" source="warningrulelevel0" />
-          <TextInput label="报警规则设置(中)" source="warningrulelevel1" />
-          <TextInput label="报警规则设置(低)" source="warningrulelevel2" />
+          <CfAlaramRuleInput label="报警规则设置(高)" source="warningrulelevel0" />
+          <CfAlaramRuleInput label="报警规则设置(中)" source="warningrulelevel1" />
+          <CfAlaramRuleInput label="报警规则设置(低)" source="warningrulelevel2" />
         </FormTab>
           </TabbedForm>
     </EditPage>

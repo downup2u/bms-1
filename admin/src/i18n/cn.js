@@ -51,7 +51,10 @@ export default {
       name: '权限管理 |||| 权限管理',
     },
     realtimealarm:{
-      name:'实时报警管理 |||| 实时报警管理',
+      name:'每日报警统计 |||| 每日报警统计',
+    },
+    realtimealarmraw:{
+      name:'实时报警明细 |||| 实时报警明细',
     },
     historytrack:{
       name: '历史轨迹管理 |||| 历史轨迹管理',
