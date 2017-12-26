@@ -14,7 +14,8 @@ import TextField from 'material-ui/TextField';
 class ResetPassword extends React.Component {
   state = {
     open: false,
-    pwdvalue: '123456',
+    pwdvalue: '',
+    pwdvalue2:''
   };
 
   handleOpen = () => {
@@ -29,41 +30,51 @@ class ResetPassword extends React.Component {
       pwdvalue: event.target.value,
     });
   };
+  handleChange2 = (event) => {
+    this.setState({
+      pwdvalue2: event.target.value,
+    });
+  };
   handleSubmit = (record) =>{
-    console.log(`发送重置密码记录:${JSON.stringify(record)}`);
-    const {id} = record;
-    const data = {
-      userid:id,
-      password:this.state.pwdvalue
-    }
-    const { showNotification }= this.props;
-    const token = localStorage.getItem('admintoken');
-    fetch(`${config.serverurl}/adminapi/resetuserpassword`, {
-      method: 'POST',
-      headers: {
-       'Accept': 'application/json',
-       'Content-Type': 'application/json',
-       'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(data)
+      const { showNotification }= this.props;
+      if(this.state.pwdvalue !== this.state.pwdvalue2){
+        showNotification('resources.user.notification.resetuserpassword_differrentpwd', 'warning');
+        return;
+      }
+      console.log(`发送重置密码记录:${JSON.stringify(record)}`);
+      const {id} = record;
+      const data = {
+        userid:id,
+        password:this.state.pwdvalue
+      }
+
+      const token = localStorage.getItem('admintoken');
+      fetch(`${config.serverurl}/adminapi/resetuserpassword`, {
+        method: 'POST',
+        headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      })
+    .then((res) => {
+        res.json().then((data)=>{
+          console.log(data);
+          if(data.result){
+            showNotification('resources.user.notification.resetuserpassword_success');
+            this.setState({open: false});
+          }
+          else{
+            showNotification('resources.user.notification.resetuserpassword_failed', 'warning');
+            this.setState({open: false});
+          }
+        });
     })
-          .then((res) => {
-              res.json().then((data)=>{
-                console.log(data);
-                if(data.result){
-                  showNotification('resources.user.notification.resetuserpassword_success');
-                  this.setState({open: false});
-                }
-                else{
-                  showNotification('resources.user.notification.resetuserpassword_failed', 'warning');
-                  this.setState({open: false});
-                }
-              });
-          })
-          .catch((e) => {
-              console.error(e);
-              showNotification('resources.user.notification.resetuserpassword_failed', 'warning')
-          });
+    .catch((e) => {
+        console.error(e);
+        showNotification('resources.user.notification.resetuserpassword_failed', 'warning');
+    });
   }
 
   render() {
@@ -94,9 +105,19 @@ class ResetPassword extends React.Component {
           onRequestClose={this.handleClose}
         >
           <TextField
-          id="text-field-controlled"
-          value={this.state.pwdvalue}
-          onChange={this.handleChange}
+            id="password"
+            type="password"
+            value={this.state.pwdvalue}
+            onChange={this.handleChange}
+            floatingLabelText="请输入密码"
+          />
+          <br/>
+        <TextField
+          id="password2"
+          type="password"
+          value={this.state.pwdvalue2}
+          onChange={this.handleChange2}
+          floatingLabelText="请再输入一次密码"
         />
         </Dialog>
       </div>

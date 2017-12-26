@@ -9,6 +9,9 @@ import _ from 'lodash';
 const renderAlaramRuleEdit = ({ meta: { touched, error } = {}, input: { ...inputProps }, ...props }) =>{
   console.log(`renderAlaramRuleEdit form ==>inputProps:${JSON.stringify(inputProps)},props:${JSON.stringify(props)}`);
   let vsz = inputProps.value;
+  if(typeof vsz === 'string'){
+    vsz = [];
+  }
   let onDelete =(values)=>{
     console.log(`onDelete :${JSON.stringify(values)}`);
     let index = _.get(values,'rowId',-1);
@@ -32,6 +35,7 @@ const renderAlaramRuleEdit = ({ meta: { touched, error } = {}, input: { ...input
   };
   let onChange = (values)=>{
     console.log(`onChange :${JSON.stringify(values)}`);
+    console.log(`onChange :${typeof vsz}`);
     let newv = _.clone(vsz);
     let index = _.get(values,'id',-1);
     if(index != -1 && index < vsz.length ){

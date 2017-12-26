@@ -31,6 +31,7 @@ export default {
     user:{
       name: '用户管理 |||| 用户管理',
       notification:{
+        resetuserpassword_differrentpwd:'两次密码必须相同',
         resetuserpassword_success:'重置密码成功',
         resetuserpassword_failed:'重置密码失败',
       }

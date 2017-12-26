@@ -22,11 +22,10 @@ import {
     Show as ShowPage,
     SimpleForm,
 } from 'admin-on-rest/lib/mui';
-
 import Chip from 'material-ui/Chip';
-
 import ShowPageOne from '../singledocumentpage/index.js';
 import {CfSelectArrayInputDetail,CfSelectArrayInput,CfAlaramRuleInput} from './cf.js';
+import "./style.css";
 
 
 const SystemconfigTitle = ({ record }) => <span>系统设置</span>;

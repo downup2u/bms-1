@@ -205,11 +205,11 @@ class UserMenu extends React.Component {
                 this.handleRequestClose();
                 this.props.history.push("/reports/position");
             }}/>}
-          {<MenuItem primaryText="查询报表【报警】" leftIcon={<Car />} onClick={()=>{
+          {<MenuItem primaryText="报警信息日报" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
                 this.props.history.push("/reports/alarm");
             }}/>}
-          {<MenuItem primaryText="查询报表【报警明细】" leftIcon={<Car />} onClick={()=>{
+          {<MenuItem primaryText="报警历史查询" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
                 this.props.history.push("/reports/alarmdetail");
             }}/>}

@@ -9,6 +9,9 @@ import _ from 'lodash';
 const renderGroupEdit = ({ meta: { touched, error } = {}, input: { ...inputProps }, ...props }) =>{
   console.log(`renderGroupEdit form ==>inputProps:${JSON.stringify(inputProps)},props:${JSON.stringify(props)}`);
   let vsz = inputProps.value;
+  if(typeof vsz === 'string'){
+    vsz = [];
+  }
   let onDelete =(values)=>{
     console.log(`onDelete :${JSON.stringify(values)}`);
     let index = _.get(values,'rowId',-1);
