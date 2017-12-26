@@ -76,7 +76,7 @@ const getpop_device =({deviceitem,kvlist})=>{
   let contentxt = '';
   lodashmap(kvlist,(v)=>{
     const fieldvalue = get(deviceitem,v.name,'');
-    const unit = get(deviceitem,v.name,'');
+    const unit = get(deviceitem,v.unit,'');
     contentxt += `<p class='l'><span class='t'>${v.showname}</span><span class='color_warning'>${fieldvalue}${unit}</span></p>`;
   });
 
