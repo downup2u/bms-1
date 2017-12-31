@@ -4,34 +4,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import IconButton from 'material-ui/IconButton';
-import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import Toggle from 'material-ui/Toggle';
-import _  from "lodash";
+
 import AdminContent from "./admincontent";
 import Menu from "./menu";
 import Tree from "./tree";
-import Search from "./search";
-import Warning from "./warning";
-import Message from "./message";
-import Device from "./device";
 import Warningtips from "./warningtips";
 import Prompt from "./prompt";
-import { Icon } from "antd";
-import Logo from "../img/logo.png";
+
+import Logo from "../../img/logo.png";
 import {
     ui_showmenu,
     ui_showhistoryplay,
-    ui_showdistcluster,
-    ui_showhugepoints,
     ui_changemodeview
-} from '../actions';
+} from '../../actions';
 import translate from 'redux-polyglot/translate';
-import Historytrackplayback from "./historytrackplayback";
+
 let resizetime = null;
 let resizetimecontent = null;
 // this.props.dispatch(ui_showmenu(menuitemstring));
@@ -115,7 +103,7 @@ class Page extends React.Component {
     }
 
     render() {
-        const {showmenu,showhistoryplay,showdistcluster,showhugepoints,p,modeview} = this.props;
+        const {showmenu,p,modeview} = this.props;
         const treestyle = this.getdrawstyle("400px");
 
         return (

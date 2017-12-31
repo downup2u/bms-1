@@ -4,14 +4,17 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import map from 'lodash.map';
+
 import Seltime from './seltime.js';
-import { Input,Select, AutoComplete,Button } from 'antd';
+import { Select,Button } from 'antd';
+import SelectDevice from '../historytrackplayback/selectdevice.js';
+import get from 'lodash.get';
+import map from 'lodash.map';
 
 import moment from 'moment';
 moment.locale('zh-cn');
 
-const InputGroup = Input.Group;
+
 const Option = Select.Option;
 
 class TreeSearchBattery extends React.Component {
@@ -36,14 +39,19 @@ class TreeSearchBattery extends React.Component {
           startDate = moment(props.query.DataTime['$gte']);
           endDate = moment(props.query.DataTime['$lte']);
         }
-
+        let DeviceId = get(props.query,'DeviceId','');
         this.state = {
             alarmlevel: warninglevel,
             startDate,
-            endDate
-          };
+            endDate,
+            DeviceId
+        };
     }
-
+    onSelDeviceid(DeviceId){
+        this.setState({
+            DeviceId
+        });
+    }
     onChangeSelDate(startDate,endDate){
       this.setState({
         startDate,
@@ -75,6 +83,9 @@ class TreeSearchBattery extends React.Component {
       else if(this.state.alarmlevel === '2'){
         query['warninglevel'] = '低';
       }
+      if(this.state.DeviceId !== ''){
+        query['DeviceId'] = this.state.DeviceId;
+      }
       return query;
     }
 
@@ -85,6 +96,12 @@ class TreeSearchBattery extends React.Component {
     }
 
     render(){
+      const {g_devicesdb} = this.props;
+
+      let deviceidlist = [];
+      map(g_devicesdb,(item)=>{
+          deviceidlist.push(item.DeviceId);
+      });
         return (
             <div className="searchreport" style={{textAlign: "center"}}>
                 <div className="i">
@@ -99,6 +116,15 @@ class TreeSearchBattery extends React.Component {
                         <Option value={"1"} >紧急报警</Option>
                         <Option value={"2"} >一般报警</Option>
                     </Select>
+                    <div className="selcar">
+                      <span className="t">车辆ID：</span>
+                      <SelectDevice
+                        placeholder={"请输入设备ID"}
+                        initdeviceid={this.state.DeviceId}
+                        onSelDeviceid={this.onSelDeviceid.bind(this)}
+                        deviceidlist={deviceidlist}
+                      />
+                    </div>
                 </div>
                 <div className="b">
                     <Button type="primary" icon="search" onClick={this.onClickQuery}>查询</Button>
@@ -109,5 +135,7 @@ class TreeSearchBattery extends React.Component {
         );
     }
 }
-
-export default connect()(TreeSearchBattery);
+const mapStateToProps = ({device:{g_devicesdb}}) => {
+  return {g_devicesdb};
+}
+export default connect(mapStateToProps)(TreeSearchBattery);

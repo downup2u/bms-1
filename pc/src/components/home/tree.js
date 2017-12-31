@@ -4,21 +4,17 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import {Treebeard,decorators} from './controls/react-treebeard-ex/src/index.js';
-import RaisedButton from 'material-ui/RaisedButton';
-import Search from './search/searchtree.js';
 
-
-import treestyle from './treestyle.js';
-import '../css/treestyle.css';
+import Search from '../search/searchtree.js';
 import { Tabs } from 'antd';
-import "../css/antd.css";
 
+import "../../css/antd.css";
+import '../../css/treestyle.css';
 
-import TreeByloc from './trees/tree_byloc';
-import TreeBygroup from './trees/tree_bygroup';
-import TreeBysearchresult from './trees/tree_bysearchresult';
-import {searchbatterylocal_request} from '../actions';
+import TreeByloc from '../trees/tree_byloc';
+import TreeBygroup from '../trees/tree_bygroup';
+import TreeBysearchresult from '../trees/tree_bysearchresult';
+import {searchbatterylocal_request} from '../../actions';
 
 const TabPane = Tabs.TabPane;
 let resizetimetree = null;

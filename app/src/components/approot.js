@@ -29,7 +29,7 @@ import Usercenter from './user';
 import Setting from './index/setting';
 import Settinguser from './index/settinguser';
 import Settingmessage from './index/settingmessage';
-import MapPage from './admincontent';
+import MapPage from './map';
 import Alaraminfo from './warningdevice/alarminfo';
 import {requireAuthentication} from './requireauthentication';
 import "../css/common.css";
@@ -80,7 +80,7 @@ class AppRoot extends React.Component {
 
         return (
             <div className="AppContainer">
-                
+
                 <Switch>
                     <Route exact path="/" component={()=>(<Redirect to="/index"/>)} />
                     <Route path="/index" component={requireAuthentication(Index)} />

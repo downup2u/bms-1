@@ -51,7 +51,7 @@ class TreeNode extends React.Component {
           let isenable = true;
           if(node.type !== 'device'){
             if(treeviewstyle === 'byloc'){
-              let nodecount = gmap_acode_treecount[node.adcode];
+              let nodecount = gmap_acode_treecount[node.adcode].count_total;
               isenable = !!nodecount && nodecount > 0;
             }
           }

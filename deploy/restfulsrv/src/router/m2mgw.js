@@ -220,7 +220,79 @@ let startmodule = (app)=>{
     //   res.xls('data.xlsx',resultList );
     // });
   });
+  app.post('/api/report_device',(req,res)=>{
+    let query = {};
+    try{
+      let sv = new Buffer(req.body.queryparam, 'hex').toString();
+      console.log(`sv:${sv}`);
+      query = JSON.parse(sv);
+    }
+    catch(e){
+      console.dir(e);
+    }
 
+    console.dir(query);
+    const deviceModel = DBModels.DeviceModel;
+    const fields = '车辆ID 更新时间 设备类型 序列号';
+
+    let sz = fields.split(' ');
+    const csvfields = sz.join(',');
+    console.log(`csvfields-->${csvfields}`);
+
+    const filename = 'db-data-' + new Date().getTime() + '.csv';
+    res.set({'Content-Disposition': 'attachment; filename=\"' + filename + '\"', 'Content-type': 'text/csv'});
+    res.write(csvfields + '\n');
+    let cancelRequest = false;
+    req.on('close', (err)=>{
+       cancelRequest = true;
+    });
+    const cursor = deviceModel.find(query).cursor();
+    cursor.on('error', (err)=> {
+      console.log(`算结束了啊..............`);
+      res.end('');
+    });
+
+    cursor.on('data', (doc)=>
+    {
+      if(cancelRequest){
+        cursor.close();
+        console.log(`取消下载了..............`);
+      }
+      else{
+        doc = JSON.parse(JSON.stringify(doc));
+      // console.log(`doc-->${JSON.stringify(doc)}`);
+      // utilposition.getpostion_frompos(getpoint(doc),(retobj)=>{
+        const newdoc = device.bridge_deviceinfo(doc);
+        // console.log(`newdoc-->${JSON.stringify(newdoc)}`);
+        // console.log(`retobj-->${JSON.stringify(retobj)}`);
+        csvwriter(newdoc, {header: false, fields: csvfields}, (err, csv)=> {
+          // console.log(`csv-->${csv}`);
+           if (!err && !!csv && !cancelRequest) {
+             res.write(csv);
+           }
+         });
+       }
+      //  });
+    }).
+    on('end', ()=> {
+      setTimeout(()=> {
+        res.end('');
+      }, 1000);
+    });
+
+    // const query = req.body;
+    // const actiondata = {
+    //   query,
+    // }
+    // realtimealarm.exportalarmdetail(actiondata,{},(result)=>{
+    //   console.log(`search exportalarmdetail:${JSON.stringify(result)}`);
+    //   let resultList = [];
+    //   if(result.cmd === 'exportalarmdetail_result'){
+    //     resultList = result.payload.list;
+    //   }
+    //   res.xls('data.xlsx',resultList );
+    // });
+  });
   app.post('/m2mgw/setdata',(req,res)=>{
     console.log(`setdata m2m data:${JSON.stringify(req.body)}`);
     const data = req.body;

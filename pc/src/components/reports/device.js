@@ -12,9 +12,9 @@ import AntdTable from "../controls/antdtable.js";
 import {download_excel} from '../../actions';
 import moment from 'moment';
 
-import TreeSearchreport from '../search/searchreport_position';
+import TreeSearchreport from '../search/searchreport_device';
 import {
-  callthen,uireport_searchposition_request,uireport_searchposition_result
+  callthen,uireport_searchdevice_request,uireport_searchdevice_result
 } from '../../sagas/pagination';
 import get from 'lodash.get';
 
@@ -25,7 +25,7 @@ class TablePosition extends React.Component {
     constructor(props) {
         super(props);
         let query = {};
-        query['GPSTime'] = {
+        query['UpdateTime'] = {
           $gte: moment(moment().format('YYYY-MM-DD 00:00:00')),
           $lte: moment(moment().format('YYYY-MM-DD 23:59:59')),
         };
@@ -55,7 +55,7 @@ class TablePosition extends React.Component {
 
     onClickExport(query){
       const payload = {
-          type:'report_position',
+          type:'report_device',
           query
       };
       console.log(`导出excel:${JSON.stringify(payload)}`);
@@ -77,19 +77,17 @@ class TablePosition extends React.Component {
       //DeviceId Latitude Longitude GPSTime
       itemnew['key'] = get(item,'_id','');
       itemnew['设备编号'] = get(item,'DeviceId','');
-      itemnew['定位时间'] = get(item,'GPSTime','');
-      itemnew['省'] = get(item,'Provice','');
-      itemnew['市'] = get(item,'City','');
-      itemnew['区'] = get(item,'Area','');
+      itemnew['更新时间'] = get(item,'UpdateTime','');
+      itemnew['设备类型'] = get(item,'DeviceType','');
+      itemnew['序列号'] = get(item,'SN64','');
       return itemnew;
     }
     render(){
         let column_data = {
           "设备编号" : "",
-          "定位时间" : "",
-          "省" : "",
-          "市" : "",
-          "区" : "",
+          "更新时间" : "",
+          "设备类型" : "",
+          "序列号" : "",
         };
         let columns = map(column_data, (data, index)=>{
           let column_item = {
@@ -112,13 +110,14 @@ class TablePosition extends React.Component {
 
                 <div className="appbar">
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
-                    <div className="title">位置报表</div>
+                    <div className="title">设备报表</div>
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport
-                      query={this.state.query}
                       onClickQuery={this.onClickQuery.bind(this)}
-                      onClickExport={this.onClickExport.bind(this)}/>
+                      onClickExport={this.onClickExport.bind(this)}
+                      query={this.state.query}
+                    />
                 </div>
                 <div className="tablelist">
                     <AntdTable
@@ -129,7 +128,7 @@ class TablePosition extends React.Component {
                       query={this.state.query}
                       sort={{DataTime: -1}}
                       queryfun={(payload)=>{
-                        return callthen(uireport_searchposition_request,uireport_searchposition_result,payload);
+                        return callthen(uireport_searchdevice_request,uireport_searchdevice_result,payload);
                       }}
                     />
                 </div>

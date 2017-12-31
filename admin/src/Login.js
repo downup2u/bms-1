@@ -103,6 +103,9 @@ class Login extends Component {
                             <CardActions>
                                 <RaisedButton type="submit" primary disabled={submitting} label={translate('aor.auth.sign_in')} fullWidth />
                             </CardActions>
+
+
+                            <p style={{textAlign:"center",padding:"10px 0;"}}>版本号：{Config.appversion}</p>
                         </form>
                     </Card>
                     <Notification />

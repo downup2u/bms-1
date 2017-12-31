@@ -20,8 +20,7 @@ import Car from '../../img/5.png';
 
 import Footer from "../index/footer.js";
 import Datalist from "./datalist";
-import MapPage from '../admincontent';
-import {searchbatteryalarm_request} from '../../actions';
+
 import DatePicker from 'react-mobile-datepicker';
 import moment from 'moment';
 

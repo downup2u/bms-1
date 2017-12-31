@@ -5,6 +5,7 @@ const winston = require('../../log/log.js');
 const coordtransform = require('coordtransform');
 const _ = require('lodash');
 const moment = require('moment');
+// const utilposition = require('../common/util_position');
 
 const getRandomLocation =  (latitude, longitude, radiusInMeters)=>{
 
@@ -307,3 +308,44 @@ exports.savedevice = (actiondata,ctx,callback)=>{
     callback(err,updateditem);
   });
 };
+
+exports.uireport_searchdevice =  (actiondata,ctx,callback)=>{
+  // PC端获取数据--->{"cmd":"searchbatteryalarm","data":{"query":{"queryalarm":{"warninglevel":0}}}}
+  const deviceModel = DBModels.DeviceModel;
+  const query = actiondata.query || {};
+  deviceModel.paginate(query,actiondata.options,(err,result)=>{
+    if(!err){
+      result = JSON.parse(JSON.stringify(result));
+      let docs = [];
+      _.map(result.docs,(record)=>{
+        docs.push(record);
+      });
+      // utilposition.getlist_pos(docs,getpoint,(err,newdocs)=>{
+        // result.docs = newdocs;
+        callback({
+          cmd:'uireport_searchdevice_result',
+          payload:{result}
+        });
+      // });
+    }
+    else{
+      callback({
+        cmd:'common_err',
+        payload:{errmsg:err.message,type:'uireport_searchdevice'}
+      });
+    }
+  });
+}
+
+const bridge_deviceinfo = (deviceinfo)=>{
+  let deviceinfonew = {};
+  deviceinfonew[`key`] = deviceinfo._id;
+  deviceinfonew[`车辆ID`] = deviceinfo[`DeviceId`];
+  deviceinfonew[`更新时间`] = deviceinfo[`UpdateTime`];
+  deviceinfonew[`设备类型`] = deviceinfo[`DeviceType`];
+  deviceinfonew[`序列号`] = deviceinfo[`SN64`];
+
+  return deviceinfonew;
+};
+
+exports.bridge_deviceinfo =  bridge_deviceinfo;

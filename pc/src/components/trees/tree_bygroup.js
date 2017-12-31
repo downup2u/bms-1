@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Treebeard,decorators} from '../controls/react-treebeard-ex/src/index.js';
-import treestyle from '../treestyle.js';
+import treestyle from './treestyle.js';
 import HeaderCo from './treeheader';
 import {
     mapmain_selgroup,

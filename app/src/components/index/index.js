@@ -11,7 +11,7 @@ import Searchimg from "../../img/22.png";
 
 import Footer from "./footer.js";
 import Collectiondevice from "../collectiondevice";
-import MapPage from '../admincontent';
+
 import {ui_index_selstatus} from '../../actions';
 
 class Page extends React.Component {

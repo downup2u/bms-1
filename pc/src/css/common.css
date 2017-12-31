@@ -9,6 +9,9 @@
     border:none;
     list-style: none;
 }
+.amap-icon img{
+    width: 100%;
+}
 .AppContainer{
     background: #EEE;
     position: fixed;
@@ -893,6 +896,19 @@
     background: none;
     padding-right: 10px;
 }
+.amap-overlays .amap-ui-infowindow-body.amap-ui-smp-ifwn-info-content button.clickfn_device{
+
+}
+.amap-overlays .amap-ui-infowindow-body.amap-ui-smp-ifwn-info-content button.clickfn_historyplay{
+    margin-top: -60px;
+}
+.amap-overlays .amap-ui-infowindow-body.amap-ui-smp-ifwn-info-content button.clickfn_showhistory{
+    margin-top: -30px;
+}
+.amap-overlays .amap-ui-infowindow-body.amap-ui-smp-ifwn-info-content button.clickfn_showmessage{
+    margin-top: 30px;
+}
+
 .amap-overlays .amap-ui-infowindow-body.amap-ui-smp-ifwn-info-content button:after{
     content: "";
     display: inline-block;

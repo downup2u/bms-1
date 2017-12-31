@@ -3,7 +3,7 @@ const mongoose  = require('mongoose');
 const DBModels = require('./models.js');
 const _ = require('lodash');
 const alarmplugin = require('../plugins/alarmfilter/index');
-
+const moment = require('moment');
 
 exports.insertdatatodb= (data,callback)=>{
 
@@ -20,6 +20,7 @@ exports.insertdatatodb= (data,callback)=>{
     devicedata.LastHistoryTrack = LastHistoryTrack;
   }
 
+  devicedata.UpdateTime = moment().format('YYYY-MM-DD HH:mm:ss');
   // console.log(`insertdatatodb LastRealtimeAlarm===>${JSON.stringify(LastRealtimeAlarm)}`);
   // console.log(`insertdatatodb LastHistoryTrack===>${JSON.stringify(LastHistoryTrack)}`);
   // console.log(`insertdatatodb devicedata===>${JSON.stringify(devicedata)}`);

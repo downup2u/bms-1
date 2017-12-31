@@ -66,7 +66,7 @@ import filter from 'lodash.filter';
 import moment from 'moment';
 import coordtransform from 'coordtransform';
 import {getadcodeinfo} from '../util/addressutil';
-import {getpopinfowindowstyle,getlistpopinfowindowstyle} from './getmapstyle';
+import {getpopinfowindowstyle,getlistpopinfowindowstyle,getimageicon} from './getmapstyle';
 import jsondataareas from '../util/areas.json';
 import jsondataprovinces from '../util/provinces.json';
 import jsondatacities from '../util/cities.json';
@@ -172,7 +172,7 @@ const getMarkCluster_showMarks = (isshow)=>{
                position:pos,
                icon: new window.AMap.Icon({
                    size: new window.AMap.Size(24, 48),  //图标大小
-                   image: `${process.env.PUBLIC_URL}/images/car.png`,
+                   image: getimageicon(item),
                    imageOffset: new window.AMap.Pixel(0, 0)
                }),
                angle:get(item,'angle',0),
@@ -492,16 +492,32 @@ const getclustertree_root =()=>{
           reject();
           return;
         }
-        gmap_acode_treecount[adcodetop]=dataItems.length;//全国
+        let count_online = 0;
+        let count_offline = dataItems.length;
+        gmap_acode_treecount[adcodetop]= {
+          count_total:dataItems.length,
+          count_online,
+          count_offline
+        };//全国
 
         let childadcodelist = [];
         lodashmap(children,(child)=>{
           if(child.dataItems.length > 0){
             childadcodelist.push(child.adcode);
-            gmap_acode_treecount[child.adcode]=child.dataItems.length;
+            count_online = 0;
+            count_offline = child.dataItems.length;
+            gmap_acode_treecount[child.adcode]= {
+              count_total:child.dataItems.length,
+              count_online,
+              count_offline
+            }
           }
           else{
-            gmap_acode_treecount[child.adcode]=0;
+            gmap_acode_treecount[child.adcode]= {
+              count_total:0,
+              count_online:0,
+              count_offline:0,
+            };
           }
         });
         resolve(childadcodelist);
@@ -532,7 +548,11 @@ const getclustertree_one =(adcode)=>{
               }
             });
           }
-          gmap_acode_treecount[adcode]=deviceids.length;
+          gmap_acode_treecount[adcode]={
+            count_total:deviceids.length,
+            count_online:0,
+            count_offline:deviceids.length,
+          };
           gmap_acode_devices[adcode]=deviceids;
           resolve({
             type:'device',
@@ -543,21 +563,37 @@ const getclustertree_one =(adcode)=>{
           //group
           let childadcodelist = [];
           if(!dataItems || dataItems.length === 0){
-            gmap_acode_treecount[adcode]=0;
+            gmap_acode_treecount[adcode]={
+              count_total:0,
+              count_online:0,
+              count_offline:0,
+            };
             resolve({
               type:'group',
               childadcodelist
             });
             return;
           }
-          gmap_acode_treecount[adcode]=dataItems.length;
+          gmap_acode_treecount[adcode]={
+            count_total:dataItems.length,
+            count_online:0,
+            count_offline:dataItems.length,
+          };
           lodashmap(children,(child)=>{
               if(child.dataItems.length > 0){
-                gmap_acode_treecount[child.adcode]=child.dataItems.length;
+                gmap_acode_treecount[child.adcode]={
+                  count_total:child.dataItems.length,
+                  count_online:0,
+                  count_offline:child.dataItems.length,
+                }
                 childadcodelist.push(child.adcode);
               }
               else{
-                gmap_acode_treecount[child.adcode]=0;
+                gmap_acode_treecount[child.adcode]={
+                  count_total:0,
+                  count_online:0,
+                  count_offline:0,
+                };
               }
 
           });
@@ -715,27 +751,35 @@ export function* createmapmainflow(){
     yield takeEvery(`${ui_selcurdevice_request}`,function*(actioncurdevice){
       let {payload:{DeviceId,deviceitem}} = actioncurdevice;
       try{
+          if(!deviceitem && !!DeviceId){
+            deviceitem = g_devicesdb[DeviceId];
+          }
+          if(!!deviceitem){//？？？？
             if(!deviceitem.locz){
               deviceitem = yield call(getdeviceinfo,deviceitem,true);
             }
             console.log(`ui_selcurdevice_request==>${JSON.stringify(deviceitem)}`);
             //获取该车辆所在经纬度
-            const result = yield call(getgeodata,deviceitem);
-            //调用一次citycode，防止加载不到AreaNode
-            try{
-              let adcodeinfo = getadcodeinfo(result.adcode);
-              yield call(getclustertree_one,adcodeinfo.parent_code);
+            if(!!deviceitem.locz){
+              const result = yield call(getgeodata,deviceitem);
+              //调用一次citycode，防止加载不到AreaNode
+              if(!!result.adcode){
+                try{
+                  let adcodeinfo = getadcodeinfo(result.adcode);
+                  yield call(getclustertree_one,adcodeinfo.parent_code);
+                }
+                catch(e){
+                  console.log(e);
+                }
+                const adcodetop = parseInt(result.adcode);
+                //展开左侧树结构
+                yield put(mapmain_seldistrict({adcodetop,forcetoggled:true}));
+                if(config.softmode === 'pc'){//pc端才有树啊
+                  yield take(`${mapmain_getdistrictresult}`);//等待数据完成
+                }
+              }
             }
-            catch(e){
-              console.log(e);
-            }
-            const adcodetop = parseInt(result.adcode);
-            //展开左侧树结构
-            yield put(mapmain_seldistrict({adcodetop,forcetoggled:true}));
-            if(config.softmode === 'pc'){//pc端才有树啊
-              yield take(`${mapmain_getdistrictresult}`);//等待数据完成
-            }
-
+          }
       }
       catch(e){
         console.log(e);

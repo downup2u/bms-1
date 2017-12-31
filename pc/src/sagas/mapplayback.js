@@ -95,7 +95,7 @@ const startplayback = ({isloop,speed})=>{
              pathNavigatorStyle: {
                   width: 16,
                   height: 32,
-                  content: gPathSimplifier.Render.Canvas.getImageContent(`${process.env.PUBLIC_URL}/images/car.png`, onload, onerror),
+                  content: gPathSimplifier.Render.Canvas.getImageContent(`${process.env.PUBLIC_URL}/images/car_online.png`, onload, onerror),
                   strokeStyle: null,
                   fillStyle: null
             }

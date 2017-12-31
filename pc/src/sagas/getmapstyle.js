@@ -5,6 +5,7 @@ import { push,goBack,go  } from 'react-router-redux';//https://github.com/reactj
 import moment from 'moment';
 import lodashmap from 'lodash.map';
 import {bridge_deviceinfo_pop,bridge_deviceinfo_popcluster} from './datapiple/bridgedb';
+import {ui_btnclick_devicemessage} from '../actions';
 //地图上点图标的样式【图标类型】
 
 
@@ -70,6 +71,16 @@ const getCoureName = (course)=> {
 window.clickfn_device =(DeviceId)=>{
   store.dispatch(push(`/deviceinfo/${DeviceId}`));
 }
+window.clickfn_historyplay =(DeviceId)=>{
+  store.dispatch(push(`/historyplay/${DeviceId}`));
+}
+window.clickfn_showhistory =(DeviceId)=>{
+  store.dispatch(push(`/reports/device/${DeviceId}`));
+}
+window.clickfn_showmessage =(DeviceId)=>{
+  store.dispatch(ui_btnclick_devicemessage({DeviceId}));
+}
+
 
 const getpop_device =({deviceitem,kvlist})=>{
   let DeviceId = get(deviceitem,'DeviceId','');
@@ -83,7 +94,10 @@ const getpop_device =({deviceitem,kvlist})=>{
   return {
         infoBody: `<p>车辆编号:${DeviceId}</p>
         ${contentxt}
-        <button onclick="clickfn_device(${DeviceId})">查看详情</button>`
+        <button onclick="clickfn_device(${DeviceId})" class='clickfn_device'>查看详情</button>
+        <button onclick="clickfn_historyplay(${DeviceId})" class='clickfn_historyplay'>历史轨迹回放</button>
+        <button onclick="clickfn_showhistory(${DeviceId})" class='clickfn_showhistory'>历史位置信息</button>
+        <button onclick="clickfn_showmessage(${DeviceId})" class='clickfn_showmessage'>历史报警信息</button>`
     };
 }
 
@@ -117,4 +131,16 @@ export const getlistpopinfowindowstyle = (deviceitemlist)=>{
     return {
         infoBody: `${info}`
     };
+}
+
+
+export const getimageicon = (item)=>{
+  //这里根据不同item显示不同图标
+  const online_png = `${process.env.PUBLIC_URL}/images/car_online.png`;
+  const offline_png = `${process.env.PUBLIC_URL}/images/car_offline.png`;
+  let curpng = online_png;
+  if(parseInt(item.DeviceId)%2 === 0){ //在线／离线条件判断
+    curpng = offline_png;
+  }
+  return curpng;
 }

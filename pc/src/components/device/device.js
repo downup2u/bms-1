@@ -4,30 +4,17 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import {Treebeard} from 'react-treebeard';
-import map from 'lodash.map';
-// import {ui_selcurdevice_request} from '../actions';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import Avatar from 'material-ui/Avatar';
-import Deraultimg from "../img/1.png";
-import "../css/message.css";
-import TableComponents from "./table.js";
-import Seltime from "./search/seltime.js";
 
+import map from 'lodash.map';
+
+
+import "../css/message.css";
+import TableComponents from "../controls/table.js";
+
+
+
+import TreeSearchreport from '../search/searchreport';
 import {
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
-import TreeSearchreport from './search/searchreport';
-import {
-  ui_selcurdevice_request,
   searchbatteryalarm_request
 } from '../actions';
 import get from 'lodash.get';
@@ -51,7 +38,7 @@ class MessageAllDevice extends React.Component {
     }
 
     render(){
-        const {g_devicesdb,alarms,searchresult_alaram,alaram_data,columns} = this.props;
+        const {alaram_data,columns} = this.props;
 
         return (
             <div className="warningPage" style={{height : window.innerHeight+"px"}}>

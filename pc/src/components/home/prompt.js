@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {ui_alarm_selcurdevice} from '../actions';
 import { withRouter } from 'react-router-dom';
+import {ui_alarm_selcurdevice} from '../../actions';
 
 class Prompt extends React.Component{
 

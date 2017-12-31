@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {
     carmapshow_createmap,
     carmapshow_destorymap,
-} from '../actions';
+} from '../../actions';
 const divmapid = 'mapmain';
 
 let resizetimemap = null;

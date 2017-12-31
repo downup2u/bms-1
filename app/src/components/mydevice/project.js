@@ -7,8 +7,7 @@ import map from 'lodash.map';
 import Devicestar from "../../img/16.png";
 import Moresetting from "../../img/17.png";
 import Footer from "../index/footer.js";
-import Datalist from "./datalist";
-import MapPage from '../admincontent';
+
 import {ui_mycar_showtype,ui_viewdevicedetail} from '../../actions';
 import Searchimg from "../../img/22.png";
 import SelectDevice from '../mydevice/selectdevice.js';

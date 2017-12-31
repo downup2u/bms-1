@@ -8,7 +8,7 @@ import Devicestar from "../../img/16.png";
 import Moresetting from "../../img/17.png";
 import Footer from "../index/footer.js";
 import Datapro from "./datapro";
-import MapPage from '../admincontent';
+
 import {ui_mycar_showtype} from '../../actions';
 import Searchimg from "../../img/22.png";
 const innerHeight = window.innerHeight;

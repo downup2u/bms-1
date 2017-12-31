@@ -7,19 +7,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import map from 'lodash.map';
 import get from 'lodash.get';
-import RaisedButton from 'material-ui/RaisedButton';
+import translate from 'redux-polyglot/translate';
+
 import {
   ui_showhistoryplay,
   ui_showmenu,
   searchbatteryalarm_request,
-  ui_btnclick_devicemessage,
   ui_clickplayback
-} from '../actions';
-import translate from 'redux-polyglot/translate';
-import TableComponents from "./table.js";
-import TreeSearchmessage from './search/searchmessage';
+} from '../../actions';
+// import TableComponents from "../controls/table.js";
+
 import { Button } from 'antd';
-import {bridge_deviceinfo} from '../sagas/datapiple/bridgedb';
+import {bridge_deviceinfo} from '../../sagas/datapiple/bridgedb';
 
 
 class Page extends React.Component {

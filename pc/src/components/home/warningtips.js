@@ -5,65 +5,45 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Badge from 'material-ui/Badge';
-import IconButton from 'material-ui/IconButton';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
-import CarOnline from "../img/1.png";
-import CarOutline from "../img/3.png";
-import D1 from "../img/d1.png";
-import D2 from "../img/d2.png";
-import D3 from "../img/d3.png";
-import Pow1 from "../img/pow1.png";
-import Pow2 from "../img/pow2.png";
-import Pow3 from "../img/pow3.png";
-import { ui_showmenu } from '../actions';
-import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
-import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import ContentLink from 'material-ui/svg-icons/content/link';
-import Divider from 'material-ui/Divider';
-import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-import Download from 'material-ui/svg-icons/file/file-download';
-import Delete from 'material-ui/svg-icons/action/delete';
-import FontIcon from 'material-ui/FontIcon';
-import IconMenu from 'material-ui/IconMenu';
-import MapsPlace from 'material-ui/svg-icons/maps/place';
-import Settings from "material-ui/svg-icons/action/settings";
 import Car from "material-ui/svg-icons/maps/directions-car";
-import Chart from "material-ui/svg-icons/editor/insert-chart";
-import Assignment from "material-ui/svg-icons/action/assignment";
-
 import Exit from "material-ui/svg-icons/action/exit-to-app";
-import Avatar from "../img/t1.png";
-
-import Userlist_4 from "../img/4.png";
-import Userlist_5 from "../img/5.png";
-import Userlist_6 from "../img/6.png";
-import Userlist_7 from "../img/7.png";
-import Userlist_8 from "../img/8.png";
-
-import RaisedButton from 'material-ui/RaisedButton';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import withRouter from 'react-router-dom/withRouter';
-import { Icon } from "antd";
+
+import CarOnline from "../../img/1.png";
+import CarOutline from "../../img/3.png";
+import D1 from "../../img/d1.png";
+import D2 from "../../img/d2.png";
+import D3 from "../../img/d3.png";
+import Avatar from "../../img/t1.png";
+import Userlist_4 from "../../img/4.png";
+// import Userlist_5 from "../img/5.png";
+// import Userlist_6 from "../img/6.png";
+import Userlist_7 from "../../img/7.png";
+// import Userlist_8 from "../img/8.png";
+// import Pow1 from "../img/pow1.png";
+// import Pow2 from "../img/pow2.png";
+// import Pow3 from "../img/pow3.png";
 
 import {
   ui_btnclick_deviceonline,
-  ui_btnclick_deviceoffline,
+
   ui_btnclick_alaramall,
   ui_btnclick_alaramred,
   ui_btnclick_alaramorange,
   ui_btnclick_alaramyellow,
-  ui_clickplayback,
-  ui_changemodeview,
-  ui_menuclick_settings,
-  ui_menuclick_logout
-}from '../actions';
 
-import map from 'lodash.map';
-import countBy from 'lodash.countby';
-import {jsondata_bms_chargingpile} from '../test/bmsdata.js';
+
+  ui_changemodeview,
+
+  ui_menuclick_logout
+}from '../../actions';
+
+
+// import countBy from 'lodash.countby';
+// import {jsondata_bms_chargingpile} from '../../test/bmsdata.js';
 
 /**
  * The `maxHeight` property limits the height of the menu, above which it will be scrollable.
@@ -201,17 +181,21 @@ class UserMenu extends React.Component {
                 this.props.dispatch(ui_changemodeview('device'));
                 this.props.history.push("/workorder");
             }}/> */}
-          {<MenuItem primaryText="查询报表【位置】" leftIcon={<Car />} onClick={()=>{
+          {<MenuItem primaryText="查询位置报表" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
-                this.props.history.push("/reports/position");
+                this.props.history.push("/reports/position/0");
             }}/>}
+            {<MenuItem primaryText="查询设备" leftIcon={<Car />} onClick={()=>{
+                  this.handleRequestClose();
+                  this.props.history.push("/reports/device/0");
+              }}/>}
           {<MenuItem primaryText="报警信息日报" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
-                this.props.history.push("/reports/alarm");
+                this.props.history.push("/reports/alarm/0");
             }}/>}
           {<MenuItem primaryText="报警历史查询" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
-                this.props.history.push("/reports/alarmdetail");
+                this.props.history.push("/reports/alarmdetail/0");
             }}/>}
             {/* <MenuItem primaryText="后台管理" leftIcon={<Settings />} onClick={()=>{
                 this.handleRequestClose();
@@ -286,7 +270,7 @@ class Page extends React.Component {
         iconstyle4.fontSize = "30px";
 
         const {count_online,count_offline,count_all,count_yellow,count_red,count_orange,modeview} = this.props;
-        if(modeview === 'device'){
+        // if(modeview === 'device'){
             return (
               <div className="BadgeStyle">
 
@@ -422,7 +406,7 @@ class Page extends React.Component {
 
                 </div>
             );
-        }
+        // }
         // let count_0 = countBy(jsondata_bms_chargingpile,(item)=>{
         //   return item.imagetype == 4;
         // });
@@ -432,77 +416,77 @@ class Page extends React.Component {
         // let count_2 = countBy(jsondata_bms_chargingpile,(item)=>{
         //   return item.imagetype == 6;
         // });
-        let count_chargingpile_obj = countBy(jsondata_bms_chargingpile,'imagetype');
+        // let count_chargingpile_obj = countBy(jsondata_bms_chargingpile,'imagetype');
         //充电桩模式
-        return (
-            <div className="BadgeStyle">
-                <Badge
-                    badgeContent={`工作(${count_chargingpile_obj['4']})`}
-                    className="Badge"
-                    secondary={true}
-                    style={{padding:"0",width:"auto",height:"36px",display: "flex", marginRight : "15px"}}
-                    badgeStyle={{
-                        top : "auto",
-                        bottom: "-4px",
-                        right: "-4px",
-                        backgroundColor: "none",
-                        color : "#111",
-                        position: "relative",
-                        bottom: "-8px",
-                        fontSize: "18px",
-                        width : "auto",
-                        color : "#666"
-                    }}
-                    onClick={this.onClickMenuPipleinfo.bind(this,'4')}
-                    >
-                    <img src={Pow2} style={{marginBottom: "-6px", width: "24px"}} />
-                </Badge>
-                <Badge
-                    badgeContent={`空闲(${count_chargingpile_obj['5']})`}
-                    className="Badge"
-                    secondary={true}
-                    style={{padding:"0",width:"auto",height:"36px",display: "flex", marginRight : "15px"}}
-                    badgeStyle={{
-                        top : "auto",
-                        bottom: "-4px",
-                        right: "-4px",
-                        backgroundColor: "none",
-                        color : "#111",
-                        position: "relative",
-                        bottom: "-8px",
-                        fontSize: "18px",
-                        width : "auto",
-                        color : "#666"
-                    }}
-                    onClick={this.onClickMenuPipleinfo.bind(this,'5')}
-                    >
-                    <img src={Pow1} style={{marginBottom: "-6px", width: "24px"}} />
-                </Badge>
-                <Badge
-                    badgeContent={`维修(${count_chargingpile_obj['6']})`}
-                    className="Badge"
-                    secondary={true}
-                    style={{padding:"0",width:"auto",height:"36px",display: "flex", marginRight : "15px"}}
-                    badgeStyle={{
-                        top : "auto",
-                        bottom: "-4px",
-                        right: "-4px",
-                        backgroundColor: "none",
-                        color : "#111",
-                        position: "relative",
-                        bottom: "-8px",
-                        fontSize: "18px",
-                        width : "auto",
-                        color : "#666"
-                    }}
-                    onClick={this.onClickMenuPipleinfo.bind(this,'6')}
-                    >
-                    <img src={Pow3} style={{marginBottom: "-6px", width: "24px"}} />
-                </Badge>
-                <UserMenu />
-
-            </div>
-        )
+        // return (
+        //     <div className="BadgeStyle">
+        //         <Badge
+        //             badgeContent={`工作(${count_chargingpile_obj['4']})`}
+        //             className="Badge"
+        //             secondary={true}
+        //             style={{padding:"0",width:"auto",height:"36px",display: "flex", marginRight : "15px"}}
+        //             badgeStyle={{
+        //                 top : "auto",
+        //                 bottom: "-4px",
+        //                 right: "-4px",
+        //                 backgroundColor: "none",
+        //                 color : "#111",
+        //                 position: "relative",
+        //                 bottom: "-8px",
+        //                 fontSize: "18px",
+        //                 width : "auto",
+        //                 color : "#666"
+        //             }}
+        //             onClick={this.onClickMenuPipleinfo.bind(this,'4')}
+        //             >
+        //             <img src={Pow2} style={{marginBottom: "-6px", width: "24px"}} />
+        //         </Badge>
+        //         <Badge
+        //             badgeContent={`空闲(${count_chargingpile_obj['5']})`}
+        //             className="Badge"
+        //             secondary={true}
+        //             style={{padding:"0",width:"auto",height:"36px",display: "flex", marginRight : "15px"}}
+        //             badgeStyle={{
+        //                 top : "auto",
+        //                 bottom: "-4px",
+        //                 right: "-4px",
+        //                 backgroundColor: "none",
+        //                 color : "#111",
+        //                 position: "relative",
+        //                 bottom: "-8px",
+        //                 fontSize: "18px",
+        //                 width : "auto",
+        //                 color : "#666"
+        //             }}
+        //             onClick={this.onClickMenuPipleinfo.bind(this,'5')}
+        //             >
+        //             <img src={Pow1} style={{marginBottom: "-6px", width: "24px"}} />
+        //         </Badge>
+        //         <Badge
+        //             badgeContent={`维修(${count_chargingpile_obj['6']})`}
+        //             className="Badge"
+        //             secondary={true}
+        //             style={{padding:"0",width:"auto",height:"36px",display: "flex", marginRight : "15px"}}
+        //             badgeStyle={{
+        //                 top : "auto",
+        //                 bottom: "-4px",
+        //                 right: "-4px",
+        //                 backgroundColor: "none",
+        //                 color : "#111",
+        //                 position: "relative",
+        //                 bottom: "-8px",
+        //                 fontSize: "18px",
+        //                 width : "auto",
+        //                 color : "#666"
+        //             }}
+        //             onClick={this.onClickMenuPipleinfo.bind(this,'6')}
+        //             >
+        //             <img src={Pow3} style={{marginBottom: "-6px", width: "24px"}} />
+        //         </Badge>
+        //         <UserMenu />
+        //
+        //     </div>
+        // )
 
     }
 }
@@ -510,9 +494,8 @@ class Page extends React.Component {
 
 //this.onClickMenu.bind(this,'low')
 Page = withRouter(Page);
-const mapStateToPropsTip = ({device,app,searchresult:{curallalarm,alarms},tip}) => {
+const mapStateToPropsTip = ({app,searchresult:{curallalarm,alarms},tip}) => {
   const {modeview} = app;
-   const {g_devicesdb} = device;
 
    let count_online = tip.count_online;
    let count_offline = tip.count_offline;

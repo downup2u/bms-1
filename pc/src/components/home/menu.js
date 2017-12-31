@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 // import "onsenui/css/onsenui.min.css";
 // import "onsenui/css-components-src/src/onsen-css-components.css";
 // import ons from 'onsenui';
-import {SpeedDial,Fab,Toolbar,Icon,SpeedDialItem,Page} from 'react-onsenui';
+import {SpeedDial,Fab,SpeedDialItem,Page} from 'react-onsenui';
 import map from 'lodash.map';
 import Draggable from 'react-draggable';
 import { withRouter } from 'react-router-dom';
-import {ui_showmenu} from '../actions';
+import {ui_showmenu} from '../../actions';
 let resizetime = null;
-let hidetexttime = null;
+
 
 class Menu extends React.Component {
 

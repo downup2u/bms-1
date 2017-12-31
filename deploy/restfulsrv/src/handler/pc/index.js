@@ -30,6 +30,7 @@ const authhandler = {
   'uireport_searchalarm':realtimealarm.uireport_searchalarm,
   'uireport_searchalarmdetail':realtimealarm.uireport_searchalarmdetail,
   'uireport_searchposition':historytrack.uireport_searchposition,
+  'uireport_searchdevice':device.uireport_searchdevice,
   'serverpush_alarm_sz':realtimealarm.serverpush_alarm_sz,
 };
 

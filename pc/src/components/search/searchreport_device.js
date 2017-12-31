@@ -6,7 +6,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Seltime from './seltime.js';
 import { Button } from 'antd';
-
 import SelectDevice from '../historytrackplayback/selectdevice.js';
 import get from 'lodash.get';
 import map from 'lodash.map';
@@ -18,12 +17,11 @@ moment.locale('zh-cn');
 class TreeSearchBattery extends React.Component {
     constructor(props) {
         super(props);
-
         let startDate = moment(moment().format('YYYY-MM-DD 00:00:00'));
         let endDate = moment(moment().format('YYYY-MM-DD 23:59:59'));
-        if(!!props.query.GPSTime){
-          startDate = moment(props.query.GPSTime['$gte']);
-          endDate = moment(props.query.GPSTime['$lte']);
+        if(!!props.query.UpdateTime){
+          startDate = moment(props.query.UpdateTime['$gte']);
+          endDate = moment(props.query.UpdateTime['$lte']);
         }
         let DeviceId = get(props.query,'DeviceId','');
         this.state = {
@@ -32,6 +30,7 @@ class TreeSearchBattery extends React.Component {
             DeviceId
         };
     }
+
     onSelDeviceid(DeviceId){
         this.setState({
             DeviceId
@@ -52,7 +51,7 @@ class TreeSearchBattery extends React.Component {
     }
     getQueryObj = ()=>{
       let query = {};
-      query['GPSTime'] = {
+      query['UpdateTime'] = {
         $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
         $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
       };
@@ -75,7 +74,6 @@ class TreeSearchBattery extends React.Component {
       map(g_devicesdb,(item)=>{
           deviceidlist.push(item.DeviceId);
       });
-
         return (
             <div className="searchreport" style={{textAlign: "center"}}>
                 <div className="i">

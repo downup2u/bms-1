@@ -33,11 +33,14 @@ import clone from 'lodash.clone';
 
  const getgeodata =(deviceitem)=>{
   return new Promise((resolve,reject) => {
-
     const geocoder = new window.AMap.Geocoder({
             radius: 1000,
         });
     const lnglatXY=deviceitem.locz;//[116.396574, 39.992706];//地图上所标点的坐标
+    if(!lnglatXY){
+      reject('获取不到地址');
+      return;
+    }
     geocoder.getAddress(lnglatXY, function(status, result) {
         if (status === 'complete' && result.info === 'OK') {
            //获得了有效的地址信息:

@@ -6,27 +6,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import Seltime from './seltime.js';
-import { Select,Button } from 'antd';
-import {getalarmfieldallfields} from '../../sagas/datapiple/bridgedb';
-import MultiSelect from 'react-select';
-import moment from 'moment';
+import { Input,Select,  Button } from 'antd';
 import SelectDevice from '../historytrackplayback/selectdevice.js';
 import get from 'lodash.get';
 import map from 'lodash.map';
 
-import 'react-select/dist/react-select.css';
-
+import moment from 'moment';
 moment.locale('zh-cn');
-
 
 const Option = Select.Option;
 
-//sample:https://github.com/JedWatson/react-select/blob/master/examples/src/components/Multiselect.js
-
-
-class TreeSearchBattery extends React.Component {
+class SearchMessage extends React.Component {
     constructor(props) {
         super(props);
+
         let warninglevel = "-1";
         if(!!props.query.warninglevel){
           if(props.query.warninglevel === '高'){
@@ -46,88 +39,20 @@ class TreeSearchBattery extends React.Component {
           endDate = moment(props.query.DataTime['$lte']);
         }
         let DeviceId = get(props.query,'DeviceId','');
+
         this.state = {
             alarmlevel: warninglevel,
             startDate,
             endDate,
-            DeviceId,
-            selectedvalue: [],
-            columndata_extra:[]
-          };
+            DeviceId
+        };
     }
+
     onSelDeviceid(DeviceId){
         this.setState({
             DeviceId
         });
     }
-    onSelectChange (value) {
-      let sz = value.split(',');
-  		console.log(`${JSON.stringify(sz)}`);
-  		this.setState({ selectedvalue:sz });
-      this.setListColumnFields(sz);
-	 }
-
-   setListColumnFields =(values)=>{
-     const {mapdict} = this.props;
-     let columndata_extra = [];
-     map(values,(fname,i)=>{
-       if(!!mapdict[fname]){
-         columndata_extra.push({
-           key:fname,
-           title:mapdict[fname].showname || fname,
-           dataIndex:i
-         });
-       }
-       else{
-         console.log(values);
-       }
-
-     });
-     this.setState({columndata_extra});
-   }
-
-    getQueryObj = ()=>{
-         let query1 = {};
-         query1['DataTime'] = {
-           $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
-           $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
-         };
-         if(this.state.alarmlevel === '0'){
-           query1['warninglevel'] = '高';
-         }
-         else if(this.state.alarmlevel === '1'){
-           query1['warninglevel'] = '中';
-         }
-         else if(this.state.alarmlevel === '2'){
-           query1['warninglevel'] = '低';
-         }
-         if(this.state.DeviceId !== ''){
-           query1['DeviceId'] = this.state.DeviceId;
-         }
-
-         let query = {};
-         if(this.state.columndata_extra.length > 0){
-           let query2 = {
-             '$or':[]
-           };
-           map(this.state.columndata_extra,(v)=>{
-             let queryfield = {};
-             queryfield[v.key] = {$exists:true};
-             query2[`$or`].push(queryfield);
-           });
-
-           query[`$and`] = [
-             query1,
-             query2
-           ]
-         }
-         else{
-           query = query1;
-         }
-         console.log(`query:${JSON.stringify(query)}`)
-         return query;
-    }
-
     onChangeSelDate(startDate,endDate){
       this.setState({
         startDate,
@@ -141,14 +66,37 @@ class TreeSearchBattery extends React.Component {
 
     onClickExport=()=>{
       if(!!this.props.onClickExport){
-        this.props.onClickExport(this.getQueryObj());
+        this.props.onClickExport();
       }
     }
+
+    getQueryObj = ()=>{
+      let query = {};
+      query['DataTime'] = {
+        $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
+        $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
+      };
+      if(this.state.DeviceId !== ''){
+        query['DeviceId'] = this.state.DeviceId;
+      }
+      if(this.state.alarmlevel === '0'){
+        query['warninglevel'] = '高';
+      }
+      else if(this.state.alarmlevel === '1'){
+        query['warninglevel'] = '中';
+      }
+      else if(this.state.alarmlevel === '2'){
+        query['warninglevel'] = '低';
+      }
+      return query;
+    }
+
     onClickQuery=()=>{
       if(!!this.props.onClickQuery){
         this.props.onClickQuery(this.getQueryObj());
       }
     }
+
     render(){
       const {g_devicesdb} = this.props;
 
@@ -156,7 +104,8 @@ class TreeSearchBattery extends React.Component {
       map(g_devicesdb,(item)=>{
           deviceidlist.push(item.DeviceId);
       });
-        return (
+
+      return (
             <div className="searchreport" style={{textAlign: "center"}}>
                 <div className="i">
 
@@ -170,6 +119,7 @@ class TreeSearchBattery extends React.Component {
                         <Option value={"1"} >紧急报警</Option>
                         <Option value={"2"} >一般报警</Option>
                     </Select>
+
                     <div className="selcar">
                       <span className="t">车辆ID：</span>
                       <SelectDevice
@@ -179,22 +129,10 @@ class TreeSearchBattery extends React.Component {
                         deviceidlist={deviceidlist}
                       />
                     </div>
-
-                </div>
-                <div className="i">
-                    <MultiSelect
-                        closeOnSelect={true}
-                        multi
-                        onChange={this.onSelectChange.bind(this)}
-                        options={getalarmfieldallfields(this.props.mapdict)}
-                        placeholder="选择报警字段"
-                        simpleValue
-                        value={this.state.selectedvalue}
-                      />
                 </div>
                 <div className="b">
                     <Button type="primary" icon="search" onClick={this.onClickQuery}>查询</Button>
-                    <Button icon="download" onClick={this.onClickExport}>导出结果</Button>
+                    <Button icon="download" onClick={this.onClickExport} style={{display:"none"}}>导出结果</Button>
                 </div>
             </div>
 
@@ -204,4 +142,4 @@ class TreeSearchBattery extends React.Component {
 const mapStateToProps = ({device:{g_devicesdb}}) => {
   return {g_devicesdb};
 }
-export default connect(mapStateToProps)(TreeSearchBattery);
+export default connect(mapStateToProps)(SearchMessage);

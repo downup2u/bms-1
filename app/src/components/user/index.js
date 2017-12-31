@@ -59,12 +59,12 @@ class Page extends React.Component {
                             onClick={()=>{this.props.history.push("/setting")}}
                             />
                             <div style={{height:"1px",width : "100%", background:"#EEE"}}></div>
-                    <ListItem
-                        primaryText={`${config.appversion}`}
-                        leftIcon={<img src={Users} />}
-                        style={{background : "#FFF"}}
-                        onClick={()=>{}}
-                        />
+                        <ListItem
+                            primaryText={`${config.appversion}`}
+                            leftIcon={<img src={Users} />}
+                            style={{background : "#FFF"}}
+                            onClick={()=>{}}
+                            />
                     </List>
                     <div className="loginout" onClick={
                       ()=>{

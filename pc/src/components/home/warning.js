@@ -5,9 +5,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import {
   Table,
   TableBody,
@@ -18,7 +15,6 @@ import {
 } from 'material-ui/Table';
 import TreeSearchBatteryAlarmSingle from './search/searchbatteryalarmsingle';
 import {
-  ui_selcurdevice_result,
   searchbatteryalarmsingle_request
 } from '../actions';
 import map from 'lodash.map';
@@ -41,7 +37,7 @@ class Page extends React.Component {
       // this.props.dispatch(ui_selcurdevice_result({DeviceId}));
     }
     render(){
-        const {g_devicesdb,alarms,curseldeviceid,searchresult_alaramsingle} = this.props;
+        const {alarms,curseldeviceid,searchresult_alaramsingle} = this.props;
         return (
             <div className="warningPage">
                 <div className="tit">车辆：{curseldeviceid} 历史报警</div>
@@ -76,10 +72,6 @@ class Page extends React.Component {
 }
 const mapStateToProps = (
   {
-    device:
-    {
-      g_devicesdb
-    },
     searchresult:
     {
       curseldeviceid,
@@ -88,7 +80,7 @@ const mapStateToProps = (
     }
   }) => {
 
-  return {g_devicesdb,alarms,curseldeviceid,searchresult_alaramsingle};
+  return {alarms,curseldeviceid,searchresult_alaramsingle};
 }
 
 
