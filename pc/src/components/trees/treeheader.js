@@ -4,7 +4,7 @@ import {Treebeard,decorators} from '../controls/react-treebeard-ex/src/index.js'
 import icon_car1 from './icon_car1.png';
 import icon_car2 from './icon_car2.png';
 import icon_car3 from './icon_car3.png';
-
+import get from 'lodash.get';
 
 const HeaderCo = (props) => {
     let title = props.node.name || '';
@@ -13,9 +13,9 @@ const HeaderCo = (props) => {
       if(props.treeviewstyle === 'byloc'){
         const name = props.gmap_acode_treename[props.node.adcode];
         title = `${name}`;
-        const countobj = props.gmap_acode_treecount[props.node.adcode];
-        if(!!countobj){
-          title = `${name}(${countobj.count_total})`;
+        const count_total = get(props.gmap_acode_treecount[props.node.adcode],'count_total',0);
+        if(count_total > 0){
+          title = `${name}(${count_total})`;
         }
       }
     }

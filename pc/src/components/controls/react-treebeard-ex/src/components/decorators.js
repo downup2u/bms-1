@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import {VelocityComponent} from 'velocity-react';
+import get from 'lodash.get';
 
 const Loading = ({style}) => {
     return <div style={style}>loading...</div>;
@@ -40,9 +41,9 @@ let Header = ({node, style,gmap_acode_treename,gmap_acode_treecount,treeviewstyl
       if(treeviewstyle === 'byloc'){
         const name = gmap_acode_treename[node.adcode];
         title = `${name}`;
-        const countobj = gmap_acode_treecount[node.adcode];
-        if(!!countobj){
-          title = `${name}(${countobj.count_total})`;
+        const count_total = get(gmap_acode_treecount[node.adcode],'count_total',0);
+        if(count_total > 0){
+          title = `${name}(${count_total})`;
         }
       }
     }

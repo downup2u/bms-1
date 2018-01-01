@@ -8,6 +8,8 @@ import {VelocityTransitionGroup} from 'velocity-react';
 import NodeHeader from './header';
 import NodeRenderChildren from './noderenderchildren.js';
 
+import get from 'lodash.get';
+
 class TreeNode extends React.Component {
     constructor() {
         super();
@@ -51,8 +53,8 @@ class TreeNode extends React.Component {
           let isenable = true;
           if(node.type !== 'device'){
             if(treeviewstyle === 'byloc'){
-              let nodecount = gmap_acode_treecount[node.adcode].count_total;
-              isenable = !!nodecount && nodecount > 0;
+              let nodecount = get(gmap_acode_treecount[node.adcode],'count_total',0);
+              isenable = nodecount > 0;
             }
           }
 
