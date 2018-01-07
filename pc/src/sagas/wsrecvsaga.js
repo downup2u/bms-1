@@ -85,7 +85,7 @@ export function* wsrecvsagaflow() {
               break;
             }
             //
-            // console.log(`开始获取变化数据...`)
+            // //console.log(`开始获取变化数据...`)
             yield put(serverpush_devicegeo_sz_request({}));
             yield race({
               resstop: take(`${serverpush_devicegeo_sz_result}`),
@@ -112,7 +112,7 @@ export function* wsrecvsagaflow() {
               break;
             }
             //
-            // console.log(`开始获取变化数据...`)
+            // //console.log(`开始获取变化数据...`)
             yield put(serverpush_alarm_sz_request({}));
             yield race({
               resstop: take(`${serverpush_alarm_sz_result}`),
@@ -135,7 +135,7 @@ export function* wsrecvsagaflow() {
   yield takeLatest(`${md_login_result}`, function*(action) {
       try{
       let {payload:result} = action;
-        console.log(`md_login_result==>${JSON.stringify(result)}`);
+        //console.log(`md_login_result==>${JSON.stringify(result)}`);
         if(!!result){
             yield put(login_result(result));
             if(result.loginsuccess){
@@ -195,7 +195,7 @@ export function* wsrecvsagaflow() {
 
   yield takeLatest(`${md_querydeviceinfo_result}`, function*(action) {
     let {payload:deviceinfo} = action;
-    console.log(`deviceinfo==>${JSON.stringify(deviceinfo)}`);
+    //console.log(`deviceinfo==>${JSON.stringify(deviceinfo)}`);
     try{
         if(!!deviceinfo){
           let isget = true;

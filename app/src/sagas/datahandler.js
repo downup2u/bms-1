@@ -67,7 +67,9 @@ import {
   uireport_searchalarmdetail_request,
   uireport_searchalarmdetail_result,
   uireport_searchposition_request,
-  uireport_searchposition_result
+  uireport_searchposition_result,
+  uireport_searchdevice_request,
+  uireport_searchdevice_result,
 } from './pagination';
 
 //接收的对应关系
@@ -78,6 +80,7 @@ let recvmessagetoresultpair = {
   'uireport_searchalarm_result':uireport_searchalarm_result,
   'uireport_searchalarmdetail_result':uireport_searchalarmdetail_result,
   'uireport_searchposition_result':uireport_searchposition_result,
+  'uireport_searchdevice_result':uireport_searchdevice_result,
   'searchbatteryalarmsingle_result':searchbatteryalarmsingle_result,
   'serverpush_devicegeo_sz_result':serverpush_devicegeo_sz_result,
   'getnotifymessage_result':getnotifymessage_result,
@@ -133,6 +136,7 @@ let sendmessageauthfnsz = {
   'uireport_searchalarm':`${uireport_searchalarm_request}`,
   'uireport_searchalarmdetail':`${uireport_searchalarmdetail_request}`,
   'uireport_searchposition':`${uireport_searchposition_request}`,
+  'uireport_searchdevice':`${uireport_searchdevice_request}`,
 };
 
 export default {recvmessagetoresultpair,sendmessagefnsz,sendmessageauthfnsz};

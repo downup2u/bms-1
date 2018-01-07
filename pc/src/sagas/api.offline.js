@@ -360,7 +360,7 @@ export function* apiflow(){//
     try{
       const {payload:{query}} = action;
 
-      console.log(`${JSON.stringify(query)}`);
+      //console.log(`${JSON.stringify(query)}`);
 
       let list = [];
       if(!!query){
@@ -412,7 +412,7 @@ export function* apiflow(){//
     try{
         const {payload:{query}} = action;
 
-        console.log(`${JSON.stringify(query)}`);
+        //console.log(`${JSON.stringify(query)}`);
 
         let list = [];
         if(!!query){
@@ -436,8 +436,8 @@ export function* apiflow(){//
               return match;
            });
           }
-          // console.log(jsondata_bms_alarm);
-          // console.log(`query.DeviceId:${query.DeviceId},list:${JSON.stringify(list)}`);
+          // //console.log(jsondata_bms_alarm);
+          // //console.log(`query.DeviceId:${query.DeviceId},list:${JSON.stringify(list)}`);
         }
 
         yield put(searchbatteryalarmsingle_result({list}));
@@ -483,7 +483,7 @@ export function* apiflow(){//
         // let mend = moment(endDate).format('2017-07-31 HH:mm:ss');
         // let index = getrandom(0,list_historyplayback_sz.length -1);
         // let resultlist = list_historyplayback_sz[index];
-        // console.log(`resultlist:index:${index}:${JSON.stringify(resultlist.length)}`);
+        // //console.log(`resultlist:index:${index}:${JSON.stringify(resultlist.length)}`);
         // yield put(queryhistorytrack_result({list:resultlist}));
       }
       catch(e){
@@ -503,7 +503,7 @@ export function* apiflow(){//
         if('device' === modeview){
             const {list} = yield call(restfulapi.getdevicegeo);
 
-            // console.log(`serverpush_devicegeo_sz_request===>${JSON.stringify(list)}`)
+            // //console.log(`serverpush_devicegeo_sz_request===>${JSON.stringify(list)}`)
             // const list = sampleSize(jsondata_bms_mydevice, jsondata_bms_mydevice.length);
             let items = [];
             //本地坐标转换

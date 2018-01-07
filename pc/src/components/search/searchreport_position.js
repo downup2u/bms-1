@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import Seltime from './seltime.js';
+import Seltime from './seltimerange.js';
 import { Button } from 'antd';
 
 import SelectDevice from '../historytrackplayback/selectdevice.js';

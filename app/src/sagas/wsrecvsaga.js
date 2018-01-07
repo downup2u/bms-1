@@ -76,22 +76,22 @@ export function* wsrecvsagaflow() {
   yield takeLatest(`${start_serverpush_devicegeo_sz}`, function*(action) {
       yield fork(function*(){
         try{
-        while(true){
-          const { resstop, timeout } = yield race({
-             resstop: take(`${stop_serverpush_devicegeo_sz}`),
-             timeout: call(delay,5000)
-          });
-          if(!!resstop){
-            break;
+          while(true){
+            const { resstop, timeout } = yield race({
+               resstop: take(`${stop_serverpush_devicegeo_sz}`),
+               timeout: call(delay,5000)
+            });
+            if(!!resstop){
+              break;
+            }
+            //
+            // //console.log(`开始获取变化数据...`)
+            yield put(serverpush_devicegeo_sz_request({}));
+            yield race({
+              resstop: take(`${serverpush_devicegeo_sz_result}`),
+              timeout: call(delay, 10000)
+           });
           }
-          //
-          // console.log(`开始获取变化数据...`)
-          yield put(serverpush_devicegeo_sz_request({}));
-          yield race({
-            resstop: take(`${serverpush_devicegeo_sz_result}`),
-            timeout: call(delay, 10000)
-         });
-        }
         }
         catch(e){
           console.log(e);
@@ -112,11 +112,11 @@ export function* wsrecvsagaflow() {
               break;
             }
             //
-            // console.log(`开始获取变化数据...`)
+            // //console.log(`开始获取变化数据...`)
             yield put(serverpush_alarm_sz_request({}));
             yield race({
               resstop: take(`${serverpush_alarm_sz_result}`),
-              timeout: call(delay, 10000)
+              timeout: call(delay, 60000)
            });
           }
         }
@@ -134,11 +134,11 @@ export function* wsrecvsagaflow() {
 
   yield takeLatest(`${md_login_result}`, function*(action) {
       try{
-        let {payload:result} = action;
-        console.log(`md_login_result==>${JSON.stringify(result)}`);
+      let {payload:result} = action;
+        //console.log(`md_login_result==>${JSON.stringify(result)}`);
         if(!!result){
-          yield put(login_result(result));
-          if(result.loginsuccess){
+            yield put(login_result(result));
+            if(result.loginsuccess){
               localStorage.setItem(`bms_${config.softmode}_token`,result.token);
               if(config.softmode === 'pc'){
                 yield put(gettipcount_request({}));//获取个数
@@ -148,14 +148,14 @@ export function* wsrecvsagaflow() {
               if(config.ispopalarm){
                 yield put(start_serverpush_alarm_sz({}));
               }
-            //
+              //
               // yield put(getworkusers_request({}));
               // //登录成功,获取今天所有报警信息列表
               // yield put(getcurallalarm_request({}));
               // //获取所有工单
               // yield put(getallworkorder_request({}));
 
-          }
+            }
         }
 
       }
@@ -195,7 +195,7 @@ export function* wsrecvsagaflow() {
 
   yield takeLatest(`${md_querydeviceinfo_result}`, function*(action) {
     let {payload:deviceinfo} = action;
-    console.log(`deviceinfo==>${JSON.stringify(deviceinfo)}`);
+    //console.log(`deviceinfo==>${JSON.stringify(deviceinfo)}`);
     try{
         if(!!deviceinfo){
           let isget = true;

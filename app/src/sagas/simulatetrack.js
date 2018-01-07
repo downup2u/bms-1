@@ -6,8 +6,8 @@ let mapidlocation = {};
 const getnavdrawroute =({startlnglat,endlnglat})=> {
   return new Promise(resolve => {
     if(!!startlnglat && !!endlnglat ){
-      // console.log('获取一个实时导航:' + JSON.stringify(startlnglat));
-      // console.log('获取一个实时导航:' + JSON.stringify(endlnglat));
+      // //console.log('获取一个实时导航:' + JSON.stringify(startlnglat));
+      // //console.log('获取一个实时导航:' + JSON.stringify(endlnglat));
       let driving = new window.AMap.Driving({extensions:'base'});
       // 根据起终点经纬度规划驾车导航路线
       driving.search(new window.AMap.LngLat(startlnglat.lng, startlnglat.lat),
@@ -67,7 +67,7 @@ const getRandomLocation_track = (id,Latitude,Longitude)=>{
         resolve([mapidlocation[id].loclst[mapidlocation[id].curindex].lng,mapidlocation[id].loclst[mapidlocation[id].curindex].lat]);
       }
     });
-    // console.log(`${JSON.stringify(mapidlocation)}`);
+    // //console.log(`${JSON.stringify(mapidlocation)}`);
   });
 };
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import renderGroupEdit from './devicegroupedit';
-import renderSelect from './asyncselect';
 import renderAlaramRuleEdit from './alarmrule';
 
 const CfSelectArrayInputDetail = ({source,label}) => {
@@ -18,22 +17,6 @@ const CfSelectArrayInputDetail = ({source,label}) => {
 }
 
 CfSelectArrayInputDetail.defaultProps = {
-    addLabel: true,
-};
-
-const CfSelectArrayInput = ({source,label}) => {
-  return(
-      <span>
-        <Field
-            name={source}
-            component={renderSelect}
-            label={label}
-        />
-    </span>
-  )
-}
-
-CfSelectArrayInput.defaultProps = {
     addLabel: true,
 };
 
@@ -53,4 +36,4 @@ const CfAlaramRuleInput = ({source,label}) => {
 CfAlaramRuleInput.defaultProps = {
     addLabel: true,
 };
-export  {CfSelectArrayInput,CfSelectArrayInputDetail,CfAlaramRuleInput};
+export  {CfSelectArrayInputDetail,CfAlaramRuleInput};

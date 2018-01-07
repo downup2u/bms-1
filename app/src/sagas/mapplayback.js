@@ -95,7 +95,7 @@ const startplayback = ({isloop,speed})=>{
              pathNavigatorStyle: {
                   width: 16,
                   height: 32,
-                  content: gPathSimplifier.Render.Canvas.getImageContent(`${process.env.PUBLIC_URL}/images/car.png`, onload, onerror),
+                  content: gPathSimplifier.Render.Canvas.getImageContent(`${process.env.PUBLIC_URL}/images/car_online.png`, onload, onerror),
                   strokeStyle: null,
                   fillStyle: null
             }
@@ -243,14 +243,14 @@ export function* createmaptrackhistoryplaybackflow(){
           for(let i = 0;i < list.length ;i ++){
             let cor = [list[i].Longitude,list[i].Latitude];
             if(cor[0] !== 0 && cor[1] !== 0){
-              let wgs84togcj02=coordtransform.wgs84togcj02(cor[0],cor[1]);
-              latlngs.push([wgs84togcj02[1],wgs84togcj02[0]]);
-              path.push(wgs84togcj02);
+            let wgs84togcj02=coordtransform.wgs84togcj02(cor[0],cor[1]);
+            latlngs.push([wgs84togcj02[1],wgs84togcj02[0]]);
+            path.push(wgs84togcj02);
 
               if(!center){
-                center = wgs84togcj02;
-              }
+              center = wgs84togcj02;
             }
+          }
 
           }
 
@@ -266,12 +266,10 @@ export function* createmaptrackhistoryplaybackflow(){
               path
             }]);
             yield call(startplayback,{isloop,speed});
-
-
-            console.log(`路线:${JSON.stringify({
-              name: `车辆:${query.DeviceId}`,
-              path
-            })}`);
+            //console.log(`路线:${JSON.stringify({
+            //   name: `车辆:${query.DeviceId}`,
+            //   path
+            // })}`);
           }
 
         }

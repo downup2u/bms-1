@@ -11,7 +11,7 @@ export function* downloadexcel(){//仅执行一次
    yield takeLatest(`${download_excel}`, function*(action) {
       try{
         let {payload:{type,query}} = action;
-        console.log(`download_excel===>type:${JSON.stringify(type)},query:${JSON.stringify(query)}`);
+        //console.log(`download_excel===>type:${JSON.stringify(type)},query:${JSON.stringify(query)}`);
         const result = yield call(restfulapi.getexcelfile,{type,query});
         // FileSaver.saveAs(blob, `${type}.xls`);
       }

@@ -64,7 +64,7 @@ class TreeSearchBattery extends React.Component {
       if (!!deviceidlist) {
         if(deviceidlist.length>100){deviceidlist.length=100}
       }
-      // console.log(deviceidlist);
+      // //console.log(deviceidlist);
       this.props.dispatch(set_treesearchlist(deviceidlist));
     }
 
@@ -157,7 +157,7 @@ class TreeSearchBattery extends React.Component {
       // if(this.state.onlinestatus !== 'all'){
       //   query.querydevice['onlinestatus'] = this.state.onlinestatus;
       // }
-      console.log(`【searchtree】查询条件:${JSON.stringify(query)}`);
+      //console.log(`【searchtree】查询条件:${JSON.stringify(query)}`);
       if(!!this.props.onClickQuery){
         this.props.onClickQuery({query});
       }
@@ -166,11 +166,11 @@ class TreeSearchBattery extends React.Component {
         return (
             <div className="searchtree" style={{textAlign: "center"}}>
                     <br/>
-                    <Input 
-                        name="searchkey" id="searchkey" placeholder="请输入车辆ID" style={{width: "360px"}} 
+                    <Input
+                        name="searchkey" id="searchkey" placeholder="请输入车辆ID" style={{width: "360px"}}
                         onChange={this.onChange}
                     />
-                    
+
                     <div style={{display: "none"}}>
 
                       <TreeSelectBygroup placeholder={"请选择分组"} width={370} onSelTreeNode={this.onSelTreeNode_Group.bind(this)}/>
@@ -223,11 +223,11 @@ class TreeSearchBattery extends React.Component {
                           />
                       </InputGroup>
 
-                      <Select defaultValue={'-1'}  style={{ width: 370 }} onChange={this.onChange_alarmlevel.bind(this)}>
-                          <Option value={'-1'} >选择警告级别</Option>
-                          <Option value={'0'} >严重报警</Option>
-                          <Option value={'1'} >紧急报警</Option>
-                          <Option value={'2'} >一般报警</Option>
+                      <Select className="Selectalarmlevel" defaultValue={'-1'}  style={{ width: 370 }} onChange={this.onChange_alarmlevel.bind(this)}>
+                          <Option value={"-1"}>选择报警等级</Option>
+                          <Option value={"0"} >高</Option>
+                          <Option value={"1"} >中</Option>
+                          <Option value={"2"} >低</Option>
                       </Select>
 
                       <Select defaultValue={"是否在线"} style={{ width: 370 }}  onChange={this.onChange_onlinestatus.bind(this)}>

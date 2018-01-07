@@ -56,15 +56,15 @@ class MessageAllDevice extends React.Component {
       g_querysaved = null;
     }
     onClickQuery(query){
-      console.log(query);
+      //console.log(query);
 
       this.setState({query});
       window.setTimeout(()=>{
-        console.log(this.refs);
+        //console.log(this.refs);
         this.refs.antdtablealarm.getWrappedInstance().onRefresh();
       },0);
     }
-    
+
     onItemConvert(item){
       return bridge_alarminfo(item);
     }
@@ -99,7 +99,7 @@ class MessageAllDevice extends React.Component {
 
 
         let viewrow = (row)=>{
-            console.log(row);
+            //console.log(row);
             g_querysaved = this.state.query;
             this.props.history.push(`/alarminfo/${row.key}`);
         }
@@ -118,7 +118,7 @@ class MessageAllDevice extends React.Component {
 
                 <div className="appbar">
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.push("./")}}></i>
-                    <div className="title">新消息</div>
+                    <div className="title">报警信息</div>
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)} query={this.state.query}/>

@@ -3,32 +3,33 @@
  */
 
 const config = require('./config');
-let mongoose = require('mongoose');
-let winston = require('./log/log.js');
-let DBModels = require('./db/models.js');
+const mongoose = require('mongoose');
+const winston = require('./log/log.js');
+const DBModels = require('./db/models.js');
 const _ = require('lodash');
 const schedule = require('node-schedule');
-let pwd = require('./util/pwd.js');
+const pwd = require('./util/pwd.js');
+const dbinit = require('./db/dbinit');
 
 let createadmin = ()=>{
-  let userModel = mongoose.model('UserAdmin', DBModels.UserAdminSchema);
-  userModel.findOne({username: 'admin'}, (err, adminuser)=> {
-    if(!err && !adminuser) {
-        let passwordsalt = pwd.getsalt();
-        pwd.hashPassword('admin',passwordsalt,(err,passwordhash)=>{
-          if(!err){
-            adminuser = {
-              username:'admin',
-              passwordsalt,
-              passwordhash
-            };
-            let entity = new userModel(adminuser);
-            entity.save((err)=> {
-            });
-          }
-        });
-    }
-  });
+  // let userModel = mongoose.model('UserAdmin', DBModels.UserAdminSchema);
+  // userModel.findOne({username: 'admin'}, (err, adminuser)=> {
+  //   if(!err && !adminuser) {
+  //       let passwordsalt = pwd.getsalt();
+  //       pwd.hashPassword('admin',passwordsalt,(err,passwordhash)=>{
+  //         if(!err){
+  //           adminuser = {
+  //             username:'admin',
+  //             passwordsalt,
+  //             passwordhash
+  //           };
+  //           let entity = new userModel(adminuser);
+  //           entity.save((err)=> {
+  //           });
+  //         }
+  //       });
+  //   }
+  // });
 };
 
 
@@ -45,7 +46,9 @@ let createadmin = ()=>{
 
 let job=()=>{
 
-    createadmin();
+    // createadmin();
+
+    dbinit();
     // schedule.scheduleJob('0 0 * * *', ()=>{
       //每天0点更新优惠券过期信息
     //   setmycouponsexpired();

@@ -31,7 +31,7 @@ let resizetimecontent = null;
 
 class Setspeed extends React.Component {
     handleChange=(value)=>{
-      console.log(value);
+      //console.log(value);
     }
     render() {
       return (
@@ -137,7 +137,7 @@ class Page extends React.Component {
 
     onClickStart(){
       const {deviceid,startDate,endDate} = this.state;
-      
+
       const query = {
         DeviceId:deviceid
       };
@@ -211,7 +211,7 @@ class Page extends React.Component {
                           startDate = {this.state.startDate}
                           endDate = {this.state.endDate}
                          onChangeSelDate={this.onChangeSelDate.bind(this)}/>
-                        
+
                         <div className="Setspeed">
                           <span>播放速度: </span>
                           <Select className="bfsd" labelInValue defaultValue={{ key: '60' }} style={{ width: 40 }} onChange={this.handleChange}>

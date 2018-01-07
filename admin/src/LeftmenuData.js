@@ -17,14 +17,14 @@ import CanrowDataIcon from 'material-ui/svg-icons/action/timeline';//原始数�
 
 
 export default [
-        { name: 'systemconfig', icon: <SystemconfigIcon /> },
-        { name: 'device', icon: <DeviceIcon /> },
-        { name: 'devicegroup', icon: <DeviceGroupIcon /> },
-        { name: 'user', icon: <UserIcon /> },
-        { name: 'role', icon: <UserGroupIcon /> },
-        { name: 'permission', icon: <PermissionIcon /> },
-        { name: 'realtimealarm', icon: <RealtimeAlarmIcon /> },
-        { name: 'realtimealarmraw', icon: <RealtimeAlarmRawIcon /> },
-        { name: 'historytrack', icon: <HistoryTrackIcon /> },
-        { name: 'datadict', icon: <DeviceIcon /> },
+        { name: 'systemconfig', icon: <SystemconfigIcon /> ,adminonly:true},
+        { name: 'device', icon: <DeviceIcon />,adminonly:false },
+        { name: 'devicegroup', icon: <DeviceGroupIcon /> ,adminonly:false},
+        { name: 'user', icon: <UserIcon /> ,adminonly:true},
+        { name: 'role', icon: <UserGroupIcon /> ,adminonly:true},
+        { name: 'permission', icon: <PermissionIcon /> ,adminonly:true},
+        { name: 'realtimealarm', icon: <RealtimeAlarmIcon /> ,adminonly:false},
+        { name: 'realtimealarmraw', icon: <RealtimeAlarmRawIcon /> ,adminonly:false},
+        { name: 'historytrack', icon: <HistoryTrackIcon /> ,adminonly:false},
+        { name: 'datadict', icon: <DeviceIcon /> ,adminonly:true},
 ];

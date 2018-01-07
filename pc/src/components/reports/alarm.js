@@ -68,15 +68,15 @@ class TableAlarm extends React.Component {
           type:'report_alarm',
           query
       };
-      console.log(`导出excel:${JSON.stringify(payload)}`);
+      //console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
     }
 
     onClickQuery(query){
-      console.log(`查询报警信息:${JSON.stringify(query)}`);
+      //console.log(`查询报警信息:${JSON.stringify(query)}`);
       this.setState({query});
       window.setTimeout(()=>{
-        console.log(this.refs);
+        //console.log(this.refs);
         this.refs.antdtablealarm.getWrappedInstance().onRefresh();
           // this.refs.alarmdatalist.getWrappedInstance().onRefresh();
       },0);
@@ -115,7 +115,7 @@ class TableAlarm extends React.Component {
 
 
         let viewrow = (row)=>{
-            console.log(row);
+            //console.log(row);
             g_querysaved = this.state.query;
             this.props.history.push(`/alarminfo/${row.key}`);
         }
@@ -134,7 +134,7 @@ class TableAlarm extends React.Component {
 
                 <div className="appbar">
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
-                    <div className="title">报警信息日报</div>
+                    <div className="title">报警信息统计</div>
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)}

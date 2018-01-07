@@ -60,7 +60,7 @@ class Page extends React.Component {
 
           datadevice.push(record);
         });
-        console.log(datadevice);
+        //console.log(datadevice);
       return (
 
             <div className="warningPage devicePage deviceinfoPage">
@@ -69,14 +69,14 @@ class Page extends React.Component {
                     <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
                     <div className="title">车辆详情</div>
                     <div className="devicebtnlist">
-                        <Button type="primary" icon="play-circle-o" onClick={
+                      {/*   <Button type="primary" icon="play-circle-o" onClick={
                           ()=>
                           {
                             this.props.dispatch(ui_clickplayback(this.props.match.params.deviceid));
                           }
 
                         }>车辆轨迹监控</Button>
-                        {/* <Button type="primary" icon="area-chart" onClick={
+                        <Button type="primary" icon="area-chart" onClick={
                           ()=>
                           {
                             // this.props.dispatch(ui_clickplayback(mapseldeviceid));

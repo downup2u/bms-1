@@ -14,13 +14,13 @@ class Prompt extends React.Component{
     }
     //快速定位
     getaddress=(DeviceId)=>{
-        console.log(DeviceId);
+        //console.log(DeviceId);
         // let DeviceId = '1727208808';
         this.props.dispatch(ui_alarm_selcurdevice(DeviceId));
     }
     //查看详情
     getdeviceinfo=(DeviceId)=>{
-        console.log(DeviceId);
+        //console.log(DeviceId);
         // let DeviceId = '1727208808';
         this.props.history.push(`/deviceinfo/${DeviceId}`);
     }

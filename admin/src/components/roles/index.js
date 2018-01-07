@@ -14,58 +14,18 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
 import _ from 'lodash';
-//<----打了个补丁----
-const SelectArrayInputEx = (props)=>{
-  console.log(props);
-  let {choices,input,...rest} = props;
-  let newchoices=[];
-  let mapoptions = {
-
-  };
-  _.map(choices,(v)=>{
-    newchoices.push({
-      id:v.id,
-      name:v.name
-    });
-    mapoptions[v.name] = v.id;
-  });
-  let onChangeNew = (vz)=>{
-    let nw = [];
-    _.map(vz,(v)=>{
-      if(!!mapoptions[v]){
-        nw.push(mapoptions[v]);
-      }
-      else{
-        nw.push(v);
-      }
-
-    });
-    input.onChange(nw);
-  };
-  console.log(newchoices);
-  let {value,onChange,...restinput} = input;
-  let newinput = {
-    value:input.value,
-    onChange:onChangeNew,
-    ...restinput
-  };
-  return <SelectArrayInput choices={newchoices} input={newinput} {...rest} />
-}
-//<----打了个补丁----
+import {CreateActions,EditActions} from '../controls/createeditactions';
+import {getOptions} from '../controls/getselect.js';
+import {CfSelectArrayInput} from '../controls/selectarrayinput.js';
 
 
 const RoleCreate = (props) => {
   return (
-    <Create title="创建角色" {...props} >
+    <Create title="创建角色" {...props}  actions={<CreateActions />}>
       <SimpleForm>
         <TextInput label="角色名称" source="name" validate={required} />
         <TextInput label="备注" source="memo" />
-        <ReferenceArrayInput label="权限" reference="permission" source="permissions"
-            options={{ fullWidth: true }}
-            filterToQuery={searchText => ({ name_q: searchText })}
-          allowEmpty>
-              <SelectArrayInputEx />
-        </ReferenceArrayInput>
+        <CfSelectArrayInput label="权限" source="permissions" loadOptions={getOptions('permission','name','_id')}/>
       </SimpleForm>
     </Create>
   );
@@ -73,27 +33,22 @@ const RoleCreate = (props) => {
 
 const RoleEdit = (props) => {
   return (
-    <Edit title="编辑角色" {...props} >
+    <Edit title="编辑角色" {...props}  actions={<EditActions />}>
       <SimpleForm>
         <TextInput label="角色名称" source="name" validate={required} />
         <TextInput label="备注" source="memo" />
-        <ReferenceArrayInput label="权限" reference="permission" source="permissions"
-            filterToQuery={searchText => ({ name_q: searchText })}
-            options={{ fullWidth: true }}
-          allowEmpty>
-              <SelectArrayInputEx  />
-        </ReferenceArrayInput>
+        <CfSelectArrayInput label="权限" source="permissions" loadOptions={getOptions('permission','name','_id')}/>
       </SimpleForm>
     </Edit>
   );
 };
 
 const RoleTitle = ({record}) => {
-  return <span>角色列表</span>
+  return <span>角色管理</span>
 };
 const RoleList = (props) => (
   <List title={<RoleTitle />} {...props} >
-    <Datagrid >
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="角色名称" source="name" />
       <ReferenceArrayField label="权限" reference="permission" source="permissions" >
               <SingleFieldList>

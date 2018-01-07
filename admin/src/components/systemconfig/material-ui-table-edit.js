@@ -1,5 +1,5 @@
 import { Async } from 'react-select';
-import {getOptions} from './getselect.js';
+import {getOptions} from '../controls/getselect.js';
 import 'react-select/dist/react-select.css';
 import React from 'react';
 import {IconButton, Toggle, TextField, RaisedButton}  from 'material-ui';
@@ -24,7 +24,7 @@ class MaterialUITableEdit extends React.Component {
         rows: this.props.rows,
         hoverValue: false,
         currentRow: false,
-      
+
       }
   }
 
@@ -112,7 +112,7 @@ class MaterialUITableEdit extends React.Component {
               onChange={onSelectedChange}
               value={value}
               simpleValue
-              loadOptions={getOptions}
+              loadOptions={getOptions('datadict','showname','name')}
           />);
         }
       return (<Async
@@ -121,7 +121,7 @@ class MaterialUITableEdit extends React.Component {
             onChange={onSelectedChange}
             value={value}
             simpleValue
-            loadOptions={getOptions}
+            loadOptions={getOptions('datadict','showname','name')}
         />);
     }
 

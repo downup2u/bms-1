@@ -5,6 +5,7 @@ const config = require('../../config.js');
 const winston = require('../../log/log.js');
 const pwd = require('../../util/pwd.js');
 const uuid = require('uuid');
+const _ = require('lodash');
 
 let userloginsuccess =(user,callback)=>{
     //主动推送一些数据什么的
@@ -52,7 +53,17 @@ let setloginsuccess = (ctx,user,callback)=>{
 exports.loginuser = (actiondata,ctx,callback)=>{
   let oneUser = actiondata;
   let dbModel = DBModels.UserModel;
-  dbModel.findOne({ username: oneUser.username }, (err, user)=> {
+  dbModel.findOne({ username: oneUser.username })
+    .populate([
+      {
+        path:'roleid',
+        model: 'role',
+        populate:[
+        {
+          path:'permissions', select:'_id name', model: 'permission'
+        },
+      ]
+    }]).exec((err, user)=> {
     if (!!err) {
       callback({
         cmd:'common_err',
@@ -67,10 +78,28 @@ exports.loginuser = (actiondata,ctx,callback)=>{
       });
       return;
     }
+    console.log(user);
     pwd.hashPassword(oneUser.password, user.passwordsalt, (err, passwordHash)=> {
       if(!err && !!passwordHash){
         if (passwordHash === user.passwordhash) {
-          setloginsuccess(ctx,user,callback);
+          const permissions = _.get(user,'roleid.permissions',[]);
+          const findresult = _.find(permissions,(p)=>{
+            if(ctx.usertype === 'pc' && p._id.toString() === '5a03b66013e7410cd0ef3093'){
+              return true;
+            }
+            if(ctx.usertype === 'app' && p._id.toString() === '5a03b66e13e7410cd0ef3094'){
+              return true;
+            }
+            return false;
+          });
+          if(!!findresult){
+            setloginsuccess(ctx,user,callback);
+            return;
+          }
+          callback({
+            cmd:'common_err',
+            payload:{errmsg:'该用户无权限登录此平台',type:'login'}
+          });
           return;
         }
       }

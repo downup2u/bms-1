@@ -29,7 +29,7 @@ class Page extends React.Component {
     }
 
     pointdevice =(id)=>{
-        console.log(id);
+        //console.log(id);
         //定位设备
         this.props.dispatch(ui_selworkorder(id));
     }

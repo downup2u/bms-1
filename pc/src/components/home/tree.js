@@ -4,8 +4,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-
-import Search from '../search/searchtree.js';
+import Search from '../search/searchtree_device.js';
 import { Tabs } from 'antd';
 
 import "../../css/antd.css";

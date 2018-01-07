@@ -5,7 +5,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import Seltime from './seltime.js';
+import Seltime from './seltimerange.js';
 import { Select,Button } from 'antd';
 import SelectDevice from '../historytrackplayback/selectdevice.js';
 import get from 'lodash.get';
@@ -110,11 +110,11 @@ class TreeSearchBattery extends React.Component {
                       endDate = {this.state.endDate}
                      onChangeSelDate={this.onChangeSelDate.bind(this)}/>
 
-                    <Select defaultValue={this.state.alarmlevel} onChange={this.onChange_alarmlevel.bind(this)}>
-                        <Option value={"-1"}>选择警告级别</Option>
-                        <Option value={"0"} >严重报警</Option>
-                        <Option value={"1"} >紧急报警</Option>
-                        <Option value={"2"} >一般报警</Option>
+                    <Select className="Selectalarmlevel" defaultValue={this.state.alarmlevel} onChange={this.onChange_alarmlevel.bind(this)}>
+                        <Option value={"-1"}>选择报警等级</Option>
+                        <Option value={"0"} >高</Option>
+                        <Option value={"1"} >中</Option>
+                        <Option value={"2"} >低</Option>
                     </Select>
                     <div className="selcar">
                       <span className="t">车辆ID：</span>

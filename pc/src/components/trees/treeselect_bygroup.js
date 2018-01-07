@@ -9,7 +9,7 @@ class Treeselect extends React.Component {
     value: undefined,
   }
   onChange = (value) => {
-    console.log(arguments);
+    //console.log(arguments);
     this.setState({ value });
     let groupid = value;
     this.props.onSelTreeNode(groupid);

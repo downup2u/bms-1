@@ -848,4 +848,6 @@ div.mydevicebtn{
 .weuiPage{
     pointer-events: none;
 }
-
+.amap-icon img{
+    width: 100%;
+}

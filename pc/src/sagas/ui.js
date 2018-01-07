@@ -33,7 +33,7 @@ export function* uiflow(){//仅执行一次
   //app点击底部菜单
   // yield takeLatest(`${ui_sel_tabindex}`, function*(action) {
   //   const {payload} = action;
-  //   console.log(`点击在线`);
+  //   //console.log(`点击在线`);
   //   if(payload === 1){
   //     yield put(searchbatteryalarm_request({
   //       query:{
@@ -65,61 +65,61 @@ export function* uiflow(){//仅执行一次
   });
 
   yield takeLatest(`${ui_btnclick_deviceonline}`, function*(action) {
-    console.log(`点击在线`);
+    //console.log(`点击在线`);
   });
 
   yield takeLatest(`${ui_btnclick_deviceoffline}`, function*(action) {
-    console.log(`点击在线`);
+    //console.log(`点击在线`);
   });
 
   yield takeLatest(`${ui_btnclick_alaramall}`, function*(action) {
-    yield put(searchbatteryalarm_request({}));
-    console.log(`点击所有报警`);
+    // yield put(searchbatteryalarm_request({}));
+    //console.log(`点击所有报警`);
     yield put(push('/message/all/0'));
   });
 
   yield takeLatest(`${ui_btnclick_alaramred}`, function*(action) {
-    yield put(searchbatteryalarm_request({
-      query:{
-        warninglevel:'高',
-        CurDay:moment().format('YYYY-MM-DD')
-      }
-    }));
-    console.log(`点击红色报警`);
-    yield take(`${searchbatteryalarm_result}`);
+    // yield put(searchbatteryalarm_request({
+    //   query:{
+    //     warninglevel:'高',
+    //     CurDay:moment().format('YYYY-MM-DD')
+    //   }
+    // }));
+    // //console.log(`点击红色报警`);
+    // yield take(`${searchbatteryalarm_result}`);
     yield put(push('/message/0/0'));
   });
 
   yield takeLatest(`${ui_btnclick_alaramorange}`, function*(action) {
-    yield put(searchbatteryalarm_request({
-      query:{
-        warninglevel:'中',
-        CurDay:moment().format('YYYY-MM-DD')
-      }
-    }));
-    console.log(`点击橙色报警`);
-    yield take(`${searchbatteryalarm_result}`);
+    // yield put(searchbatteryalarm_request({
+    //   query:{
+    //     warninglevel:'中',
+    //     CurDay:moment().format('YYYY-MM-DD')
+    //   }
+    // }));
+    //console.log(`点击橙色报警`);
+    // yield take(`${searchbatteryalarm_result}`);
     yield put(push('/message/1/0'));
   });
 
   yield takeLatest(`${ui_btnclick_alaramyellow}`, function*(action) {
-    yield put(searchbatteryalarm_request({
-      query:{
-        warninglevel:'低',
-        CurDay:moment().format('YYYY-MM-DD')
-      }
-    }));
-    console.log(`点击黄色报警`);
-    yield take(`${searchbatteryalarm_result}`);
+    // yield put(searchbatteryalarm_request({
+    //   query:{
+    //     warninglevel:'低',
+    //     CurDay:moment().format('YYYY-MM-DD')
+    //   }
+    // }));
+    // //console.log(`点击黄色报警`);
+    // yield take(`${searchbatteryalarm_result}`);
     yield put(push('/message/2/0'));
   });
 
   yield takeLatest(`${ui_menuclick_settings}`, function*(action) {
-    console.log(`点击设置`);
+    //console.log(`点击设置`);
   });
 
   yield takeLatest(`${ui_menuclick_logout}`, function*(action) {
-    console.log(`点击注销`);
+    //console.log(`点击注销`);
     yield put(logout_request());
     yield take(`${logout_result}`);
     yield put(replace('/login'));

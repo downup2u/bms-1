@@ -49,7 +49,7 @@ const UserGroupTitle = ({record}) => {
 };
 const UserGroupList = (props) => (
   <List title={<UserGroupTitle />} {...props} >
-    <Datagrid >
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="分组名称" source="name" />
       <TextField label="备注" source="memo" />
       <TextField label="联系人" source="contact" />

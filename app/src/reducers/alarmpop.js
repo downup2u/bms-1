@@ -19,7 +19,7 @@ const alarmpop = createReducer({
     [serverpush_alarm_sz_result]:(state,payload)=>{
       const {list} = payload;
       const promptdata = [...list];
-      return {...state, promptdata:payload };
+      return {...state, promptdata };
     },
     [set_promptdata]:(state,payload)=>{
         return {...state, promptdata:payload };

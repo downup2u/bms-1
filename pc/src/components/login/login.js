@@ -8,6 +8,7 @@ import '../../css/login.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import Loginbg from "../../img/9.png";
 import Loginlogo from "../../img/10.png";
+import Config from "../../env/config";
 
 import {
     required,
@@ -57,6 +58,8 @@ import {
                         onClick={handleSubmit(onClickLogin)}
                     />
                 </div>
+
+                <div style={{textAlign: "center",lineHeight: "30px", color: "#FFF"}}>当前版本：{Config.appversion}</div>
             </Form>
         )
     }
@@ -109,7 +112,7 @@ export class Page extends Component {
             username:values.phonenumber,
             password:values.password,
         };
-        console.log(`onClickLogin:${JSON.stringify(payload)}`);
+        //console.log(`onClickLogin:${JSON.stringify(payload)}`);
         this.props.dispatch(login_request(payload));
     }
     render(){

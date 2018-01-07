@@ -26,7 +26,7 @@ const initial = {
         showhugepoints:true,
         showhistoryplay:false,
         oldshowmenu:'powersearch',
-        showmenu:'',
+        showmenu:'addressbox',
         socketconnected:false,
         modeview:'device',//'device'/'chargingpile'
         mapstyle : {

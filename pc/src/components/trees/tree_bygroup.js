@@ -33,7 +33,7 @@ class Tree extends React.Component {
             // node.toggled = toggled;
             let deviceid = node.name;
             const deviceitem = node.device;
-            console.log(`deviceitem==>${JSON.stringify(deviceitem)},deviceid:${(deviceid)}`)
+            //console.log(`deviceitem==>${JSON.stringify(deviceitem)},deviceid:${(deviceid)}`)
             this.props.dispatch(mapmain_selgroup_deviceid({DeviceId:deviceitem.DeviceId,devicenodeid:node.id}));
             this.props.dispatch(ui_selcurdevice_request({DeviceId:deviceitem.DeviceId,deviceitem}));
 

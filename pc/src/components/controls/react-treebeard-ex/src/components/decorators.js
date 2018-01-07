@@ -43,7 +43,9 @@ let Header = ({node, style,gmap_acode_treename,gmap_acode_treecount,treeviewstyl
         title = `${name}`;
         const count_total = get(gmap_acode_treecount[node.adcode],'count_total',0);
         if(count_total > 0){
-          title = `${name}(${count_total})`;
+          const count_online = get(gmap_acode_treecount[node.adcode],'count_online',0);
+          const count_offline = get(gmap_acode_treecount[node.adcode],'count_offline',0);
+          title = `${name}(${count_online}/${count_offline}/${count_total})`;
         }
       }
     }

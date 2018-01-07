@@ -128,7 +128,7 @@ map(jsondata_bms_mydevice,(item,index)=>{
     jsondata_bms_mydevice[index] = cloneitem;
   }
 });
-// console.log(jsondata_bms_alarm);
+// //console.log(jsondata_bms_alarm);
 
 // "工单号" : "",
 // "营运公司" : "",

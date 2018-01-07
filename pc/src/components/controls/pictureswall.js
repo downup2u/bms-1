@@ -43,7 +43,7 @@ class PicturesWall extends React.Component {
 
   handlePreview = (file) => {
     let fileobj = file;
-    console.log('onClick handlePreview file:' + JSON.stringify(file));
+    //console.log('onClick handlePreview file:' + JSON.stringify(file));
     if (fileobj.status === 'done') {
       let url = '';
       if(fileobj.hasOwnProperty('url')){
@@ -58,7 +58,7 @@ class PicturesWall extends React.Component {
       };
     }
 
-    console.log('onClick handlePreview fileobj:' + JSON.stringify(fileobj));
+    //console.log('onClick handlePreview fileobj:' + JSON.stringify(fileobj));
     this.setState({
       previewImage: fileobj.url || fileobj.thumbUrl,
       previewVisible: true,
@@ -70,7 +70,7 @@ class PicturesWall extends React.Component {
   }
 
   handleChange = ({ fileList }) => {
-    console.log('fileList' + JSON.stringify(fileList));
+    //console.log('fileList' + JSON.stringify(fileList));
     let filelistnew = [];
     let uploadedfiles =[ ];
     fileList.forEach((fileobj)=>{
@@ -99,13 +99,13 @@ class PicturesWall extends React.Component {
     this.setState({ fileList:filelistnew });
     // this.props.dispatch(pic_fileuploadsetpreview({ fileList:filelistnew }));
 
-    console.log('uploadedfiles:' + JSON.stringify(uploadedfiles));
+    //console.log('uploadedfiles:' + JSON.stringify(uploadedfiles));
     this.props.onChange(uploadedfiles);
   }//this.setState({ fileList })
 
   render() {
     //
-    console.log('props' + JSON.stringify(this.props));
+    //console.log('props' + JSON.stringify(this.props));
 
     const { width,height } = this.props;
     const {previewVisible, previewImage,fileList} = this.state;

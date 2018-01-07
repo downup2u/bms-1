@@ -35,11 +35,12 @@ import { NumberInput,
 import { Field,FieldArray } from 'redux-form';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
+import {CreateActions,EditActions} from '../controls/createeditactions';
 
 const deviceDefaultValue = {created_at:new Date(),updated_at:new Date()};
 
 const DeviceCreate = (props) => (
-  <Create title="创建设备"  {...props}>
+  <Create title="创建设备"  {...props} actions={<CreateActions />}>
     <SimpleForm defaultValue={deviceDefaultValue}>
       <TextInput label="设备" source="DeviceId" validate={required} />
     </SimpleForm>
@@ -52,7 +53,7 @@ const choices = [
 ];
 
 const DeviceEdit = (props) => {
-  return (<Edit title="设备信息" {...props}>
+  return (<Edit title="设备信息" {...props}  actions={<EditActions />}>
       <TabbedForm>
         <FormTab label="设备基本信息">
           <TextField label="设备ID" source="DeviceId"  validate={required} />
@@ -161,15 +162,17 @@ const DeviceFilter = (props) => (
 )
 
 const DeviceList = (props) => (
-  <List title="设备列表" filters={<DeviceFilter />} sort={{field:'LastRealtimeAlarm.DataTime',order:'DESC'}} {...props}>
-    <Datagrid>
+  <List title="设备管理" filters={<DeviceFilter />} sort={{field:'LastRealtimeAlarm.DataTime',order:'DESC'}} {...props}>
+  {permissions =>
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="设备ID" source="DeviceId" />
       <TextField label="设备类型" source="DeviceType"/>
       <TextField label="SN64" source="SN64"/>
 
       <DateField label="更新时间" source="LastRealtimeAlarm.DataTime" showTime />
-      <EditButton/>
+      {permissions==='admin'?<EditButton />:null}
     </Datagrid>
+  }
   </List>
 );
 

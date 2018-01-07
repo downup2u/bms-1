@@ -7,15 +7,17 @@ import { required,NumberInput,NumberField,Create, Edit, SimpleForm, DisabledInpu
    DateInput, LongTextInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton,BooleanInput,ReferenceField,
  Filter,Filters,SelectInput,ChipField,SelectField } from 'admin-on-rest/lib/mui';
 
-
+import _ from 'lodash';
 import { Field,FieldArray } from 'redux-form';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
+import {CreateActions,EditActions} from '../controls/createeditactions';
+
   // { id: 'operator', name: '操作权限' },
 const PermissionCreate = (props) => (
-  <Create title="新建权限" {...props} >
+  <Create title="新建权限" {...props}  actions={<CreateActions />}>
     <SimpleForm>
       <TextInput label="名称" source="name" validate={required} />
       <TextInput label="备注" source="memo" />
@@ -30,7 +32,7 @@ const PermissionTitle = ({record}) => {
 
 const PermissionEdit = (props) => {
   return (
-    <Edit title="编辑权限" {...props} >
+    <Edit title="编辑权限" {...props}  actions={<EditActions />}>
       <SimpleForm>
         <DisabledInput label="ID" source="id" />
         <TextInput label="名称" source="name" validate={required} />
@@ -40,12 +42,16 @@ const PermissionEdit = (props) => {
   );
 };
 
+const EditBtnif = (props)=>{
+  const {record} = props;
+  return _.get(record,'systemflag',0) === 0?<EditButton {...props}/>:null;
+}
 const PermissionList = (props) => (
-  <List title="用户权限列表" {...props}>
-    <Datagrid>
+  <List title="权限管理" {...props}>
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="名称" source="name" />
       <TextField label="备注" source="memo" />
-      <EditButton />
+      <EditBtnif />
     </Datagrid>
   </List>
 );

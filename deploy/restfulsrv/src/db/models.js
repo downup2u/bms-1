@@ -25,6 +25,7 @@ let DeviceGroupSchema = new Schema({
   contact:String,
   deviceids:[{ type: Schema.Types.ObjectId, ref: 'device', default: [] }],
   organizationid:{ type: Schema.Types.ObjectId, ref: 'organization' },
+  systemflag:{ type: Schema.Types.Number,default: 0 },
 });
 DeviceGroupSchema.plugin(mongoosePaginate);
 let DeviceGroupModel =mongoose.model('devicegroup',  DeviceGroupSchema);
@@ -41,6 +42,7 @@ let UserSchema = new Schema({
   organizationid:{ type: Schema.Types.ObjectId, ref: 'organization' },
   roleid:{ type: Schema.Types.ObjectId, ref: 'role' },
   adminflag:{ type: Schema.Types.Number,default: 0 },
+  devicegroups:[{ type: Schema.Types.ObjectId, ref: 'devicegroup', default: [] }],
   devicecollections:[]
 });
 UserSchema.plugin(mongoosePaginate);
@@ -69,10 +71,10 @@ let UserGroupModel =mongoose.model('usergroup',  UserGroupSchema);
 
 //权限
 let PermissionSchema = new Schema({
-  type:String,//数据/功能
   name:String,
   memo:String,
   organizationid:{ type: Schema.Types.ObjectId, ref: 'organization' },
+  systemflag:{ type: Schema.Types.Number,default: 0 },
 });
 PermissionSchema.plugin(mongoosePaginate);
 let PermissionModel =mongoose.model('permission',  PermissionSchema);

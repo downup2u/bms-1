@@ -21,7 +21,7 @@ class Page extends React.Component {
       let id = this.props.match.params.id;
       let chargingpileinfo = [id];
       const data = gmap_chargingpile[id];
-      console.log(data);
+      //console.log(data);
       const datapower = [
         {
             name:'采集时间',

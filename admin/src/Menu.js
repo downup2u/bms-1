@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { translate,DashboardMenuItem } from 'admin-on-rest';
+import { translate,DashboardMenuItem, WithPermission } from 'admin-on-rest';
 import compose from 'recompose/compose';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import LabelIcon from 'material-ui/svg-icons/action/label';
-
+import _ from 'lodash';
 import Icon from 'material-ui/svg-icons/social/person';
 
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
@@ -26,27 +27,32 @@ const styles = {
 //   if(item.name === 'systemconfig')
 // }
 
-let getallmenus = (valuesel, translate,onMenuTap)=>{
+let getallmenus = (translate,onMenuTap)=>{
+  const permission = localStorage.getItem('usertype');
   let getChildItems =(item, translate,onMenuTap)=>{
      let itemsco =[];
      item.children.map((child)=>{
         let title = translate(`resources.${child.name}.name`, { smart_count: 2 });
         let link = `/${child.name}`;
         itemsco.push(<
-          MenuItem key={child.name}
+          MenuItem
+          key={child.name}
+          value={child.name}
           primaryText={title}
           leftIcon={child.icon}
           onTouchTap={onMenuTap}
           containerElement={<Link to={link} />}
-          insetChildren={true} className={child.name === valuesel ? 'active' : ''} />);
+          insetChildren={true}
+        />);
       });
       return itemsco;
    }
    let menuitemsco =[];
    allmenus.map((item)=> {
      let title = translate(`resources.${item.name}.name`, { smart_count: 2 });
-     if(item.children){
+     if(!!item.children){
         menuitemsco.push(<MenuItem
+            value={item.name}
             primaryText={title}
             key={item.name}
             leftIcon={item.icon}
@@ -55,24 +61,41 @@ let getallmenus = (valuesel, translate,onMenuTap)=>{
         />);
      }
      else{
-          let link = `/${item.name}`;
-            menuitemsco.push(<MenuItem
-            primaryText={title}
-            key={item.name}
-            leftIcon={item.icon}
-            onTouchTap={onMenuTap}
-            containerElement={<Link to={link} />}
-        />);
-     }
+            const link = `/${item.name}`;
+            if(item.adminonly){
+              if(permission === 'admin'){
+                menuitemsco.push(
+                    <MenuItem
+                    primaryText={title}
+                    value={item.name}
+                    key={item.name}
+                    leftIcon={item.icon}
+                    onTouchTap={onMenuTap}
+                    containerElement={<Link to={link} />}
+                  />);
+              }
+            }
+            else{
+              menuitemsco.push(
+                <MenuItem
+                  primaryText={title}
+                  value={item.name}
+                  key={item.name}
+                  leftIcon={item.icon}
+                  onTouchTap={onMenuTap}
+                  containerElement={<Link to={link} />}
+                />);
+            }
+        }
    });
    return menuitemsco;
 }
 
-const Menu = ({ onMenuTap, translate, logout }) => (
-    <div style={styles.main}>
-        {getallmenus('baseinfocompany', translate,onMenuTap)}
+const MenuC = ({ onMenuTap, translate, logout,resourcename }) => (
+    <Menu style={styles.main}  value={resourcename} selectedMenuItemStyle={ {color: 'rgb(0,188,212)', borderLeft: '8px solid rgb(0,188,212)'}} >
+        {getallmenus(translate,onMenuTap)}
         {logout}
-    </div>
+    </Menu>
 );
         /*<MenuItem
             containerElement={<Link to="/configuration" />}
@@ -81,11 +104,22 @@ const Menu = ({ onMenuTap, translate, logout }) => (
             onTouchTap={onMenuTap}
         />*/
 const enhance = compose(
-    connect(state => ({
+    connect((state) => {
+      const pathname = _.get(state,'routing.location.pathname','');
+      let resourcename = '';
+      const sz = pathname.split('/');
+      if(sz.length > 1){
+        resourcename = sz[1];
+      }
+      console.log(resourcename);
+      return {
         theme: state.theme,
         locale: state.locale,
-    })),
+        resourcename,
+    }
+  }
+  ),
     translate,
 );
 
-export default enhance(Menu);
+export default enhance(MenuC);

@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import Seltime from './seltime.js';
+import Seltime from './seltimerange.js';
 import { Button } from 'antd';
 import SelectDevice from '../historytrackplayback/selectdevice.js';
 import get from 'lodash.get';
@@ -51,7 +51,7 @@ class TreeSearchBattery extends React.Component {
     }
     getQueryObj = ()=>{
       let query = {};
-      query['UpdateTime'] = {
+      query['LastRealtimeAlarm.DataTime'] = {
         $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
         $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
       };

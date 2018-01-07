@@ -15,7 +15,9 @@ const HeaderCo = (props) => {
         title = `${name}`;
         const count_total = get(props.gmap_acode_treecount[props.node.adcode],'count_total',0);
         if(count_total > 0){
-          title = `${name}(${count_total})`;
+          const count_online = get(props.gmap_acode_treecount[props.node.adcode],'count_online',0);
+          const count_offline = get(props.gmap_acode_treecount[props.node.adcode],'count_offline',0);
+          title = `${name}(${count_online}/${count_offline}/${count_total})`;
         }
       }
     }
@@ -51,7 +53,7 @@ const HeaderCo = (props) => {
     else if(parseInt(deviceitem.DeviceId)%3 === 2){ //报警数据判断
       iconname = icon_car3;
     }
-    console.log(deviceitem);
+    //console.log(deviceitem);
     return (
         <div style={props.style.base}  className={treeseled}>
             <div style={props.style.title}>

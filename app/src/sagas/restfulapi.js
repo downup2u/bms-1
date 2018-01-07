@@ -40,7 +40,7 @@ const restfulapi = {
   getexcelfile({type,query}){
     return new Promise((resolve,reject) => {
       let vs = toHex(JSON.stringify(query));
-      console.log(`query:${vs}`);
+      //console.log(`query:${vs}`);
       const form = getForm(`${fetchurl}/${type}`, "_self", vs, "post");
 
       document.body.appendChild(form);

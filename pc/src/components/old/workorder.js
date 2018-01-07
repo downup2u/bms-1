@@ -52,7 +52,7 @@ class MessageAllDevice extends React.Component {
         let {g_devicesdb,workorder_data,columns} = this.props;
 
         let delrow = (row)=>{
-            console.log(row);
+            //console.log(row);
             this.props.history.push(`/workorderinfo/${row._id}`);
         }
         let columns_action ={
@@ -115,7 +115,7 @@ const mapStateToProps = ({device:{g_devicesdb},workorder:{searchresult_workorder
         return column_item;
     })
 
-    console.log(workorder_data);
+    //console.log(workorder_data);
     return {g_devicesdb,workorders,searchresult_workorder, workorder_data, columns};
 }
 export default connect(mapStateToProps)(MessageAllDevice);

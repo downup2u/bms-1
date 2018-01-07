@@ -17,7 +17,8 @@ export const uireport_searchalarmdetail_request = createAction('uireport_searcha
 export const uireport_searchalarmdetail_result = createAction('uireport_searchalarmdetail_result');
 export const uireport_searchposition_request = createAction('uireport_searchposition_request');
 export const uireport_searchposition_result = createAction('uireport_searchposition_result');
-
+export const uireport_searchdevice_request = createAction('uireport_searchdevice_request');
+export const uireport_searchdevice_result = createAction('uireport_searchdevice_result');
 //以下导出放在视图
 export function callthen(actionreq,actionres,payload){
   return (dispatch) => {
@@ -54,7 +55,7 @@ export function* createsagacallbackflow(){
   yield takeLatest(`${ui_searchdevice_request}`,function*(action){
     try{
       const {payload} = action;
-      console.log(`ui_searchdevice_request===>${JSON.stringify(payload)}`);
+      //console.log(`ui_searchdevice_request===>${JSON.stringify(payload)}`);
       const {g_devicesdb} = yield select((state)=>{
         return {g_devicesdb:state.device.g_devicesdb};
       });
@@ -75,7 +76,7 @@ export function* createsagacallbackflow(){
       const pageNumber = offset/limit + 1;
       const numItemsPerPage = limit;
       const paginateCollection = paginate_array(deviceall,pageNumber,numItemsPerPage);
-      console.log(paginateCollection);
+      //console.log(paginateCollection);
       // {
       //     currentPage: 1,
       //     perPage: 10,

@@ -32,9 +32,10 @@ import { NumberInput,
 import { Field,FieldArray } from 'redux-form';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
+import {ShowActions} from '../controls/createeditactions';
 
 const HistoryTrackTitle = ({record}) => {
-  return <span>设备轨迹</span>
+  return <span>历史轨迹管理</span>
 };
 
 const choices = [
@@ -43,7 +44,7 @@ const choices = [
 ];
 
 const HistoryTrackShow = (props)=> {
-  return (<Show title={<HistoryTrackTitle />} {...props}>
+  return (<Show title={<HistoryTrackTitle />} {...props} actions={<ShowActions />}>
    <SimpleShowLayout>
     <TextField label="设备ID" source="DeviceId" />
     <TextField label="设备状态" source="DeviceStatus" />
@@ -75,7 +76,7 @@ const DeviceFilter = (props) => (
 
 const HistoryTrackList = (props)=> (
   <List title={<HistoryTrackTitle />}  filters={<DeviceFilter />} sort={{field:'created_at',order:'DESC'}} {...props}>
-    <Datagrid>
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="设备ID" source="DeviceId" />
       <TextField label="CellId" source="CellId" />
       <DateField label="定位时间" source="GPSTime" showTime />

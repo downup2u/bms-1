@@ -9,7 +9,7 @@ import { ui_alarm_selcurdevice,createworkorder_request } from '../../actions';
 import moment from 'moment';
 import {bridge_alarminfo} from '../../sagas/datapiple/bridgedb';
 import get from 'lodash.get';
-moment.locale('zh-cn');
+
 
 class Page extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class Page extends React.Component {
     //     if(this.state.selworderid===''){
     //         message.warning('您还没有制定派单人员！');
     //     }else{
-    //         console.log(`开始派发工单给${this.state.selworderid}`);
+    //         //console.log(`开始派发工单给${this.state.selworderid}`);
     //         const {g_devicesdb,alarms,workusers} = this.props;
     //         let alarmid = this.props.match.params.alarmid;
     //         let curalarm =  alarms[alarmid];

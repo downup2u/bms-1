@@ -266,12 +266,10 @@ export function* createmaptrackhistoryplaybackflow(){
               path
             }]);
             yield call(startplayback,{isloop,speed});
-
-
-            console.log(`路线:${JSON.stringify({
-              name: `车辆:${query.DeviceId}`,
-              path
-            })}`);
+            //console.log(`路线:${JSON.stringify({
+            //   name: `车辆:${query.DeviceId}`,
+            //   path
+            // })}`);
           }
 
         }

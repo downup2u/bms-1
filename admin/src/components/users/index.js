@@ -14,6 +14,9 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
 import ResestPassword from './resetpassword';
+import {CreateActions,EditActions} from '../controls/createeditactions';
+import {getOptions} from '../controls/getselect.js';
+import {CfSelectArrayInput} from '../controls/selectarrayinput.js';
 
 const UserListTitle = ({ record }) => {
   return <span>显示 用户</span>;
@@ -21,7 +24,7 @@ const UserListTitle = ({ record }) => {
 const userDefaultValue = {created_at:new Date()};
 
 const UserCreate = (props) => (
-  <Create title="新建用户" {...props}>
+  <Create title="新建用户" {...props} actions={<CreateActions />}>
     <SimpleForm defaultValue={userDefaultValue}>
       <TextInput label="用户名" source="username" validate={required} />
       <TextInput label="密码" source="password" validate={required} />
@@ -30,6 +33,7 @@ const UserCreate = (props) => (
       <ReferenceInput label="用户角色" source="roleid" reference="role" allowEmpty>
         <SelectInput optionText="name" />
       </ReferenceInput>
+      <CfSelectArrayInput label="设备组" source="devicegroups" loadOptions={getOptions('devicegroup','name','_id')}/>
     </SimpleForm>
   </Create>
 );
@@ -37,7 +41,7 @@ const UserCreate = (props) => (
 
 const UserEdit = (props) => {
   return (
-    <Edit title="编辑用户信息" {...props} >
+    <Edit title="编辑用户信息" {...props}  actions={<EditActions />}>
       <SimpleForm>
         <TextField source="id" />
         <TextField label="用户名" source="username" validate={required} />
@@ -46,6 +50,7 @@ const UserEdit = (props) => {
         <ReferenceInput label="用户角色" source="roleid" reference="role" allowEmpty>
           <SelectInput optionText="name" />
         </ReferenceInput>
+        <CfSelectArrayInput label="设备组" source="devicegroups" loadOptions={getOptions('devicegroup','name','_id')}/>
       </SimpleForm>
     </Edit>
   );
@@ -57,9 +62,10 @@ const UserFilter = (props) => (
   </Filter>
 );
 
+
 const UserList = (props) => (
-  <List title="用户列表" filters={<UserFilter />} {...props} sort={{ field: 'created_at', order: 'DESC'}} >
-    <Datagrid>
+  <List title="用户管理" filters={<UserFilter />} {...props} sort={{ field: 'created_at', order: 'DESC'}} >
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
         <TextField label="用户名" source="username" />
         <TextField label="真实姓名" source="truename" />
         <DateField label="注册时间" source="created_at" showTime />

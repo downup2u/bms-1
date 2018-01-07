@@ -40,7 +40,7 @@ const OrganizationEdit = (props) => {
 
 const OrganizationList = (props) => (
   <List title="组织列表" {...props} >
-    <Datagrid >
+    <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="组织名称" source="name" />
       <TextField label="备注" source="memo" />
       <TextField label="联系人" source="contact" />

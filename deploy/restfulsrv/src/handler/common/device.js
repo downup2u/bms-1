@@ -5,7 +5,7 @@ const winston = require('../../log/log.js');
 const coordtransform = require('coordtransform');
 const _ = require('lodash');
 const moment = require('moment');
-// const utilposition = require('../common/util_position');
+const getdevicesids = require('../getdevicesids');
 
 const getRandomLocation =  (latitude, longitude, radiusInMeters)=>{
 
@@ -57,27 +57,33 @@ exports.querydevicegroup= (actiondata,ctx,callback)=>{
   let query = actiondata.query || {};
   const devicesfields = actiondata.devicesfields || 'DeviceId LastHistoryTrack.Latitude LastHistoryTrack.Longitude';
 
-  console.log(`devicesfields-->${JSON.stringify(devicesfields)}`);
-  let queryexec = devicegroupModel.find(query).populate([
-      {path:'deviceids', select:devicesfields, model: 'device'},
-  ]).exec((err,list)=>{
-    if(!err){
-      if(list.length > 0){
-        console.log(`-->${JSON.stringify(list[0])}`);
+  getdevicesids(ctx.userid,({devicegroupIds,deviceIds})=>{
+    if(!query._id){
+      query._id = {'$in':devicegroupIds};
+    }
+
+    let queryexec = devicegroupModel.find(query).populate([
+        {path:'deviceids', select:devicesfields, model: 'device'},
+    ]).exec((err,list)=>{
+      if(!err){
+        if(list.length > 0){
+          console.log(`-->${JSON.stringify(list[0])}`);
+        }
+        //for test only
+        callback({
+          cmd:'querydevicegroup_result',
+          payload:{list}
+        });
       }
-      //for test only
-      callback({
-        cmd:'querydevicegroup_result',
-        payload:{list}
-      });
-    }
-    else{
-      callback({
-        cmd:'common_err',
-        payload:{errmsg:err.message,type:'querydevicegroup'}
-      });
-    }
+      else{
+        callback({
+          cmd:'common_err',
+          payload:{errmsg:err.message,type:'querydevicegroup'}
+        });
+      }
+    });
   });
+
 }
 
 exports.querydevice = (actiondata,ctx,callback)=>{
@@ -88,24 +94,28 @@ exports.querydevice = (actiondata,ctx,callback)=>{
     'LastHistoryTrack.Latitude':1,
     'LastHistoryTrack.Longitude':1,
   };
-  console.log(`fields-->${JSON.stringify(fields)}`);
-  let queryexec = deviceModel.find(query).select(fields);
-  queryexec.exec((err,list)=>{
-    if(!err){
-      if(list.length > 0){
-        console.log(`-->${JSON.stringify(list[0])}`);
+  getdevicesids(ctx.userid,({devicegroupIds,deviceIds})=>{
+    if(!query.DeviceId){
+      query.DeviceId = {'$in':deviceIds};
+    }
+    let queryexec = deviceModel.find(query).select(fields);
+    queryexec.exec((err,list)=>{
+      if(!err){
+        if(list.length > 0){
+          console.log(`-->${JSON.stringify(list[0])}`);
+        }
+        callback({
+          cmd:'querydevice_result',
+          payload:{list}
+        });
       }
-      callback({
-        cmd:'querydevice_result',
-        payload:{list}
-      });
-    }
-    else{
-      callback({
-        cmd:'common_err',
-        payload:{errmsg:err.message,type:'querydevice'}
-      });
-    }
+      else{
+        callback({
+          cmd:'common_err',
+          payload:{errmsg:err.message,type:'querydevice'}
+        });
+      }
+    });
   });
 }
 
@@ -155,32 +165,34 @@ exports.querydeviceinfo_list = (actiondata,ctx,callback)=>{
 }
 
 //获取的是设备完整信息
-exports.searchbattery = (actiondata,ctx,callback)=>{
-  let deviceModel = DBModels.DeviceModel;
-  let query = actiondata.query || {};
-  let fields = actiondata.fields || {
-    'DeviceId':1,
-    'LastHistoryTrack.Latitude':1,
-    'LastHistoryTrack.Longitude':1,
-  };
-
-  deviceModel.aggregate({$sample: {size: 50}}).exec((err,list)=>{
-    if(!err){
-      if(list.length > 0){
-        console.log(`-->${JSON.stringify(list[0])}`);
-      }
-      callback({
-        cmd:'searchbattery_result',
-        payload:{list}
-      });
-    }
-    else{
-      callback({
-        cmd:'common_err',
-        payload:{errmsg:err.message,type:'searchbattery_result'}
-      });
-    }
-  });
+// exports.searchbattery = (actiondata,ctx,callback)=>{
+//   let deviceModel = DBModels.DeviceModel;
+//   let query = actiondata.query || {};
+//   let fields = actiondata.fields || {
+//     'DeviceId':1,
+//     'LastHistoryTrack.Latitude':1,
+//     'LastHistoryTrack.Longitude':1,
+//     'LastHistoryTrack.GPSTime':1,
+//     'LastRealtimeAlarm.warninglevel':1,
+//   };
+//
+//   deviceModel.aggregate({$sample: {size: 50}}).exec((err,list)=>{
+//     if(!err){
+//       if(list.length > 0){
+//         console.log(`-->${JSON.stringify(list[0])}`);
+//       }
+//       callback({
+//         cmd:'searchbattery_result',
+//         payload:{list}
+//       });
+//     }
+//     else{
+//       callback({
+//         cmd:'common_err',
+//         payload:{errmsg:err.message,type:'searchbattery_result'}
+//       });
+//     }
+//   });
 
   //<-----处理query条件
   // let r = Math.random()*10000;
@@ -204,7 +216,7 @@ exports.searchbattery = (actiondata,ctx,callback)=>{
   //     });
   //   }
   // });
-}
+// }
 
 //模拟动态数据
 exports.serverpush_devicegeo_sz  = (actiondata,ctx,callback)=>{
@@ -313,27 +325,31 @@ exports.uireport_searchdevice =  (actiondata,ctx,callback)=>{
   // PC端获取数据--->{"cmd":"searchbatteryalarm","data":{"query":{"queryalarm":{"warninglevel":0}}}}
   const deviceModel = DBModels.DeviceModel;
   const query = actiondata.query || {};
-  deviceModel.paginate(query,actiondata.options,(err,result)=>{
-    if(!err){
-      result = JSON.parse(JSON.stringify(result));
-      let docs = [];
-      _.map(result.docs,(record)=>{
-        docs.push(record);
-      });
-      // utilposition.getlist_pos(docs,getpoint,(err,newdocs)=>{
-        // result.docs = newdocs;
+  getdevicesids(ctx.userid,({devicegroupIds,deviceIds})=>{
+    if(!query.DeviceId){
+      query.DeviceId = {'$in':deviceIds};
+    }
+
+    deviceModel.paginate(query,actiondata.options,(err,result)=>{
+      if(!err){
+        result = JSON.parse(JSON.stringify(result));
+        let docs = [];
+        _.map(result.docs,(record)=>{
+          docs.push(record);
+        });
+
         callback({
           cmd:'uireport_searchdevice_result',
           payload:{result}
         });
-      // });
-    }
-    else{
-      callback({
-        cmd:'common_err',
-        payload:{errmsg:err.message,type:'uireport_searchdevice'}
-      });
-    }
+      }
+      else{
+        callback({
+          cmd:'common_err',
+          payload:{errmsg:err.message,type:'uireport_searchdevice'}
+        });
+      }
+    });
   });
 }
 

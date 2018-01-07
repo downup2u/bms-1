@@ -58,17 +58,17 @@ class TablePosition extends React.Component {
           type:'report_device',
           query
       };
-      console.log(`导出excel:${JSON.stringify(payload)}`);
+      //console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
     }
 
     onClickQuery(query){
-      console.log(query);
+      //console.log(query);
 
       this.setState({query});
       window.setTimeout(()=>{
-        console.log(this.refs);
-        this.refs.antdtablealarm.getWrappedInstance().onRefresh();
+        //console.log(this.refs);
+        this.refs.antdtabledevice.getWrappedInstance().onRefresh();
       },0);
     }
 
@@ -121,12 +121,12 @@ class TablePosition extends React.Component {
                 </div>
                 <div className="tablelist">
                     <AntdTable
-                      ref='antdtablealarm'
+                      ref='antdtabledevice'
                       onItemConvert={this.onItemConvert.bind(this)}
                       columns={columns}
                       pagenumber={30}
                       query={this.state.query}
-                      sort={{DataTime: -1}}
+                      sort={{'LastRealtimeAlarm.DataTime': -1}}
                       queryfun={(payload)=>{
                         return callthen(uireport_searchdevice_request,uireport_searchdevice_result,payload);
                       }}

@@ -33,6 +33,7 @@ import clone from 'lodash.clone';
 
  const getgeodata =(deviceitem)=>{
   return new Promise((resolve,reject) => {
+
     const geocoder = new window.AMap.Geocoder({
             radius: 1000,
         });

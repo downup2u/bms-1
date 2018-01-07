@@ -26,7 +26,7 @@ class Tree extends React.Component {
     //     //   const {g_devicesdb} = this.props;
     //     //   const deviceitem = g_devicesdb[deviceid];
     //     //   if(!!deviceitem){
-    //     //     console.log(`sel devid:${deviceitem.DeviceId}`);
+    //     //     //console.log(`sel devid:${deviceitem.DeviceId}`);
     //     //     this.props.dispatch(ui_selcurdevice_request({DeviceId:deviceitem.DeviceId,deviceitem}));
     //     //   }
     //     // }

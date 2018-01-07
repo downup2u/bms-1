@@ -58,16 +58,16 @@ class TablePosition extends React.Component {
           type:'report_position',
           query
       };
-      console.log(`导出excel:${JSON.stringify(payload)}`);
+      //console.log(`导出excel:${JSON.stringify(payload)}`);
       this.props.dispatch(download_excel(payload));
     }
 
     onClickQuery(query){
-      console.log(query);
+      //console.log(query);
 
       this.setState({query});
       window.setTimeout(()=>{
-        console.log(this.refs);
+        //console.log(this.refs);
         this.refs.antdtablealarm.getWrappedInstance().onRefresh();
       },0);
     }

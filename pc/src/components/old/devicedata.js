@@ -43,7 +43,7 @@ class MessageAllDevice extends React.Component {
       const id = this.props.match.params.id;
       let payload = query || {};
       payload.query.DeviceId = id;
-      console.log(`onClickQuery==>${JSON.stringify(payload)}`);
+      //console.log(`onClickQuery==>${JSON.stringify(payload)}`);
 
       this.props.dispatch(searchbatteryalarmsingle_request(payload));
     }
@@ -52,7 +52,7 @@ class MessageAllDevice extends React.Component {
         let {g_devicesdb,alarms,alaram_data,columns} = this.props;
         const id = this.props.match.params.id;
         let delrow = (row)=>{
-            console.log(row);
+            //console.log(row);
             this.props.history.push(`/alarminfo/${row._id}`);
         }
         let columns_action ={
