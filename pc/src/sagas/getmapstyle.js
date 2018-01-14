@@ -70,18 +70,18 @@ const getCoureName = (course)=> {
     return name;
 }
 
-window.clickfn_device =(DeviceId)=>{
-  store.dispatch(push(`/deviceinfo/${DeviceId}`));
-}
-window.clickfn_historyplay =(DeviceId)=>{
-  store.dispatch(push(`/historyplay/${DeviceId}`));
-}
-window.clickfn_showhistory =(DeviceId)=>{
-  store.dispatch(push(`/reports/device/${DeviceId}`));
-}
-window.clickfn_showmessage =(DeviceId)=>{
-  store.dispatch(ui_btnclick_devicemessage({DeviceId}));
-}
+// window.clickfn_device =(DeviceId)=>{
+//   store.dispatch(push(`/deviceinfo/${DeviceId}`));
+// }
+// window.clickfn_historyplay =(DeviceId)=>{
+//   store.dispatch(push(`/historyplay/${DeviceId}`));
+// }
+// window.clickfn_showhistory =(DeviceId)=>{
+//   store.dispatch(push(`/reports/device/${DeviceId}`));
+// }
+// window.clickfn_showmessage =(DeviceId)=>{
+//   store.dispatch(ui_btnclick_devicemessage({DeviceId}));
+// }
 
 const getpop_device =({deviceitem,kvlist})=>{
   const DeviceId = get(deviceitem,'DeviceId','');

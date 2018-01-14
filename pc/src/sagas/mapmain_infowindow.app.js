@@ -1,57 +1,21 @@
 import map from "lodash.map";
-import CollectImg from "../img/11.png";
-import CollectImg2 from "../img/12.png";
+
 import Car_online from "../img/1.png";
 import Car_outline from "../img/3.png";
 import Point_list_img from "../img/13.png";
-import store from '../env/store';
-import { push,goBack,go  } from 'react-router-redux';
-import {
-    ui_index_addcollection,
-    ui_index_unaddcollection
-} from '../actions';
 
-window.clickfn_device =(DeviceId)=>{
-    store.dispatch(push(`/deviceinfo/${DeviceId}`));
-}
-window.clickfn_historyplay =(DeviceId)=>{
-    store.dispatch(push(`/historyplay/${DeviceId}`));
-}
-window.clickfn_showhistory =(DeviceId)=>{
-    store.dispatch(push(`/reports/alarm/${DeviceId}`));
-}
-window.clickfn_collection =(DeviceId)=>{
-    store.dispatch(ui_index_addcollection(DeviceId));
-}
-window.clickfn_cancelcollection =(DeviceId)=>{
-    store.dispatch(ui_index_unaddcollection(DeviceId));
-}
+
 
 const createInfoWindow_popinfo =(data)=> {
-    // console.log(map);
-    // console.log(data);
-    //iscollection
-    const state = store.getState();
-    const carcollections = state.device;
-    let isincollections = false;
-    map(carcollections,(id)=>{
-        if(id === data.DeviceId){
-            isincollections = true;
-        }
-    });
 
     let title = '车辆编号:'+data.DeviceId;
-    let collectimg = isincollections?CollectImg2:CollectImg;
 
     let contenthtml = "<ul>";
     map(data.fields, (v,i)=>{
         return contenthtml = `${contenthtml}<li key=${i} class='show_${v.systemflag}'><span class='t'>${v.showname}</span><span>${v.fieldvalue}</span></li>`;
     })
     contenthtml = `${contenthtml}</ul>`;
-    let collection_html = `<div class='collect'  onclick="clickfn_collection(${data.DeviceId})"><img src='${collectimg}' />收藏车辆</div>`;
-    if(!isincollections){
-      collection_html = `<div class='collect' onclick="clickfn_cancelcollection(${data.DeviceId})"><img src='${collectimg}' />取消收藏车辆</div>`;
-    }
+
     contenthtml =
         `
         ${contenthtml}
