@@ -50,7 +50,7 @@ const UserlogList = (props) => (
         <Datagrid  bodyOptions={{ showRowHover: true }}>
           <TextField label="用户名" source="username" />
           <DateField label="登录时间" source="created_at" showTime />
-          <ReferenceField label="用户" source="creator" reference="user" >
+          <ReferenceField label="用户" source="creator" reference="user" allowEmpty>
             <TextField source="username" />
           </ReferenceField>
           <TextField label="类型" source="type" />

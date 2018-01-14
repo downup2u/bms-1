@@ -20,7 +20,7 @@ const getalarmfieldtotxt = (alarmfield)=>{
 };
 
 const bridge_alarminfo = (alarminfo)=>{
-  // console.log(`alarminfo===>${JSON.stringify(alarminfo)}`);
+  // //console.log(`alarminfo===>${JSON.stringify(alarminfo)}`);
   let alarmtxt = '';
   let alarminfonew = {};
   alarminfonew[`key`] = alarminfo._id;
@@ -30,7 +30,7 @@ const bridge_alarminfo = (alarminfo)=>{
 
   let alarminfotmp = _.clone(alarminfo);
   let rest = _.omit(alarminfotmp,['_id','CurDay','DeviceId','__v','DataTime','warninglevel','Longitude','Latitude']);
-  // console.log(`rest===>${JSON.stringify(rest)}`);
+  // //console.log(`rest===>${JSON.stringify(rest)}`);
   _.map(rest,(v,key)=>{
     let keytxt = getalarmfieldtotxt(key);
     if(!!keytxt){
@@ -40,13 +40,13 @@ const bridge_alarminfo = (alarminfo)=>{
   });
 
   alarminfonew[`报警信息`] = alarmtxt;
-  // console.log(`alarminfonew===>${JSON.stringify(alarminfonew)}`);
+  // //console.log(`alarminfonew===>${JSON.stringify(alarminfonew)}`);
   return alarminfonew;
 }
 
 const bridge_alarmrawinfo = (alarmrawinfo)=>{
   const mapdict = config.mapdict;
-  console.log(`alarminfo===>${JSON.stringify(alarmrawinfo)}`);
+  //console.log(`alarminfo===>${JSON.stringify(alarmrawinfo)}`);
   let alarmtxt = '';
   let alarminfonew = {};
   alarminfonew[`key`] = alarmrawinfo._id;
@@ -56,7 +56,7 @@ const bridge_alarmrawinfo = (alarmrawinfo)=>{
 
   let alarminforawtmp = _.clone(alarmrawinfo);
   let rest = _.omit(alarminforawtmp,['_id','CurDay','DeviceId','__v','DataTime','warninglevel','Longitude','Latitude']);
-  // console.log(`rest===>${JSON.stringify(rest)}`);
+  // //console.log(`rest===>${JSON.stringify(rest)}`);
   let warninglevelmap = [
     '无','低','中','高'
   ];
@@ -74,20 +74,20 @@ const bridge_alarmrawinfo = (alarmrawinfo)=>{
   });
 
   alarminfonew[`报警信息`] = alarmtxt;
-  console.log(`alarminfonew===>${JSON.stringify(alarminfonew)}`);
+  //console.log(`alarminfonew===>${JSON.stringify(alarminfonew)}`);
   return alarminfonew;
 }
 exports.bridge_alarminfo = bridge_alarminfo;
 exports.bridge_alarmrawinfo = bridge_alarmrawinfo;
 // bridge_alarminfo({"_id":"5a1bfa0f86ce24f6ce62f6d2","CurDay":"2017-11-18","DeviceId":"1702100387","__v":0,"F[214]":6,"DataTime":"2017-11-18 10:04:47","warninglevel":"","Longitude":121.177748,"Latitude":31.442289});
-// console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
+// //console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
 // config.mapdict = _.merge(config.mapdict,{'AL':1});
-// console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
+// //console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
 // config.mapdict = _.merge(config.mapdict,{'BL':1});
-// console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
+// //console.log(`mapdict==>${JSON.stringify(config.mapdict)}`);
 
 exports.exportalarm = (actiondata,ctx,callback)=>{
-  console.log(`exportalarm==>${JSON.stringify(actiondata)}`);
+  //console.log(`exportalarm==>${JSON.stringify(actiondata)}`);
 
   const realtimealarmModel = DBModels.RealtimeAlarmModel;
   let query = actiondata.query || {};
@@ -223,7 +223,7 @@ exports.uireport_searchalarm =  (actiondata,ctx,callback)=>{
 //   if(!!query.queryalarm){
 //     query = query.queryalarm;
 //   }
-//   console.log(`查询条件:${JSON.stringify(query)}`);
+//   //console.log(`查询条件:${JSON.stringify(query)}`);
 //   realtimealarmModel.find(query,(err,list)=>{
 //   //realtimealarmModel.aggregate({$sample: {size: 15}}).exec((err,list)=>{
 //     if(!err){
@@ -266,7 +266,7 @@ exports.uireport_searchalarm =  (actiondata,ctx,callback)=>{
 //app中的报警分页
 exports.uireport_searchalarmdetail =  (actiondata,ctx,callback)=>{
   // PC端获取数据--->{"cmd":"searchbatteryalarm","data":{"query":{"queryalarm":{"warninglevel":0}}}}
-  console.log(`ui_searchalarmdetail===>${JSON.stringify(actiondata)}`);
+  //console.log(`ui_searchalarmdetail===>${JSON.stringify(actiondata)}`);
   const realtimealarmrawModel = DBModels.RealtimeAlarmRawModel;
   let query = actiondata.query || {};
   getdevicesids(ctx.userid,({devicegroupIds,deviceIds})=>{
@@ -297,7 +297,7 @@ exports.uireport_searchalarmdetail =  (actiondata,ctx,callback)=>{
 }
 
 exports.exportalarmdetail = (actiondata,ctx,callback)=>{
-  console.log(`exportalarmdetail==>${JSON.stringify(actiondata)}`);
+  //console.log(`exportalarmdetail==>${JSON.stringify(actiondata)}`);
 
   const realtimealarmrawModel = DBModels.RealtimeAlarmRawModel;
   let query = actiondata.query || {};

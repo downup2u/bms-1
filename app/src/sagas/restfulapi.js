@@ -13,7 +13,7 @@ const getForm =(url, target, value, method)=> {
   let input = document.createElement("input");
   input.type = "hidden";
   input.value = value;
-  input.name = 'queryparam';
+  input.name = 'tokenid';
 
   form.appendChild(input);
 
@@ -37,18 +37,18 @@ const toHex =(str)=> {
   };
 
 const restfulapi = {
-  getexcelfile({type,query}){
+  getexcelfile({type,tokenid}){
     return new Promise((resolve,reject) => {
-      let vs = toHex(JSON.stringify(query));
-      //console.log(`query:${vs}`);
-      const form = getForm(`${fetchurl}/${type}`, "_self", vs, "post");
-
+      const form = getForm(`${fetchurl}/${type}`, "_self", tokenid, "post");
       document.body.appendChild(form);
       form.submit();
       form.parentNode.removeChild(form);
       resolve();
       //  fetch(`${fetchurl}/${type}`, {
       //   method  : 'POST',
+      // headers: {
+      //             "Authorization": "Bearer " + $('#tokenField').val()
+      //          },
       //   headers : {
       //     'Content-Type'  : 'application/json'
       //   },
@@ -80,6 +80,21 @@ const restfulapi = {
     return fetch(`${fetchurl}/getdevicegeo`)
     .then(statusHelper)
     .then(response => response.json());
+  },
+  getdownloadtoken({query,usertoken}){
+    // const data = toHex(JSON.stringify(query));
+    return fetch(`${fetchurl}/getexporttoken`, {
+      method  : 'POST',
+      headers : {
+        'Accept'        : 'application/json',
+        'Content-Type'  : 'application/json',
+        'Authorization': "Bearer " +usertoken
+      },
+      body    :JSON.stringify(query)
+    })
+    .then(statusHelper)
+    .then(response => response.json());
+
   },
   gethistorytrack (userData) {
     return fetch(`${fetchurl}/gethistorytrack`, {

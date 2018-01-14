@@ -11,11 +11,11 @@ const dbhandler = require('../db/dbhandler.js');
 
 // let rate = 2000;
 producer.on('ready',  ()=> {
-  console.log(`kafka producer get ready!!`);
+  //console.log(`kafka producer get ready!!`);
 });
 
 producer.on('error',  (err)=> {
-  console.log('error', err);
+  //console.log('error', err);
 });
 
 
@@ -26,7 +26,7 @@ exports.sendtokafka = (payload,callbackfn)=>{
   producer.send(payloads, (err, data)=> {
     if(!!callbackfn){
       if(!!err){//错误，直接插入数据库
-        console.log(`kafka err:${JSON.stringify(err)}`);
+        //console.log(`kafka err:${JSON.stringify(err)}`);
         dbhandler.insertdatatodb(payload,callbackfn);
       }
       else{

@@ -9,7 +9,9 @@ import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import LabelIcon from 'material-ui/svg-icons/action/label';
 import _ from 'lodash';
 import Icon from 'material-ui/svg-icons/social/person';
-
+import {
+    SEL_MENU,
+} from './action';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import { List, ListItem } from 'material-ui/List';
 import allmenus from './LeftmenuData.js';
@@ -91,12 +93,21 @@ let getallmenus = (translate,onMenuTap)=>{
    return menuitemsco;
 }
 
-const MenuC = ({ onMenuTap, translate, logout,resourcename }) => (
-    <Menu style={styles.main}  value={resourcename} selectedMenuItemStyle={ {color: 'rgb(0,188,212)', borderLeft: '8px solid rgb(0,188,212)'}} >
-        {getallmenus(translate,onMenuTap)}
-        {logout}
-    </Menu>
-);
+const MenuC = ({ onMenuTap, translate, logout,resourcename,dispatch }) => {
+  const onItemClick = (event, menuItem, index)=>{
+    console.log(`onClick--->menuItem-->${menuItem.key}`)
+    dispatch({type:SEL_MENU,payload:menuItem.key});
+  }
+  return (
+      <Menu style={styles.main}
+          onItemClick={onItemClick}
+          value={resourcename}
+          selectedMenuItemStyle={ {color: 'rgb(0,188,212)', borderLeft: '8px solid rgb(0,188,212)'}} >
+          {getallmenus(translate,onMenuTap)}
+          {logout}
+      </Menu>
+  );
+}
         /*<MenuItem
             containerElement={<Link to="/configuration" />}
             primaryText={translate('pos.configuration')}
@@ -105,17 +116,10 @@ const MenuC = ({ onMenuTap, translate, logout,resourcename }) => (
         />*/
 const enhance = compose(
     connect((state) => {
-      const pathname = _.get(state,'routing.location.pathname','');
-      let resourcename = '';
-      const sz = pathname.split('/');
-      if(sz.length > 1){
-        resourcename = sz[1];
-      }
-      console.log(resourcename);
       return {
         theme: state.theme,
-        locale: state.locale,
-        resourcename,
+        // locale: state.locale,
+        resourcename:state.menu.curmenu,
     }
   }
   ),

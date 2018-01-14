@@ -60,7 +60,7 @@ const getpostion_frompos = (point,callback)=>{
     };
     if(!err && !!result){
       //[{"_id":"广西壮族自治区","admin_level":"4"},{"_id":"柳州市","admin_level":"5"},{"_id":"城中区","admin_level":"6"}]
-      // console.log(`result=>${JSON.stringify(result)}`);
+      // //console.log(`result=>${JSON.stringify(result)}`);
       _.map(result,(v)=>{
         if(_.get(v,'admin_level','') === '4'){
           resultobj['Provice'] = _.get(v,'_id','未知');
@@ -84,11 +84,11 @@ const getlist_pos = (list,fngetpoint,callback)=>{
     const fn = (callback)=>{
       if(!v.Provice){
         const point = fngetpoint(v);
-        console.log(`call:${JSON.stringify(point)}`)
+        //console.log(`call:${JSON.stringify(point)}`)
         getpostion_frompos(point,(retobj)=>{
           const newitem = _.merge(v,retobj);
-          console.log(`retobj:${JSON.stringify(retobj)}`)
-          console.log(`newitem:${JSON.stringify(newitem)}`)
+          //console.log(`retobj:${JSON.stringify(retobj)}`)
+          //console.log(`newitem:${JSON.stringify(newitem)}`)
           callback(null,newitem);
         });
       }

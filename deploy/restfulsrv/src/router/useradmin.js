@@ -13,7 +13,7 @@ const startmodule = (app)=>{
 
   _.map(dbs,(schmodel,keyname)=>{
       const urlname = `/adminapi/v1/:organizationid${schmodel.urlname}`;
-      console.log(`urlname:${urlname}`);
+      //console.log(`urlname:${urlname}`);
       app.post(urlname,middlewareauth,curd(schmodel));
       app.get(urlname,middlewareauth,curd(schmodel));
       app.put(urlname,middlewareauth,curd(schmodel));

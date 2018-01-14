@@ -1,18 +1,18 @@
-var winston = require('winston');
-var moment = require('moment');
-var path = require('path');
-var logger;
+const winston = require('winston');
+const moment = require('moment');
+const path = require('path');
+let logger;
 exports.initLog =  ()=>{
-  var filename = "bms_"+moment().format('YYYY-MM-DD-HHmmss');
+  const filename = "bms_"+moment().format('YYYY-MM-DD-HHmmss');
 
-  var logfile = filename+".log";
-  var logpath = path.resolve(__dirname,'../../../log', logfile);
+  const logfile = filename+".log";
+  const logpath = path.resolve(__dirname,'../../../log', logfile);
 
-  var logfileerr = filename+"_err.log";
-  var logpatherr = path.resolve(__dirname,'../../../log', logfileerr);
+  const logfileerr = filename+"_err.log";
+  const logpatherr = path.resolve(__dirname,'../../../log', logfileerr);
 
-  var logfilewarn = filename+"_warn.log";
-  var logpathwarn = path.resolve(__dirname,'../../../log', logfilewarn);
+  const logfilewarn = filename+"_warn.log";
+  const logpathwarn = path.resolve(__dirname,'../../../log', logfilewarn);
 
   // winston.configure({
   //   transports: [

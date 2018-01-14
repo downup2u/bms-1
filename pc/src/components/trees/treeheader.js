@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Treebeard,decorators} from '../controls/react-treebeard-ex/src/index.js';
-import icon_car1 from './icon_car1.png';
-import icon_car2 from './icon_car2.png';
-import icon_car3 from './icon_car3.png';
+import {getdevicestatus_isonline} from '../../util/getdeviceitemstatus';
+import icon_online from '../../img/1.png';
+import icon_offline from '../../img/3.png';
+// import icon_car3 from './icon_car3.png';
 import get from 'lodash.get';
 
 const HeaderCo = (props) => {
@@ -41,17 +42,20 @@ const HeaderCo = (props) => {
           </div>
       );
     }
-    let iconname = icon_car1;
+    let iconname = icon_online;
     let DeviceId = props.node.device.DeviceId;
     let deviceitem = props.g_devicesdb[DeviceId] || props.node.device;
     //icon_car1   严重警报
     //icon_car2   紧急警报
     //icon_car3   一般警报
-    if(parseInt(deviceitem.DeviceId)%3 === 1){ //报警数据判断
-      iconname = icon_car2;
-    }
-    else if(parseInt(deviceitem.DeviceId)%3 === 2){ //报警数据判断
-      iconname = icon_car3;
+    // if(parseInt(deviceitem.DeviceId)%3 === 1){ //报警数据判断
+    //   iconname = icon_car2;
+    // }
+    // else if(parseInt(deviceitem.DeviceId)%3 === 2){ //报警数据判断
+    //   iconname = icon_car3;
+    // }
+    if(!getdevicestatus_isonline(deviceitem)){
+      iconname = icon_offline;
     }
     //console.log(deviceitem);
     return (

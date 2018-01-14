@@ -7,7 +7,6 @@ import { NumberInput,
   NumberField,
   Edit,
   Show,
-  ShowButton,
   SimpleForm,
   DisabledInput,
   TextInput,
@@ -34,6 +33,7 @@ import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
 import _ from 'lodash';
 import {ShowActions} from '../controls/createeditactions';
+import ShowButton from '../controls/ShowButton';
 
 const RealtimeAlamTitle = ({record}) => {
    return <span>实时报警明细</span>

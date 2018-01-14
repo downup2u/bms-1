@@ -35,8 +35,8 @@ const initial = {
     // mapdeviceidlist:[],
     gmap_acode_treename,//key:acode/value:name
     gmap_acode_treecount,//key:acode/value:count
-    gmap_acode_devices:{},//key:acode/value:deviceidlist
     datatreeloc:datatree,
+    gmap_acode_devices:{},//key:acode/value:deviceidlist
     datatreegroup:{
       id:'0',
       loading: false,

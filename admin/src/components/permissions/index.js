@@ -46,9 +46,14 @@ const EditBtnif = (props)=>{
   const {record} = props;
   return _.get(record,'systemflag',0) === 0?<EditButton {...props}/>:null;
 }
+
+const rowStyle = (record, index) => ({
+    backgroundColor: record.systemflag === 1 ? '#efe' : 'white',
+});
+
 const PermissionList = (props) => (
   <List title="权限管理" {...props}>
-    <Datagrid  bodyOptions={{ showRowHover: true }}>
+    <Datagrid  bodyOptions={{ showRowHover: true }} rowStyle={rowStyle}>
       <TextField label="名称" source="name" />
       <TextField label="备注" source="memo" />
       <EditBtnif />

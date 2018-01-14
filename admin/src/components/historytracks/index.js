@@ -11,7 +11,6 @@ import { NumberInput,
   TextInput,
   Show,
   SimpleShowLayout,
-  ShowButton,
   DateInput,
   LongTextInput,
   ReferenceManyField,
@@ -33,6 +32,7 @@ import { Field,FieldArray } from 'redux-form';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
 import {ShowActions} from '../controls/createeditactions';
+import ShowButton from '../controls/ShowButton';
 
 const HistoryTrackTitle = ({record}) => {
   return <span>历史轨迹管理</span>

@@ -7,7 +7,6 @@ import { NumberInput,
   NumberField,
   Edit,
   Show,
-  ShowButton,
   SimpleForm,
   DisabledInput,
   TextInput,
@@ -29,11 +28,12 @@ import { NumberInput,
   ReferenceInput,
   ReferenceField } from 'admin-on-rest/lib/mui';
 
- import { Field,FieldArray } from 'redux-form';
- import TimePicker from 'material-ui/TimePicker';
- import moment from 'moment';
+import { Field,FieldArray } from 'redux-form';
+import TimePicker from 'material-ui/TimePicker';
+import moment from 'moment';
 import _ from 'lodash';
 import {ShowActions} from '../controls/createeditactions';
+import ShowButton from '../controls/ShowButton';
 
 const RealtimeAlamTitle = ({record}) => {
    return <span>每日报警统计</span>

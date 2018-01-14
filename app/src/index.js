@@ -5,8 +5,8 @@ import store,{sagaMiddleware} from './env/store';
 import rootSaga from './sagas';
 // import registerServiceWorker from './registerServiceWorker';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-// import { postNotifyFromJPush } from './env/jpush';
-// import { registerandroid } from './env/android';
+import { postNotifyFromJPush } from './env/jpush';
+import { registerandroid } from './env/android';
 import { setLanguage } from 'redux-polyglot';
 import lan from './i18n';
 
@@ -23,6 +23,6 @@ store.dispatch(setLanguage('cn', lan['cn']));
 // const p = getP(store.getState(), { polyglotScope: 'warningbox' });
 
 
-// registerandroid();
-// postNotifyFromJPush(store.dispatch);
+registerandroid();
+postNotifyFromJPush(store.dispatch);
 // registerServiceWorker();

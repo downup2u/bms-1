@@ -148,9 +148,7 @@ const CreateMapUI_MarkCluster = (map)=>{
         // 在PC上，默认为[3,18]，取值范围[3-18]；
         // 在移动设备上，默认为[3,19],取值范围[3-19]
         if(curzoom === maxzoom ){
-          window.AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
-              store.dispatch(mapmain_showpopinfo_list({itemdevicelist,lnglat}));
-          });
+            store.dispatch(mapmain_showpopinfo_list({itemdevicelist,lnglat}));
           //弹框
         }
         //console.log(`click device list:${JSON.stringify(itemdevicelist)},curzoom:${curzoom}`);
@@ -184,12 +182,6 @@ const getMarkCluster_showMarks = (isshow)=>{
               //console.log(`click marker ${key}`);
               window.AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
                   store.dispatch(mapmain_showpopinfo({DeviceId:item.DeviceId}));
-                  // infoWindow = new SimpleInfoWindow(getpopinfowindowstyle(item));
-                  // if(!!item.locz){
-                  //   window.amapmain.setCenter(pos);
-                  // }
-                  // infoWindow.open(window.amapmain,pos);
-
               });
             });
             markers.push(marker);
@@ -443,17 +435,15 @@ const showinfowindow = (deviceitem)=>{
         return;
       }
       let locz = deviceitem.locz;
-      window.AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
-          infoWindow = new SimpleInfoWindow(getpopinfowindowstyle(deviceitem));
-          if(!!locz){
-            window.amapmain.setCenter(locz);
-            infoWindow.open(window.amapmain, locz);
-          }
-          else{
-            infoWindow.open(window.amapmain, window.amapmain.getCenter());
-          }
-          resolve(infoWindow);
-      });
+      infoWindow = new window.AMap.InfoWindow(getpopinfowindowstyle(deviceitem));
+      if(!!locz){
+        window.amapmain.setCenter(locz);
+        infoWindow.open(window.amapmain, locz);
+      }
+      else{
+        infoWindow.open(window.amapmain, window.amapmain.getCenter());
+      }
+      resolve(infoWindow);
   });
 }
 
@@ -464,12 +454,10 @@ const showinfowindow_cluster = ({itemdevicelist,lnglat})=>{
         reject();
         return;
       }
-      window.AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
-          infoWindow = new SimpleInfoWindow(getlistpopinfowindowstyle(itemdevicelist));
-          window.amapmain.setCenter(lnglat);
-          infoWindow.open(window.amapmain, lnglat);
-          resolve(infoWindow);
-      });
+      infoWindow = new window.AMap.InfoWindow(getlistpopinfowindowstyle(itemdevicelist));
+      window.amapmain.setCenter(lnglat);
+      infoWindow.open(window.amapmain, lnglat);
+      resolve(infoWindow);
   });
 }
 

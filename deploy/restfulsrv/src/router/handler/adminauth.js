@@ -9,9 +9,9 @@ const DBModels = require('../../db/models.js');
 
 const adminauth = (req,res)=>{
   const actiondata =   req.body;
-  console.log("actiondata=>" + JSON.stringify(actiondata));
+  //console.log("actiondata=>" + JSON.stringify(actiondata));
   const organizationid = mongoose.Types.ObjectId(req.params.organizationid);
-  console.log(`--organizationid=>${organizationid}`);
+  //console.log(`--organizationid=>${organizationid}`);
 
   const userModel = DBModels.UserModel;
   // userModel.findOne({ username: actiondata.username,adminflag:1 },

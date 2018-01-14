@@ -23,7 +23,7 @@ const getquery = (userid,collectionname,query,callbackfn)=>{
           }
         }
         callbackfn(query);
-        console.log(`newquery===>${JSON.stringify(query)}`);
+        //console.log(`newquery===>${JSON.stringify(query)}`);
       });
     }
     else{

@@ -1,9 +1,9 @@
-let DBModels = require('../db/models.js');
+const DBModels = require('../db/models.js');
 const jpush = require('../smspush/push.js');
 const pwd = require('../util/pwd');
 
-let preaction =(actionname,collectionname,doc,fnresult)=>{
-  console.log(`preaction doc:${JSON.stringify(doc)}`);
+const preaction =(actionname,collectionname,doc,fnresult)=>{
+  //console.log(`preaction doc:${JSON.stringify(doc)}`);
   if(actionname === 'save' && collectionname === 'user'){
     //新建用户,hashpassword
     let retdoc = doc;
@@ -18,7 +18,7 @@ let preaction =(actionname,collectionname,doc,fnresult)=>{
   fnresult(null,true);
 };
 
-let postaction =(actionname,collectionname,doc)=>{
+const postaction =(actionname,collectionname,doc)=>{
 
 };
 

@@ -17,6 +17,7 @@ import {
 } from '../../actions';
 import {bridge_deviceinfo} from '../../sagas/datapiple/bridgedb';
 
+
 class Page extends React.Component {
     constructor(props) {
         super(props);
@@ -55,7 +56,7 @@ class Page extends React.Component {
           datadevice.push(record);
         });
         console.log(datadevice);
-      
+
         return (
             <div className="mydevicePage AppPage"
                 style={{

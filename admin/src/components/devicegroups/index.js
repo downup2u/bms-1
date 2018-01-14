@@ -49,10 +49,13 @@ const EditBtnif = (props)=>{
   return _.get(record,'systemflag',0) === 0?<EditButton {...props}/>:null;
 }
 
+const rowStyle = (record, index) => ({
+    backgroundColor: record.systemflag === 1 ? '#efe' : 'white',
+});
 const DeviceGroupList = (props) => (
   <List title={<DeviceGroupTitle />} {...props}>
     {permissions =>
-      <Datagrid  bodyOptions={{ showRowHover: true }}>
+      <Datagrid  bodyOptions={{ showRowHover: true }} rowStyle={rowStyle}>
         <TextField label="分组名称" source="name" />
         <TextField label="备注" source="memo" />
         <TextField label="联系人" source="contact" />

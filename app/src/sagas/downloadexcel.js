@@ -1,19 +1,22 @@
-import {takeLatest,put,call} from 'redux-saga/effects';
+import {takeLatest,call} from 'redux-saga/effects';
 import {
   download_excel
 } from '../actions';
 import restfulapi from './restfulapi';
-// import FileSaver from 'file-saver';
-
+import config from '../env/config';
 
 //获取地理位置信息，封装为promise
 export function* downloadexcel(){//仅执行一次
    yield takeLatest(`${download_excel}`, function*(action) {
       try{
-        let {payload:{type,query}} = action;
+        const {payload:{type,query}} = action;
+        const usertoken = localStorage.getItem(`bms_${config.softmode}_token`);
         //console.log(`download_excel===>type:${JSON.stringify(type)},query:${JSON.stringify(query)}`);
-        const result = yield call(restfulapi.getexcelfile,{type,query});
-        // FileSaver.saveAs(blob, `${type}.xls`);
+        const json = yield call(restfulapi.getdownloadtoken,{query,usertoken});
+        console.log(json);
+        if(!!json.tokenid){
+          yield call(restfulapi.getexcelfile,{type,tokenid:json.tokenid});
+        }
       }
       catch(e){
         console.log(e);

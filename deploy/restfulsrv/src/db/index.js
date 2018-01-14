@@ -1,5 +1,5 @@
-let db = require('./models.js');
-let dbs ={
+const db = require('./models.js');
+const dbs ={
   'datadict':{
     urlname:'/datadict',
     schema:db.DataDictSchema,

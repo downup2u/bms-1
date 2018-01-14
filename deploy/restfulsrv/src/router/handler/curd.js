@@ -28,8 +28,8 @@ const curd = (schmodel)=>{
   return (req,res)=>{
     let queryparam =   req.body;
     const organizationid = mongoose.Types.ObjectId(req.params.organizationid);
-    console.log("queryparam=>" + JSON.stringify(queryparam));
-    console.log(`organizationid=>${organizationid}`);
+    //console.log("queryparam=>" + JSON.stringify(queryparam));
+    //console.log(`organizationid=>${organizationid}`);
     let query = {};
     let sort = {};
     let options = {};
@@ -63,8 +63,8 @@ const curd = (schmodel)=>{
       });
 
     }
-    console.log("query=>" + JSON.stringify(query));
-    console.log("options=>" + JSON.stringify(options));
+    //console.log("query=>" + JSON.stringify(query));
+    //console.log("options=>" + JSON.stringify(options));
 
 
     if(queryparam.type === GET_LIST){
@@ -72,7 +72,7 @@ const curd = (schmodel)=>{
       query['organizationid'] = organizationid;
       getquery(req.userid,schmodel.collectionname,query,(querynew)=>{
         dbModel.paginate(querynew, options,(err,result)=>{
-          console.log("GET_LIST result=>" + JSON.stringify(result));
+          //console.log("GET_LIST result=>" + JSON.stringify(result));
           res.status(200).json(result);
         });
       });
@@ -81,7 +81,7 @@ const curd = (schmodel)=>{
     else if(queryparam.type === GET_ONE){
       let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
       dbModel.findById(queryparam.params.id,(err,result)=>{
-        console.log("GET_ONE result=>" + JSON.stringify(result));
+        //console.log("GET_ONE result=>" + JSON.stringify(result));
         res.status(200)
             .json(result);
       });
@@ -98,7 +98,7 @@ const curd = (schmodel)=>{
       });
       let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
       dbModel.find({ _id: { "$in" : ids} },(err,result)=>{
-        console.log("GET_MANY result=>" + JSON.stringify(result));
+        //console.log("GET_MANY result=>" + JSON.stringify(result));
         res.status(200)
             .json(result);
       });
@@ -107,11 +107,11 @@ const curd = (schmodel)=>{
       let query = {};
       query[queryparam.params.target] = queryparam.params.id;
       query['organizationid'] = organizationid;
-      console.log("GET_MANY_REFERENCE 查询条件=>" + JSON.stringify(query));
+      //console.log("GET_MANY_REFERENCE 查询条件=>" + JSON.stringify(query));
       let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
       getquery(req.userid,schmodel.collectionname,query,(querynew)=>{
         dbModel.paginate(querynew,options,(err,result)=>{
-            console.log("GET_MANY_REFERENCE result=>" + JSON.stringify(result));
+            //console.log("GET_MANY_REFERENCE result=>" + JSON.stringify(result));
             res.status(200)
                 .json(result);
           });
@@ -133,8 +133,8 @@ const curd = (schmodel)=>{
         if(!err && result){
           let entity = new dbModel(createddata);
           entity.save((err,result)=>{
-            console.log("CREATE err=>" + JSON.stringify(err));
-            console.log("CREATE result=>" + JSON.stringify(result));
+            //console.log("CREATE err=>" + JSON.stringify(err));
+            //console.log("CREATE result=>" + JSON.stringify(result));
             if(!err){
               res.status(200)
                   .json(result);
@@ -156,8 +156,8 @@ const curd = (schmodel)=>{
       adminaction.preaction('findByIdAndUpdate',schmodel.collectionname,updateddata,(err,result)=>{
         if(!err && result){
           dbModel.findByIdAndUpdate(queryparam.params.id,updateddata, {new: true},(err, result)=> {
-                  console.log("UPDATE err=>" + JSON.stringify(err));
-                  console.log("UPDATE result=>" + JSON.stringify(result));
+                  //console.log("UPDATE err=>" + JSON.stringify(err));
+                  //console.log("UPDATE result=>" + JSON.stringify(result));
                     if(!err){
                       res.status(200)
                           .json(result);
@@ -180,8 +180,8 @@ const curd = (schmodel)=>{
       dbModel.findOneAndRemove({
             _id: queryparam.params.id
         }, (err, result)=> {
-          console.log("DELETE err=>" + JSON.stringify(err));
-          console.log("DELETE result=>" + JSON.stringify(result));
+          //console.log("DELETE err=>" + JSON.stringify(err));
+          //console.log("DELETE result=>" + JSON.stringify(result));
           if(!err){
             res.status(200)
                 .json(result);

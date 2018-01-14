@@ -1,17 +1,17 @@
-let DBModels = require('../db/models.js');
-let mongoose     = require('mongoose');
+const DBModels = require('../db/models.js');
+const mongoose     = require('mongoose');
 const config = require('../config.js');
 const _  = require('lodash');
 const jwt = require('jsonwebtoken');
 const moment  = require('moment');
-let dbs = require('../db/index.js');
-let middlewareauth = require('./middlewareauth.js');
+const dbs = require('../db/index.js');
+const middlewareauth = require('./middlewareauth.js');
 const adminaction = require('../db/adminaction.js');
 const pwd = require('../util/pwd.js');
 
 let startmodule = (app)=>{
   app.post('/findone/:resourcename',(req,res)=>{
-    console.log("findone:" + req.params.resourcename);
+    //console.log("findone:" + req.params.resourcename);
     let schmodel = dbs[req.params.resourcename];
     let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
     dbModel.findOne({},(err,result)=>{
@@ -28,7 +28,7 @@ let startmodule = (app)=>{
 
   app.post('/adminapi/resetuserpassword',middlewareauth,(req,res)=>{
     let actiondata =   req.body;
-    console.log("actiondata=>" + JSON.stringify(actiondata));
+    //console.log("actiondata=>" + JSON.stringify(actiondata));
     if(typeof actiondata.userid === "string"){
        actiondata.userid = mongoose.Types.ObjectId(actiondata.userid);
     }

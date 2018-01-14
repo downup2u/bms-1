@@ -26,7 +26,7 @@ exports.getsystemconfig = (actiondata,ctx,callbackfn)=>{
                 {name:{'$in':allfieldslist}},
                 {name:{'$regex':alname, $options: "i"}}
               ]},(err,dictlist)=>{
-              console.log(`dictlist==>${JSON.stringify(dictlist)}`)
+              //console.log(`dictlist==>${JSON.stringify(dictlist)}`)
               let mapdict = {};
               if(!err && dictlist.length > 0){
                 _.map(dictlist,(v)=>{

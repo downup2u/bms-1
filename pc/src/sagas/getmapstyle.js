@@ -6,6 +6,8 @@ import moment from 'moment';
 import lodashmap from 'lodash.map';
 import {bridge_deviceinfo_pop,bridge_deviceinfo_popcluster} from './datapiple/bridgedb';
 import {ui_btnclick_devicemessage} from '../actions';
+import {getdevicestatus_alaramlevel} from '../util/getdeviceitemstatus';
+import {createInfoWindow_popinfo,createInfoWindow_poplistinfo} from './mapmain_infowindow';
 //地图上点图标的样式【图标类型】
 
 
@@ -81,24 +83,35 @@ window.clickfn_showmessage =(DeviceId)=>{
   store.dispatch(ui_btnclick_devicemessage({DeviceId}));
 }
 
-
 const getpop_device =({deviceitem,kvlist})=>{
-  let DeviceId = get(deviceitem,'DeviceId','');
-  let contentxt = '';
+  const DeviceId = get(deviceitem,'DeviceId','');
+  // let contentxt = '';
+  let fields = [];
   lodashmap(kvlist,(v)=>{
     const fieldvalue = get(deviceitem,v.name,'');
     const unit = get(deviceitem,v.unit,'');
-    contentxt += `<p class='l'><span class='t'>${v.showname}</span><span class='color_warning'>${fieldvalue}${unit}</span></p>`;
+    fields.push({
+      fieldname:v.name,
+      showname:v.showname,
+      fieldvalue,
+      unit
+    });
+    // contentxt += `<p class='l'><span class='t'>${v.showname}</span><span class='color_warning'>${fieldvalue}${unit}</span></p>`;
   });
-
-  return {
-        infoBody: `<p>车辆编号:${DeviceId}</p>
-        ${contentxt}
-        <button onclick="clickfn_device(${DeviceId})" class='clickfn_device'>查看详情</button>
-        <button onclick="clickfn_historyplay(${DeviceId})" class='clickfn_historyplay'>历史轨迹回放</button>
-        <button onclick="clickfn_showhistory(${DeviceId})" class='clickfn_showhistory'>历史位置信息</button>
-        <button onclick="clickfn_showmessage(${DeviceId})" class='clickfn_showmessage'>历史报警信息</button>`
-    };
+  return createInfoWindow_popinfo({
+    DeviceId,
+    fields
+  });
+  // return {
+  //       isCustom:true,
+  //       size:new window.AMap.Size(500,500),
+  //       content:createInfoWindow(`<p>车辆编号:${DeviceId}</p>`,`
+  //       ${contentxt}
+  //       <button onclick="clickfn_device(${DeviceId})" class='clickfn_device'>查看详情</button>
+  //       <button onclick="clickfn_historyplay(${DeviceId})" class='clickfn_historyplay'>历史轨迹回放</button>
+  //       <button onclick="clickfn_showhistory(${DeviceId})" class='clickfn_showhistory'>历史位置信息</button>
+  //       <button onclick="clickfn_showmessage(${DeviceId})" class='clickfn_showmessage'>历史报警信息</button>`)
+  //   };
 }
 
 
@@ -108,39 +121,61 @@ export const getpopinfowindowstyle = (deviceitem)=>{
 }
 
 
+
 export const getlistpopinfowindowstyle = (deviceitemlist)=>{
-    let info = '<div class="getmapstylepage">';
-    let result = bridge_deviceinfo_popcluster(deviceitemlist);
+    // let info = '<div class="getmapstylepage">';
+    const result = bridge_deviceinfo_popcluster(deviceitemlist);
     const {kvlist} = result;
+
+    let data = [];
     lodashmap(result.deviceitemlist,(deviceitem)=>{
 
-        let DeviceId = get(deviceitem,'DeviceId','');
-
-        let contentxt = '';
+        const DeviceId = get(deviceitem,'DeviceId','');
+        let fields = [];
+        // let contentxt = '';
         lodashmap(kvlist,(v)=>{
           const fieldvalue = get(deviceitem,v.name,'');
           const unit = get(deviceitem,v.unit,'');
-          contentxt += `${v.showname}${fieldvalue}${unit}|`;
+          // contentxt += `${v.showname}${fieldvalue}${unit}|`;
+          fields.push({
+            fieldname:v.name,
+            showname:v.showname,
+            fieldvalue,
+            unit
+          });
         });
 
-        info +=  `<p onclick="clickfn_device(${deviceitem.DeviceId})">
-        <i class="t">车辆ID:${DeviceId}</i>
-        <i>${contentxt}</i></p>`;
+        data.push({
+          DeviceId,
+          fields
+        });
+        // info +=  `<p onclick="clickfn_device(${deviceitem.DeviceId})">
+        // <i class="t">车辆ID:${DeviceId}</i>
+        // <i>${contentxt}</i></p>`;
     });
-    info += '</div>'
-    return {
-        infoBody: `${info}`
-    };
-}
+    // info += '</div>'
+    return createInfoWindow_poplistinfo(data);
 
+    // {
+    //     content: createInfoWindow('aaa',`${info}`)
+    // };
+}
 
 export const getimageicon = (item)=>{
   //这里根据不同item显示不同图标
-  const online_png = `${process.env.PUBLIC_URL}/images/car_online.png`;
-  const offline_png = `${process.env.PUBLIC_URL}/images/car_offline.png`;
-  let curpng = online_png;
-  if(parseInt(item.DeviceId)%2 === 0){ //在线／离线条件判断
-    curpng = offline_png;
+  const icon_car1 = `${process.env.PUBLIC_URL}/images/icon_car1.png`;
+  const icon_car2 = `${process.env.PUBLIC_URL}/images/icon_car2.png`;
+  const icon_car3 = `${process.env.PUBLIC_URL}/images/icon_car3.png`;
+  const warninglevel = getdevicestatus_alaramlevel(item);
+  let curpng = icon_car1;
+  if(warninglevel === '高'){
+    curpng = icon_car1;
+  }
+  else if(warninglevel === '中'){
+    curpng = icon_car2;
+  }
+  else if(warninglevel === '低'){
+    curpng = icon_car3;
   }
   return curpng;
 }

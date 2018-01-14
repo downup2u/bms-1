@@ -62,19 +62,30 @@ const UserFilter = (props) => (
   </Filter>
 );
 
+const rowStyle = (record, index) => ({
+    backgroundColor: record.adminflag === 1 ? '#efe' : 'white',
+});
+
+const EditButtonWrap = (props)=>{
+  const {record} = props;
+  if(record.adminflag === 1){
+      return null;
+  }
+  return <EditButton {...props}/>;
+}
 
 const UserList = (props) => (
   <List title="用户管理" filters={<UserFilter />} {...props} sort={{ field: 'created_at', order: 'DESC'}} >
-    <Datagrid  bodyOptions={{ showRowHover: true }}>
+    <Datagrid  bodyOptions={{ showRowHover: true }} rowStyle={rowStyle}>
         <TextField label="用户名" source="username" />
         <TextField label="真实姓名" source="truename" />
         <DateField label="注册时间" source="created_at" showTime />
         <DateField label="上次登录时间" source="updated_at" showTime />
-        <ReferenceField label="用户角色" source="roleid" reference="role" >
+        <ReferenceField label="用户角色" source="roleid" reference="role" allowEmpty>
           <TextField source="name" />
         </ReferenceField>
         <ResestPassword />
-        <EditButton />
+        <EditButtonWrap />
     </Datagrid>
   </List>
 );

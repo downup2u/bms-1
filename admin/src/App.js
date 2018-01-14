@@ -9,12 +9,13 @@ import './App.css';
 import sagas from './sagas';
 import Login from './Login';
 import Layout from './Layout';
-import Menu from './Menu';
+import Menu from './menu/Menu';
 //import { Dashboard } from './dashboard';
 import CustomRoutes from './routes';
 import translations from './i18n';
 import restClient from './restClient';
 import singledocumentpage from './components/singledocumentpage/reducer';
+import menu from './menu/reducer';
 
 import {SystemconfigList} from './components/systemconfig/index.js';
 import {CanRawDataList,CanRawDataShow} from './components/canrowdatas/index.js';
@@ -40,7 +41,12 @@ class App extends Component {
             <Admin
                 title="电池包监控平台"
                 restClient={restClient}
-                customReducers={{ theme:themeReducer,systemconfig:systemconfigreducer,singledocumentpage }}
+                customReducers={{
+                  theme:themeReducer,
+                  systemconfig:systemconfigreducer,
+                  singledocumentpage,
+                  menu
+                 }}
                 customSagas={sagas}
                 customRoutes={CustomRoutes}
                 authClient={authClient}

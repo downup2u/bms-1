@@ -1,6 +1,6 @@
 const config = require('../../config.js');
-let DBModels = require('../../db/models.js');
-let mongoose  = require('mongoose');
+const DBModels = require('../../db/models.js');
+const mongoose  = require('mongoose');
 const winston = require('../../log/log.js');
 const _ = require('lodash');
 const utilposition = require('../common/util_position');
@@ -46,7 +46,7 @@ exports.uireport_searchposition =  (actiondata,ctx,callback)=>{
 
 
 exports.exportposition = (actiondata,ctx,callback)=>{
-  console.log(`exportposition==>${JSON.stringify(actiondata)}`);
+  //console.log(`exportposition==>${JSON.stringify(actiondata)}`);
   //let HistoryTrackModel =mongoose.model('historytrack',  HistoryTrackSchema);
   const historytrackModel = DBModels.HistoryTrackModel;
   let query = actiondata.query || {};
@@ -84,7 +84,7 @@ exports.exportposition = (actiondata,ctx,callback)=>{
 
 
 exports.queryhistorytrack = (actiondata,ctx,callback)=>{
-  console.log(`queryhistorytrack==>${JSON.stringify(actiondata)}`);
+  //console.log(`queryhistorytrack==>${JSON.stringify(actiondata)}`);
   //let HistoryTrackModel =mongoose.model('historytrack',  HistoryTrackSchema);
   let historytrackModel = DBModels.HistoryTrackModel;
   let query = actiondata.query || {};
