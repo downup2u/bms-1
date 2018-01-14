@@ -89,6 +89,7 @@ class AppRoot extends React.Component {
                     <Route path="/overview" component={requireAuthentication(Overview)} />
                     <Route path="/carlist" component={requireAuthentication(Carlist)} />
                     <Route path="/collection" component={requireAuthentication(Collection)} />
+                    <Route path="/historyplay/:deviceid" component={requireAuthentication(Playback)} />
                     <Route path="/playback/:deviceid" component={requireAuthentication(Playback)} />
                     <Route path="/warningdevice/:deviceid" component={requireAuthentication(Warningdevice)} />
                     <Route path="/warningdevicelist" component={requireAuthentication(Warningdevicelist)} />
