@@ -4,6 +4,7 @@ import {
     mapmain_setmapcenter,
     mapmain_setzoomlevel,
     map_setmapinited,
+    logout_result
 } from '../actions';
 
 
@@ -40,6 +41,9 @@ const carmap = createReducer({
         let autozoomenabled = false;
         return { ...state, zoomlevel,autozoomenabled };
     },
+    [logout_result]:(state,payload)=>{
+      return {...initial.carmap};
+    }
 
 }, initial.carmap);
 

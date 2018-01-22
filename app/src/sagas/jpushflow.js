@@ -42,9 +42,10 @@ export function* jpushflow(){//仅执行一次
     });
 
     yield takeLatest(`${jpushlistenInMessage}`, function*(action) {
-       let {payload:msgobj} = action;
+       let {payload} = action;
         try{
           //yield call(alertmessage,`jpushlistenInMessage ===>${JSON.stringify(msgobj)}`);
+          const msgobj = get(payload,'data');
           if(!!msgobj){
             let message = '接收到一条消息';
             message = get(msgobj,'aps.alert',message);
@@ -56,7 +57,7 @@ export function* jpushflow(){//仅执行一次
             }}));
             if(!!msgobj._id){
               if(msgobj.subtype==='msg'){
-                yield put(push(`/mymessagedetail/${msgobj._id}`));
+                yield put(push(`/alarmrawinfo/${msgobj._id}`));
               }
               // else{
               //   yield put(push(`${msgobj.messagecontent}`));
@@ -68,21 +69,22 @@ export function* jpushflow(){//仅执行一次
           }
         }
           catch(e){
-            alert(`err->jpushlistenInMessage ===>${JSON.stringify(msgobj)},e:${JSON.stringify(e)}`);
+            alert(`err->jpushlistenInMessage ===>${JSON.stringify(payload)},e:${JSON.stringify(e)}`);
           }
 
     });
 
     yield takeLatest(`${jpushpostNotification}`, function*(action) {
-      let {payload:msgobj} = action;
+      let {payload} = action;
         // 按 2，模拟发送（点击了推送消息）
         try{
           //alert(`jpushpostNotification ===>${JSON.stringify(msgobj)}`);
           //yield call(alertmessage,`jpushpostNotification ===>${JSON.stringify(msgobj)}`);
+          const msgobj = get(payload,'data');
           if(!!msgobj){
             if(!!msgobj._id){
               if(msgobj.subtype==='msg'){
-                yield put(push(`/mymessagedetail/${msgobj._id}`));
+                yield put(push(`/alarmrawinfo/${msgobj._id}`));
               }
               // else{
               //   yield put(push(`${msgobj.messagecontent}`));
@@ -103,7 +105,7 @@ export function* jpushflow(){//仅执行一次
 
         }
         catch(e){
-          alert(`err->jpushlistenInMessage ===>${JSON.stringify(msgobj)},e:${JSON.stringify(e)}`);
+          alert(`err->jpushlistenInMessage ===>${JSON.stringify(payload)},e:${JSON.stringify(e)}`);
         }
 
     });

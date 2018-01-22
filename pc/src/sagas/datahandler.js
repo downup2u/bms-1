@@ -35,8 +35,7 @@ import {
     queryhistorytrack_request,
     queryhistorytrack_result,
 
-    searchbattery_request,
-    searchbattery_result,
+
 
     serverpush_devicegeo_sz_request,
     serverpush_devicegeo_sz_result,
@@ -57,7 +56,12 @@ import {
     gettipcount_result,
 
     serverpush_alarm_sz_request,
-    serverpush_alarm_sz_result
+    serverpush_alarm_sz_result,
+
+    savealarmsettings_request,
+    savealarmsettings_result,
+
+    serverpush_alarm
   } from '../actions';
 import {
   ui_searchalarm_request,
@@ -68,19 +72,21 @@ import {
   uireport_searchalarmdetail_result,
   uireport_searchposition_request,
   uireport_searchposition_result,
-  uireport_searchdevice_request,
-  uireport_searchdevice_result,
+  uireport_searchhistorydevice_request,
+  uireport_searchhistorydevice_result,
 } from './pagination';
 
 //接收的对应关系
 let recvmessagetoresultpair = {
+  'savealarmsettings_result':savealarmsettings_result,
+  'serverpush_alarm':serverpush_alarm,
   'serverpush_alarm_sz_result':serverpush_alarm_sz_result,
   'gettipcount_result':gettipcount_result,
   'ui_searchalarm_result':ui_searchalarm_result,
   'uireport_searchalarm_result':uireport_searchalarm_result,
   'uireport_searchalarmdetail_result':uireport_searchalarmdetail_result,
   'uireport_searchposition_result':uireport_searchposition_result,
-  'uireport_searchdevice_result':uireport_searchdevice_result,
+  'uireport_searchhistorydevice_result':uireport_searchhistorydevice_result,
   'searchbatteryalarmsingle_result':searchbatteryalarmsingle_result,
   'serverpush_devicegeo_sz_result':serverpush_devicegeo_sz_result,
   'getnotifymessage_result':getnotifymessage_result,
@@ -98,7 +104,7 @@ let recvmessagetoresultpair = {
   'querydeviceinfo_list_result':querydeviceinfo_list_result,
   'queryrealtimealarm_result':queryrealtimealarm_result,
   'queryhistorytrack_result':queryhistorytrack_result,
-  'searchbattery_result':searchbattery_result,
+
   'searchbatteryalarm_result':searchbatteryalarm_result,
   'collectdevice_result':collectdevice_result,
   'changepwd_result':changepwd_result
@@ -118,12 +124,13 @@ let sendmessagefnsz = {
 
 //验证发送接口
 let sendmessageauthfnsz = {
+  'savealarmsettings':`${savealarmsettings_request}`,
   'serverpush_alarm_sz':`${serverpush_alarm_sz_request}`,
   'gettipcount':`${gettipcount_request}`,
   'changepwd':`${changepwd_request}`,
   'collectdevice':`${collectdevice_request}`,
   'querydevicegroup':`${querydevicegroup_request}`,
-  'searchbattery':`${searchbattery_request}`,
+
   'querydevice':`${querydevice_request}`,
   'querydeviceinfo':`${querydeviceinfo_request}`,
   'querydeviceinfo_list':`${querydeviceinfo_list_request}`,
@@ -136,7 +143,7 @@ let sendmessageauthfnsz = {
   'uireport_searchalarm':`${uireport_searchalarm_request}`,
   'uireport_searchalarmdetail':`${uireport_searchalarmdetail_request}`,
   'uireport_searchposition':`${uireport_searchposition_request}`,
-  'uireport_searchdevice':`${uireport_searchdevice_request}`,
+  'uireport_searchhistorydevice':`${uireport_searchhistorydevice_request}`,
 };
 
 export default {recvmessagetoresultpair,sendmessagefnsz,sendmessageauthfnsz};

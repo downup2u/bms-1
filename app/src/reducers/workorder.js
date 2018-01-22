@@ -6,6 +6,7 @@ import {
     setworkorderdone_result,
     getworkusers_result,
     createworkorder_result,
+    logout_result
 } from '../actions';
 import map from 'lodash.map';
 
@@ -61,6 +62,9 @@ const workorder = createReducer({
     });
     return {...state,searchresult_workorder,workorders};
   },
+  [logout_result]:(state,payload)=>{
+    return {...initial.workorder};
+  }
 }, initial.workorder);
 
 export default workorder;

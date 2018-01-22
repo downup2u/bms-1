@@ -176,7 +176,7 @@ class Page extends React.Component {
         return (
             <div className="historytrackplayback" id="historytrackplayback" style={{height: this.state.innerHeight+"px"}} >
                 <div className="appbar" style={{height: "72px"}}>
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.goBack();}}></i>
+                    
                     <div className="deviceinfo">
 
                         <span>车辆信息</span>
@@ -244,6 +244,8 @@ class Page extends React.Component {
                         <span onClick={this.onClickStart.bind(this)}>开始</span>
                         <span onClick={this.onClickEnd.bind(this)}>结束</span>
                     </div>
+
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.goBack();}}></i>
                 </div>
 
                 <Map height={this.state.innerHeight-72} />

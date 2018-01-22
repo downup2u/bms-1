@@ -27,6 +27,8 @@ window.clickfn_historyplay =(DeviceId)=>{
 window.clickfn_showhistory =(DeviceId)=>{
     store.dispatch(push(`/reports/alarm/${DeviceId}`));
 }
-
+window.clickfn_historydevice =(DeviceId)=>{
+    store.dispatch(push(`/reports/historydevice/${DeviceId}`));
+}
 
 export {createInfoWindow_popinfo,createInfoWindow_poplistinfo};

@@ -9,6 +9,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Car from "material-ui/svg-icons/maps/directions-car";
 import Exit from "material-ui/svg-icons/action/exit-to-app";
+import Setting from "material-ui/svg-icons/action/settings";
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import withRouter from 'react-router-dom/withRouter';
 
@@ -187,7 +188,7 @@ class UserMenu extends React.Component {
             }}/>}
             {<MenuItem primaryText="查询设备" leftIcon={<Car />} onClick={()=>{
                   this.handleRequestClose();
-                  this.props.history.push("/reports/device/0");
+                  this.props.history.push("/reports/historydevice/0");
               }}/>}
           {<MenuItem primaryText="报警信息统计" leftIcon={<Car />} onClick={()=>{
                 this.handleRequestClose();
@@ -202,6 +203,10 @@ class UserMenu extends React.Component {
                 window.open('http://catldemo.com28.cn/admin/build/','_blank');
                 // this.props.dispatch(ui_menuclick_settings({}));
             }}/> */}
+            <MenuItem primaryText="系统设置" leftIcon={<Setting />} onClick={()=>{
+                this.handleRequestClose();
+                this.props.history.push("/setting");
+            }}/>
             <MenuItem primaryText="退出登录" leftIcon={<Exit />} onClick={()=>{
                 this.handleRequestClose();
                 this.props.dispatch(ui_menuclick_logout({}));

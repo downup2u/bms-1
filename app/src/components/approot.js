@@ -20,6 +20,7 @@ import Warningdevicelist from './warningdevice/data.js';
 import Mydevice from './mydevice';
 import Myproject from './mydevice/project';
 import Selcart from './selcart';
+// import Setting from './setting';
 
 import Systems from './system';
 import Deviceinfo from './mydevice/deviceinfo';
@@ -27,10 +28,13 @@ import Workorder from './workorder';
 import Workorderinfo from './workorder/info';
 import Usercenter from './user';
 import Setting from './index/setting';
+import Settings from './settings';
 import Settinguser from './index/settinguser';
 import Settingmessage from './index/settingmessage';
 import MapPage from './map';
 import Alaraminfo from './warningdevice/alarminfo';
+import Alaramrawinfo from './warningdevice/alarmrawinfo';
+
 import {requireAuthentication} from './requireauthentication';
 import "../css/common.css";
 import WeuiTool from './tools/weuitool';
@@ -103,7 +107,10 @@ class AppRoot extends React.Component {
                     <Route path="/settinguser" component={requireAuthentication(Settinguser)} />
                     <Route path="/settingmessage" component={requireAuthentication(Settingmessage)} />
                     <Route path="/alarminfo/:alarmid" component={requireAuthentication(Alaraminfo)} />
+                    <Route path="/alarmrawinfo/:alarmid" component={requireAuthentication(Alaramrawinfo)} />
                     <Route path="/selcart/:prevuri/:deviceid" component={requireAuthentication(Selcart)} />
+                    <Route path="/settings" component={requireAuthentication(Settings)} />
+
                 </Switch>
                 <WeuiTool />
                 <AppMap />

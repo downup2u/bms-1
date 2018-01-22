@@ -76,7 +76,7 @@
     "react-render-html": "^0.2.0",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.6",
-    "react-select": "^1.1.0",
+    "react-select": "^1.2.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-treebeard": "^2.0.3",
     "react-weui": "^1.1.3",

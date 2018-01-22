@@ -133,13 +133,17 @@ class TableAlarm extends React.Component {
             <div className="warningPage" style={{height : this.state.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
                     <div className="title">报警信息统计</div>
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
+
                 </div>
                 <div className="TreeSearchBattery">
-                    <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)}
+                    <TreeSearchreport 
+                      onClickQuery={this.onClickQuery.bind(this)}
                       query={this.state.query}
-                      onClickExport={this.onClickExport.bind(this)}/>
+                      onClickExport={this.onClickExport.bind(this)}
+                      DeviceId={this.props.match.params.deviceid}
+                      />
                 </div>
                 <div className="tablelist">
                     <AntdTable

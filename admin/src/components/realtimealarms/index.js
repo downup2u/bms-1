@@ -87,7 +87,7 @@ const RealtimeAlarmShow = (props) => {
     <SimpleShowLayout>
      <TextField label="设备ID" source="DeviceId" />
      <TextField label="日期" source="CurDay" />
-     <DateField label="采集时间" source="DataTime" showTime />
+     <TextField label="采集时间" source="DataTime"  />
      <AlarmField label="报警信息" addLabel={true}/>
     </SimpleShowLayout>
   </Show>
@@ -105,7 +105,7 @@ const RealtimeAlarmList = (props) => (
     <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="设备" source="DeviceId" />
       <TextField label="日期" source="CurDay" />
-      <DateField label="采集时间" source="DataTime" showTime />
+      <TextField label="采集时间" source="DataTime"  />
       <AlarmField label="报警信息" />
       <ShowButton />
     </Datagrid>

@@ -67,7 +67,7 @@ class Prompt extends React.Component{
                               this.getaddress(curpromtinfo['车辆ID']);
                             }
                             }>快速定位</a>
-                            <a onClick={this.next} className={(this.state.curmessage+1===promptdata.length)?"cancle":""}>{`${this.state.curmessage+1}/${promptdata.length}`}下一条</a>
+                            {/* <a onClick={this.next} className={(this.state.curmessage+1===promptdata.length)?"cancle":""}>{`${this.state.curmessage+1}/${promptdata.length}`}下一条</a> */}
                         </div>
                     </div>
                 )

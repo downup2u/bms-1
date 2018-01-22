@@ -327,37 +327,6 @@ exports.serverpush_devicegeo_sz  = (actiondata,ctx,callback)=>{
 //   });
 // };
 
-exports.uireport_searchdevice =  (actiondata,ctx,callback)=>{
-  // PC端获取数据--->{"cmd":"searchbatteryalarm","data":{"query":{"queryalarm":{"warninglevel":0}}}}
-  const deviceModel = DBModels.DeviceModel;
-  const query = actiondata.query || {};
-  getdevicesids(ctx.userid,({devicegroupIds,deviceIds})=>{
-    if(!query.DeviceId){
-      query.DeviceId = {'$in':deviceIds};
-    }
-
-    deviceModel.paginate(query,actiondata.options,(err,result)=>{
-      if(!err){
-        result = JSON.parse(JSON.stringify(result));
-        let docs = [];
-        _.map(result.docs,(record)=>{
-          docs.push(record);
-        });
-
-        callback({
-          cmd:'uireport_searchdevice_result',
-          payload:{result}
-        });
-      }
-      else{
-        callback({
-          cmd:'common_err',
-          payload:{errmsg:err.message,type:'uireport_searchdevice'}
-        });
-      }
-    });
-  });
-}
 
 const bridge_deviceinfo = (deviceinfo)=>{
   let deviceinfonew = {};

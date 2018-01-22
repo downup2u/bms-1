@@ -344,8 +344,10 @@ let CreateMap =({mapcenterlocation,zoomlevel})=> {
             dragEnable:true,
             zoomEnable:true,
             touchZoom:true,
+            mapStyle: 'amap://styles/macaron'//样式URL
         });
-
+        // http://lbs.amap.com/api/javascript-api/example/personalized-map/set-theme-style
+        // http://lbs.amap.com/api/javascript-api/guide/create-map/mapstye/
         window.AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.OverView'],
         ()=>{
           const scale = new window.AMap.Scale({

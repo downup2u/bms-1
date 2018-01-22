@@ -153,11 +153,21 @@ const curd = (schmodel)=>{
     else if(queryparam.type === UPDATE){
       let dbModel = mongoose.model(schmodel.collectionname, schmodel.schema);
       let updateddata = queryparam.params.data;
+      if(schmodel.collectionname === 'systemconfig' ||
+          schmodel.collectionname === 'device' ||
+          schmodel.collectionname === 'devicegroup' ||
+          schmodel.collectionname === 'user' ||
+          schmodel.collectionname === 'role' ||
+          schmodel.collectionname === 'permission' ||
+          schmodel.collectionname === 'datadict'){
+          updateddata.organizationid = organizationid;//主要是device
+      }
+
       adminaction.preaction('findByIdAndUpdate',schmodel.collectionname,updateddata,(err,result)=>{
         if(!err && result){
           dbModel.findByIdAndUpdate(queryparam.params.id,updateddata, {new: true},(err, result)=> {
-                  //console.log("UPDATE err=>" + JSON.stringify(err));
-                  //console.log("UPDATE result=>" + JSON.stringify(result));
+                  console.log("UPDATE err=>" + JSON.stringify(err));
+                  console.log("UPDATE result=>" + JSON.stringify(result));
                     if(!err){
                       res.status(200)
                           .json(result);

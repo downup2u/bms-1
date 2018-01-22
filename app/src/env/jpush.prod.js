@@ -1,10 +1,9 @@
-import * as xview from './xview/Common';
+// import * as xview from './xview/Common';
 import {jpushlistenInMessage,jpushpostNotification} from '../actions';
 
 export const cancelJPushAlisa=()=>{
     try{
-
-        xview.cancelJPushAlisa();
+        window.xview.xviewCancelJPushAlias();
     }
     catch(e){
       window.alert(`注销设置别名(cancelJPushAlisa)${JSON.stringify(e)}`);
@@ -14,9 +13,12 @@ export const cancelJPushAlisa=()=>{
 
 export const setJPushAlias = (name)=> {
     //设置jpush名字
-
     try{
-         xview.jiGuangTuiSong(name);
+        //  xview.jiGuangTuiSong(name);
+        const json = {
+          "alias": name,
+        };
+        window.xview.xviewSetJPushAlias(JSON.stringify(json));
      }
      catch(e){
        window.alert(`设置别名失败(setJPushAlias)
@@ -27,7 +29,7 @@ export const setJPushAlias = (name)=> {
 
 export const postNotifyFromJPush = (dispatch)=>{
     //未点击推送消息
-    window.listenInMessage=(jsonstr)=>{
+    window.xviewListenJPush=(jsonstr)=>{
         let jsonobj = jsonstr;
         try{
             if(typeof jsonobj === 'string'){
@@ -44,7 +46,7 @@ export const postNotifyFromJPush = (dispatch)=>{
 
     }
     //点击了推送消息
-    window.postNotification=(jsonstr)=>{
+    window.xviewReceiveJPush=(jsonstr)=>{
         let jsonobj = jsonstr;
         try{
             if(typeof jsonobj === 'string'){

@@ -51,7 +51,7 @@ class TreeSearchBattery extends React.Component {
     }
     getQueryObj = ()=>{
       let query = {};
-      query['LastRealtimeAlarm.DataTime'] = {
+      query['DataTime'] = {
         $gte: this.state.startDate.format('YYYY-MM-DD HH:mm:ss'),
         $lte: this.state.endDate.format('YYYY-MM-DD HH:mm:ss'),
       };

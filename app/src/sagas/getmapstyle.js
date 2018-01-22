@@ -77,7 +77,7 @@ const getCoureName = (course)=> {
 //   store.dispatch(push(`/historyplay/${DeviceId}`));
 // }
 // window.clickfn_showhistory =(DeviceId)=>{
-//   store.dispatch(push(`/reports/device/${DeviceId}`));
+//   store.dispatch(push(`/reports/historydevice/${DeviceId}`));
 // }
 // window.clickfn_showmessage =(DeviceId)=>{
 //   store.dispatch(ui_btnclick_devicemessage({DeviceId}));
@@ -90,11 +90,16 @@ const getpop_device =({deviceitem,kvlist})=>{
   lodashmap(kvlist,(v)=>{
     const fieldvalue = get(deviceitem,v.name,'');
     const unit = get(deviceitem,v.unit,'');
+    let systemflag = 0;
+    if(v.name === 'formattedAddress'){
+      systemflag = 1;
+    }
     fields.push({
       fieldname:v.name,
       showname:v.showname,
       fieldvalue,
-      unit
+      unit,
+      systemflag
     });
     // contentxt += `<p class='l'><span class='t'>${v.showname}</span><span class='color_warning'>${fieldvalue}${unit}</span></p>`;
   });

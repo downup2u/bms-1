@@ -22,6 +22,7 @@ import { NumberInput,
   TextField,
   DateField,
   EditButton,
+  CreateButton,
   BooleanInput,
   TabbedForm,
   FormTab,
@@ -36,8 +37,10 @@ import { Field,FieldArray } from 'redux-form';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
 import {CreateActions,EditActions} from '../controls/createeditactions';
+import ImportExcelButton from './importexcelbtn';
 
-const deviceDefaultValue = {created_at:new Date(),updated_at:new Date()};
+
+const deviceDefaultValue = {created_at:moment().format('YYYY-MM-DD HH:mm:ss'),updated_at:moment().format('YYYY-MM-DD HH:mm:ss')};
 
 const DeviceCreate = (props) => (
   <Create title="创建设备"  {...props} actions={<CreateActions />}>
@@ -55,15 +58,25 @@ const choices = [
 const DeviceEdit = (props) => {
   return (<Edit title="设备信息" {...props}  actions={<EditActions />}>
       <TabbedForm>
+        <FormTab label="扩展信息">
+          <TextInput label="RDB编号" source="Ext.RDB"  />
+          <TextInput label="车工号" source="Ext.BusNo"  />
+          <TextInput label="小车VIN码" source="Ext.VIN"  />
+          <TextInput label="类型" source="Ext.Type"  />
+          <TextInput label="容量" source="Ext.Capacity"  />
+          <TextInput label="串联数" source="Ext.SerialNumber"  />
+          <TextInput label="并联数" source="Ext.ParallelNumber"  />
+        </FormTab>
         <FormTab label="设备基本信息">
           <TextField label="设备ID" source="DeviceId"  validate={required} />
-          <DateField label="创建时间" source="created_at" showTime />
-          <DateField label="插入数据库时间" source="updated_at" showTime />
+          <TextField label="创建时间" source="created_at"  />
+          <TextField label="插入数据库时间" source="updated_at"  />
+          <TextField label="更新时间" source="UpdateTime"  />
         </FormTab>
         <FormTab label="最近实时报警-基本信息">
           <TextField label="数据包序号" source="LastRealtimeAlarm.SN" />
-          <DateField label="采集时间" source="LastRealtimeAlarm.DataTime" />
-          <DateField label="Gateway接受到数据时间" source="LastRealtimeAlarm.MessageTime" />
+          <TextField label="采集时间" source="LastRealtimeAlarm.DataTime" />
+          <TextField label="Gateway接受到数据时间" source="LastRealtimeAlarm.MessageTime" />
           <TextField label="ALARM" source="LastRealtimeAlarm.ALARM" />
           <TextField label="ALARM_H" source="LastRealtimeAlarm.ALARM_H" />
           <TextField label="ALARM_L" source="LastRealtimeAlarm.ALARM_L" />
@@ -127,10 +140,10 @@ const DeviceEdit = (props) => {
         <FormTab label="最近历史轨迹">
           <TextField label="设备状态" source="LastHistoryTrack.DeviceStatus" />
           <TextField label="主板温度，单位：摄氏度" source="LastHistoryTrack.ADC1" />
-          <DateField label="接受数据时间" source="LastHistoryTrack.MessageTime" showTime />
+          <TextField label="接受数据时间" source="LastHistoryTrack.MessageTime"  />
           <TextField label="Position数据包序号" source="LastHistoryTrack.SN" />
           <SelectField label="GPS定位" source="LastHistoryTrack.GPSStatus" choices={choices} optionValue="_id" optionText="status" />
-          <DateField label="定位的UTC时间" source="LastHistoryTrack.GPSTime" showTime />
+          <TextField label="定位的UTC时间" source="LastHistoryTrack.GPSTime"  />
           <TextField label="经度" source="LastHistoryTrack.Longitude" />
           <TextField label="纬度" source="LastHistoryTrack.Latitude" />
           <TextField label="速度" source="LastHistoryTrack.Speed" />
@@ -161,15 +174,31 @@ const DeviceFilter = (props) => (
   </Filter>
 )
 
+const cardActionStyle = {
+    zIndex: 2,
+    display: 'inline-block',
+    float: 'right',
+};
+
+const DeviceActions = ({ resource, filters, displayedFilters, filterValues, basePath, showFilter, refresh }) => (
+    <CardActions style={cardActionStyle}>
+        {filters && React.cloneElement(filters, { resource, showFilter, displayedFilters, filterValues, context: 'button' }) }
+        <CreateButton basePath={basePath} />
+        <FlatButton primary label="刷新" onClick={refresh} icon={<NavigationRefresh />} />
+        <ImportExcelButton />
+    </CardActions>
+);
+
 const DeviceList = (props) => (
-  <List title="设备管理" filters={<DeviceFilter />} sort={{field:'LastRealtimeAlarm.DataTime',order:'DESC'}} {...props}>
+  <List title="设备管理" filters={<DeviceFilter />} sort={{field:'UpdateTime',order:'DESC'}} {...props}
+  actions={<DeviceActions />}>
   {permissions =>
     <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="设备ID" source="DeviceId" />
       <TextField label="设备类型" source="DeviceType"/>
       <TextField label="SN64" source="SN64"/>
 
-      <DateField label="更新时间" source="LastRealtimeAlarm.DataTime" showTime />
+      <TextField label="更新时间" source="UpdateTime"  />
       {permissions==='admin'?<EditButton />:null}
     </Datagrid>
   }

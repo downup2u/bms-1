@@ -79,8 +79,8 @@ const UserList = (props) => (
     <Datagrid  bodyOptions={{ showRowHover: true }} rowStyle={rowStyle}>
         <TextField label="用户名" source="username" />
         <TextField label="真实姓名" source="truename" />
-        <DateField label="注册时间" source="created_at" showTime />
-        <DateField label="上次登录时间" source="updated_at" showTime />
+        <TextField label="注册时间" source="created_at"  />
+        <TextField label="上次登录时间" source="updated_at"  />
         <ReferenceField label="用户角色" source="roleid" reference="role" allowEmpty>
           <TextField source="name" />
         </ReferenceField>

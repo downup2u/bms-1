@@ -17,8 +17,8 @@ export const uireport_searchalarmdetail_request = createAction('uireport_searcha
 export const uireport_searchalarmdetail_result = createAction('uireport_searchalarmdetail_result');
 export const uireport_searchposition_request = createAction('uireport_searchposition_request');
 export const uireport_searchposition_result = createAction('uireport_searchposition_result');
-export const uireport_searchdevice_request = createAction('uireport_searchdevice_request');
-export const uireport_searchdevice_result = createAction('uireport_searchdevice_result');
+export const uireport_searchhistorydevice_request = createAction('uireport_searchhistorydevice_request');
+export const uireport_searchhistorydevice_result = createAction('uireport_searchhistorydevice_result');
 //以下导出放在视图
 export function callthen(actionreq,actionres,payload){
   return (dispatch) => {

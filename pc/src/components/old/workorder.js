@@ -68,8 +68,8 @@ class MessageAllDevice extends React.Component {
             <div className="warningPage" style={{height : window.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.push("./")}}></i>
                     <div className="title">工单查询</div>
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.push("./")}}></i>
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport onClickQuery={this.onClickQuery.bind(this)}/>

@@ -97,7 +97,7 @@ class TableAlarmDetail extends React.Component {
           "车辆ID" : "",
           "报警时间" : "",
           "报警等级" : "",
-          "报警信息" : "绝缘故障",
+          "报警信息" : "",
         };
         let columns = map(column_data, (data, index)=>{
           let column_item = {
@@ -118,8 +118,10 @@ class TableAlarmDetail extends React.Component {
             <div className="warningPage" style={{height : this.state.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
+
                     <div className="title">报警信息明细</div>
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
+
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport

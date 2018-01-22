@@ -32,8 +32,8 @@ const UserAdminList = (props) => (
   <List title={<UserAdminTitle />} {...props}>
     <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField lable="管理员" source="username" />
-      <DateField lable="注册时间" source="created_at" showTime />
-      <DateField lable="上次登录时间" source="updated_at" showTime />
+      <TextField lable="注册时间" source="created_at"  />
+      <TextField lable="上次登录时间" source="updated_at"  />
       <EditButton />
     </Datagrid>
   </List>

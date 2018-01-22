@@ -46,11 +46,13 @@ class Page extends React.Component {
             <div className="warningPage devicePage deviceinfoPage workorderinfoPage" style={{height : window.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
+
                     <div className="title">{title}</div>
                     <div className="devicebtnlist">
                         <Button type="primary" icon="environment" onClick={this.pointdevice.bind(this, data.DeviceId)}>定位设备</Button>
                     </div>
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
+
                 </div>
                 <div
                     className="lists deviceinfolist"

@@ -13,8 +13,8 @@ let userloginsuccess =(user,callback)=>{
     //主动推送一些数据什么的
 
     //写入登录日志
-    let loginlogModel = DBModels.UserLogModel;
-    let loginlogentity = new loginlogModel({
+    const loginlogModel = DBModels.UserLogModel;
+    const loginlogentity = new loginlogModel({
                         creator:user._id,
                         username:user.username
                       });
@@ -28,8 +28,10 @@ const subscriberuser = (user,ctx)=>{
 
   const subscriberdeviceids = _.get(user,'alarmsettings.subscriberdeviceids',[]);
   _.map(subscriberdeviceids,(DeviceId)=>{
-    PubSub.subscribe(`push.device.${DeviceId}`,ctx.userDeviceSubscriber);
+    PubSub.subscribe(`${config.kafka_pushalaramtopic}.${DeviceId}`,ctx.userDeviceSubscriber);
   });
+
+  console.log(`用户开始订阅设备:${JSON.stringify(subscriberdeviceids)}`);
 }
 
 let getdatafromuser =(user)=>{
@@ -74,10 +76,12 @@ let setloginsuccess = (ctx,user,callback)=>{
 };
 
 
-exports.savealarmsettings = (socket,actiondata,ctx)=>{
+exports.savealarmsettings = (actiondata,ctx,callback)=>{
   const alarmsettings = actiondata;
   const userModel = DBModels.UserModel;
   userModel.findByIdAndUpdate(ctx.userid,{$set:{alarmsettings}},{new: true},(err,usernew)=>{
+    console.log(err);
+    console.log(usernew);
     if(!err && !!usernew){
         callback({
           cmd:'savealarmsettings_result',

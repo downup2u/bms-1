@@ -16,7 +16,8 @@ import{
   ui_searchbattery_result,
   login_result,
   collectdevice_result,
-  set_treesearchlist
+  set_treesearchlist,
+  logout_result
 } from '../actions';
 import filter from 'lodash.filter';
 import map from 'lodash.map';
@@ -376,6 +377,9 @@ const device = createReducer({
      datatreegroup.active = false;
      datatreegroup.loading = false;
      return {...state,datatreegroup};//这样reducer刷新才能刷新树！！！
+  },
+  [logout_result]:(state,payload)=>{
+    return {...initial.device};
   }
 }, initial.device);
 

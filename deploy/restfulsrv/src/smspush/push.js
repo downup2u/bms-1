@@ -3,18 +3,18 @@ const config = require('../config.js');
 
 const client = JPush.buildClient(config.jpush_appkey, config.jpush_mastersecret);
 
-// messagetype:String,//all,app
+// _id
+// messagetype:String,//msg
 // touserid:String,
 // messagetitle:String,
 // messagecontent:String,
-// created_at:{ type: Date, default:new Date()},
 
 let sendallmsg = (notifymessage,fncallback)=>{
   client.push().setPlatform('ios', 'android')
     .setAudience(JPush.ALL)
     .setNotification(notifymessage.messagetitle,
-        JPush.ios(notifymessage.messagetitle, 'happy', 1,false,{_id:notifymessage._id}),
-        JPush.android(notifymessage.messagetitle, null, 1,{_id:notifymessage._id})
+        JPush.ios(notifymessage.messagetitle, 'happy', 1,false,{_id:notifymessage._id,messagetype:notifymessage.messagetype}),
+        JPush.android(notifymessage.messagetitle, null, 1,{_id:notifymessage._id,messagetype:notifymessage.messagetype})
     )
     .setMessage(notifymessage.messagecontent)
     .send( (err, res)=> {
@@ -38,8 +38,8 @@ let sendusermsg = (notifymessage,fncallback)=>{
   client.push().setPlatform('ios', 'android')
     .setAudience(JPush.alias(notifymessage.touserid))
     .setNotification(notifymessage.messagetitle,
-        JPush.ios(notifymessage.messagetitle, 'happy', 1,false,{_id:notifymessage._id}),
-        JPush.android(notifymessage.messagetitle, null, 1,{_id:notifymessage._id})
+        JPush.ios(notifymessage.messagetitle, 'happy', 1,false,{_id:notifymessage._id,messagetype:notifymessage.messagetype}),
+        JPush.android(notifymessage.messagetitle, null, 1,{_id:notifymessage._id,messagetype:notifymessage.messagetype})
     )
     .setMessage(notifymessage.messagecontent)
     .setOptions(null, 60)

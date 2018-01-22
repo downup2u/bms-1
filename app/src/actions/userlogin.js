@@ -12,3 +12,6 @@ export const logout_result = createAction('logout_result');
 
 export const changepwd_request = createAction('changepwd_request');
 export const changepwd_result = createAction('changepwd_result');
+
+export const savealarmsettings_request = createAction('savealarmsettings_request');
+export const savealarmsettings_result = createAction('savealarmsettings_result');

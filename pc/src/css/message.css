@@ -78,8 +78,117 @@
     height: 100%;
     overflow-y: scroll;
 }
+.settingPage .appbar{
+    margin-bottom: 20px;
+}
+.settingform{
+    margin-top: 20px;
+    width: 100%;
+    margin:  auto;
+    max-width: 600px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -moz-box-direction:normal;
+    flex-direction:column;
+    -webkit-flex-direction:column;
+    padding-top: 20px;
+    background: #FFF;
+}
+.settingform .title{
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+.formlist{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -moz-box-direction:normal;
+    flex-direction:column;
+    -webkit-flex-direction:column;
+    padding: 10px;
+    border-top: 1px solid #EEE;
+}
+.formlist >div{
+    border-bottom: 1px solid #EEE;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    height: 50px;
+}
+.formlist >div >div.p{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+    height: 30px;
+    margin: 0;
+    flex-grow: 0;
+}
+.formlist .ant-select-selection__placeholder{
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
+
+}
+.formlist .ant-select-selection--multiple .ant-select-selection__rendered{
+    border: 1px solid rgba(255,255,255,0);
+    height: 28px;
+    line-height: 28px;
+    padding: 0;
+    margin: 0;
+}
+.formlist .ant-select-selection__placeholder{
+    margin-top: -14px;
+    font-size: 14px;
+    margin-left: 10px;
+}
+.settingform .button{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+    height: 30px;
+    margin-bottom: 30px;
+    padding-top: 20px;
+}
+.settingform .button a{
+    display: block;
+    width: 100px;
+    background: #60bdaa;
+    color: #FFF;
+    border-radius: 6px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
 
 
-
+.settingform .Select.Select--multi{
+    min-width: 200px;
+    padding-top: 0;
+}
 
 

@@ -96,7 +96,7 @@ const RealtimeAlarmRawShow = (props) => {
     <SimpleShowLayout>
      <TextField label="设备ID" source="DeviceId" />
      <TextField label="报警等级" source="warninglevel" />
-     <DateField label="报警时间" source="DataTime" showTime />
+     <TextField label="报警时间" source="DataTime"  />
      <AlarmField label="报警信息" addLabel={true}/>
     </SimpleShowLayout>
   </Show>
@@ -119,7 +119,7 @@ const RealtimeAlarmRawList = (props) => (
     <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="设备" source="DeviceId" />
       <TextField label="报警等级" source="warninglevel" />
-      <DateField label="报警时间" source="DataTime" showTime />
+      <TextField label="报警时间" source="DataTime"  />
       <AlarmField label="报警信息" />
       <ShowButton />
     </Datagrid>

@@ -21,7 +21,8 @@ const DataDictTitle = ({record}) => {
 
 export const DDFilter = props => (
     <Filter {...props}>
-        <TextInput label="搜索字典" source="name_q" />
+      <TextInput label="搜索字段名" source="name_q" />
+      <TextInput label="搜索字段显示名" source="showname_q" />
     </Filter>
 );
 

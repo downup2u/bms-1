@@ -14,7 +14,7 @@ import moment from 'moment';
 
 import TreeSearchreport from '../search/searchreport_device';
 import {
-  callthen,uireport_searchdevice_request,uireport_searchdevice_result
+  callthen,uireport_searchhistorydevice_request,uireport_searchhistorydevice_result
 } from '../../sagas/pagination';
 import get from 'lodash.get';
 
@@ -55,7 +55,7 @@ class TablePosition extends React.Component {
 
     onClickExport(query){
       const payload = {
-          type:'report_device',
+          type:'report_historydevice',
           query
       };
       //console.log(`导出excel:${JSON.stringify(payload)}`);
@@ -72,22 +72,56 @@ class TablePosition extends React.Component {
       },0);
     }
 
+
     onItemConvert(item){
-      let itemnew = {...item};
-      //DeviceId Latitude Longitude GPSTime
-      itemnew['key'] = get(item,'_id','');
-      itemnew['设备编号'] = get(item,'DeviceId','');
-      itemnew['更新时间'] = get(item,'UpdateTime','');
-      itemnew['设备类型'] = get(item,'DeviceType','');
-      itemnew['序列号'] = get(item,'SN64','');
+      let itemnew = {};
+      itemnew[`key`] = get(item,'_id','');
+      itemnew[`车辆ID`] = get(item,'DeviceId','');
+      itemnew[`采集时间`] = get(item,'DataTime','');
+      itemnew[`保存时间`] = get(item,'RecvTime','');
+      itemnew[`箱体测量电压(V)`] = get(item,'ChargeACVoltage','');
+      itemnew[`箱体累加电压(V)`] = get(item,'BAT_U_TOT_HVS','');
+      itemnew[`箱体电流(A)`] = get(item,'BAT_I_HVS','');
+      itemnew[`真实SOC(%)`] = get(item,'BAT_SOC_HVS','');
+      itemnew[`最高单体电压(V)`] = get(item,'BAT_Ucell_Max','');
+      itemnew[`最低单体电压(V)`] = get(item,'BAT_Ucell_Min','');
+      itemnew[`最高单体电压CSC号`] = get(item,'BAT_Ucell_Max_CSC','');
+      itemnew[`最高单体电芯位置`] = get(item,'BAT_Ucell_Max_CELL','');
+      itemnew[`最低单体电压CSC号`] = get(item,'BAT_Ucell_Min_CSC','');
+      itemnew[`最低单体电压电芯位置`] = get(item,'BAT_Ucell_Min_CELL','');
+      itemnew[`最高单体温度`] = get(item,'BAT_T_Max','');
+      itemnew[`最低单体温度`] = get(item,'BAT_T_Min','');
+      itemnew[`平均单体温度`] = get(item,'BAT_T_Avg','');
+      itemnew[`最高温度CSC号`] = get(item,'BAT_T_Max_CSC','');
+      itemnew[`最低温度CSC号`] = get(item,'BAT_T_Min_CSC','');
+      itemnew[`显示用SOC`] = get(item,'BAT_User_SOC_HVS','');
+      itemnew[`平均单体电压`] = get(item,'BAT_Ucell_Avg','');
+      itemnew[`报警状态`] = get(item,'alarmtxt','');
+
       return itemnew;
     }
     render(){
         let column_data = {
-          "设备编号" : "",
-          "更新时间" : "",
-          "设备类型" : "",
-          "序列号" : "",
+          '采集时间': "",
+          '保存时间': "",
+          '箱体测量电压(V)': "",
+          '箱体累加电压(V)': "",
+          '箱体电流(A)': "",
+          '真实SOC(%)': "",
+          '最高单体电压(V)': "",
+          '最低单体电压(V)': "",
+          '最高单体电压CSC号': "",
+          '最高单体电芯位置': "",
+          '最低单体电压CSC号': "",
+          '最低单体电压电芯位置': "",
+          '最高单体温度': "",
+          '最低单体温度': "",
+          '平均单体温度': "",
+          '最高温度CSC号': "",
+          '最低温度CSC号': "",
+          '显示用SOC': "",
+          '平均单体电压': "",
+          '报警状态': "",
         };
         let columns = map(column_data, (data, index)=>{
           let column_item = {
@@ -109,8 +143,10 @@ class TablePosition extends React.Component {
             <div className="warningPage" style={{height : this.state.innerHeight+"px"}}>
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
+
                     <div className="title">设备报表</div>
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.replace("/")}}></i>
+
                 </div>
                 <div className="TreeSearchBattery">
                     <TreeSearchreport
@@ -126,9 +162,9 @@ class TablePosition extends React.Component {
                       columns={columns}
                       pagenumber={30}
                       query={this.state.query}
-                      sort={{'LastRealtimeAlarm.DataTime': -1}}
+                      sort={{'DataTime': -1}}
                       queryfun={(payload)=>{
-                        return callthen(uireport_searchdevice_request,uireport_searchdevice_result,payload);
+                        return callthen(uireport_searchhistorydevice_request,uireport_searchhistorydevice_result,payload);
                       }}
                     />
                 </div>

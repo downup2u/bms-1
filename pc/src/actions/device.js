@@ -57,6 +57,8 @@ export const stop_serverpush_devicegeo_sz= createAction('stop_serverpush_deviceg
 export const start_serverpush_alarm_sz = createAction('start_serverpush_alarm_sz');
 export const stop_serverpush_alarm_sz= createAction('stop_serverpush_alarm_sz');
 
+export const serverpush_alarm =  createAction('serverpush_alarm');
+
 //设置报警信息已读
 export const setalarmreaded_request= createAction('setalarmreaded_request');
 export const setalarmreaded_result= createAction('setalarmreaded_result');

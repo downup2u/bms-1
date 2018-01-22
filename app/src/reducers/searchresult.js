@@ -13,7 +13,8 @@ import {
 
   ui_resetsearch,
   setalarmreaded_result,
-  searchbatterylocal_result
+  searchbatterylocal_result,
+  logout_result
 } from '../actions';
 import map from 'lodash.map';
 import {
@@ -123,6 +124,9 @@ const searchresult = createReducer({
     });
     return { ...state,alarms, searchresult_alaramsingle};
   },
+  [logout_result]:(state,payload)=>{
+    return {...initial.searchresult};
+  }
 }, initial.searchresult);
 
 export default searchresult;

@@ -2,6 +2,7 @@ const map = require('lodash.map');
 const _ = require('lodash');
 const device = require('../handler/common/device.js');
 const historytrack = require('../handler/common/historytrack');
+const historydevice = require('../handler/common/historydevice.js');
 const kafakautil = require('../kafka/producer');
 const realtimealarm = require('../handler/common/realtimealarm.js');
 const DBModels = require('../db/models.js');
@@ -21,57 +22,55 @@ let startmodule = (app)=>{
   app.post('/api/report_position',(req,res)=>{
     // req,res,dbModel,fields,csvfields,fn_convert
     const dbModel = DBModels.HistoryTrackModel;
-    const fields = 'DeviceId Latitude Longitude GPSTime';
-    let sz = fields.split(' ');
-    sz.push('Provice');
-    sz.push('City');
-    sz.push('Area');
-    const csvfields = sz.join(',');
+    const csvfields = `设备编号,定位时间,省,市,区`;
+    const dbfields = 'DeviceId Latitude Longitude GPSTime';
     const fn_convert = (doc,callbackfn)=>{
       utilposition.getpostion_frompos(getpoint(doc),(retobj)=>{
         const newdoc = _.merge(doc,retobj);
-        callbackfn(newdoc);
+        callbackfn({
+          '设备编号':newdoc.DeviceId,
+          '定位时间':newdoc.GPSTime,
+          '省':newdoc.Provice,
+          '市':newdoc.City,
+          '区':newdoc.Area,
+        });
       });
     };
-    export_downloadexcel({req,res,dbModel,fields,csvfields,fn_convert});
+    export_downloadexcel({req,res,dbModel,fields:dbfields,csvfields,fn_convert});
 
   });
   app.post('/api/report_alarm',(req,res)=>{
     // req,res,dbModel,fields,csvfields,fn_convert
     const dbModel = DBModels.RealtimeAlarmModel;
-    const fields = '车辆ID 报警时间 报警等级 报警信息';
-
-    let sz = fields.split(' ');
-    const csvfields = sz.join(',');
+    const csvfields = '车辆ID,报警时间,报警等级,报警信息';
     const fn_convert = (doc,callbackfn)=>{
       const newdoc = realtimealarm.bridge_alarminfo(doc);
       callbackfn(newdoc);
+
     }
-    export_downloadexcel({req,res,dbModel,fields,csvfields,fn_convert});
+    export_downloadexcel({req,res,dbModel,fields:null,csvfields,fn_convert});
   });
   app.post('/api/report_alarmdetail',(req,res)=>{
     // req,res,dbModel,fields,csvfields,fn_convert
     const dbModel = DBModels.RealtimeAlarmRawModel;
-    const fields = '车辆ID 报警时间 报警等级 报警信息';
-    const sz = fields.split(' ');
-    const csvfields = sz.join(',');
+    const csvfields = '车辆ID,报警时间,报警等级,报警信息';
     const fn_convert = (doc,callbackfn)=>{
       const newdoc = realtimealarm.bridge_alarmrawinfo(doc);
       callbackfn(newdoc);
     }
-    export_downloadexcel({req,res,dbModel,fields,csvfields,fn_convert});
+    export_downloadexcel({req,res,dbModel,fields:null,csvfields,fn_convert});
   });
-  app.post('/api/report_device',(req,res)=>{
+  app.post('/api/report_historydevice',(req,res)=>{
     // req,res,dbModel,fields,csvfields,fn_convert
-    const dbModel = DBModels.DeviceModel;
-    const fields = '车辆ID 更新时间 设备类型 序列号';
-    const sz = fields.split(' ');
-    const csvfields = sz.join(',');
+    const dbModel = DBModels.HistoryDeviceModel;
+    const csvfields = '采集时间,保存时间,箱体测量电压(V),箱体累加电压(V),箱体电流(A),\
+真实SOC(%),最高单体电压(V),最低单体电压(V),最高单体电压CSC号,最高单体电芯位置,最低单体电压CSC号,\
+最低单体电压电芯位置,最高单体温度,最低单体温度,平均单体温度,最高温度CSC号,最低温度CSC号,显示用SOC,平均单体电压,报警状态';
     const fn_convert = (doc,callbackfn)=>{
-      const newdoc = device.bridge_deviceinfo(doc);
+      const newdoc = historydevice.bridge_historydeviceinfo(doc);
       callbackfn(newdoc);
     }
-    export_downloadexcel({req,res,dbModel,fields,csvfields,fn_convert});
+    export_downloadexcel({req,res,dbModel,fields:null,csvfields,fn_convert});
   });
 
   app.post('/m2mgw/setdata',(req,res)=>{

@@ -66,7 +66,7 @@ class Page extends React.Component {
             <div className="warningPage devicePage deviceinfoPage">
 
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
+                    
                     <div className="title">车辆详情</div>
                     <div className="devicebtnlist">
                       {/*   <Button type="primary" icon="play-circle-o" onClick={
@@ -90,13 +90,13 @@ class Page extends React.Component {
                           this.props.dispatch(ui_btnclick_devicemessage({DeviceId:id}));
                           //this.props.history.push(`/devicemessage/${mapseldeviceid}`)
                         }}>历史警告</Button> */}
+                      <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
                     </div>
                 </div>
 
                 <div className="lists deviceinfolist"
                     style={{
                         flexGrow: 0,
-                        overflow: "scroll"
                     }}
                     >
                     {

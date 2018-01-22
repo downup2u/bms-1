@@ -2,6 +2,7 @@ import { createReducer } from 'redux-act';
 import {
   //登录
     gettipcount_result,
+    logout_result
 } from '../actions';
 
 const initial = {
@@ -17,6 +18,9 @@ const initial = {
 const tip = createReducer({
   [gettipcount_result]: (state, payload) => {
       return { ...state,...payload};
+  },
+  [logout_result]:(state,payload)=>{
+    return {...initial.tip};
   }
 }, initial.tip);
 

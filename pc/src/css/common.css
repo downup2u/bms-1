@@ -134,6 +134,10 @@
     -moz-flex-shrink: 0;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
 }
 .AppPage .bodycontainer{
     display: -webkit-box;
@@ -1485,6 +1489,9 @@
     border-bottom: 1px solid #999999;
     text-indent: 20px;
 }
+.Window_pop_info .info-middle ul li.show_1{
+    width: 100%;
+}
 .Window_pop_info .info-middle ul li span{
     font-size: 16px;
 }
@@ -1500,9 +1507,9 @@
     -webkit-box-align: center;
     align-items: center;
     -webkit-align-items: center;
-    -moz-justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
     height: 100px;
 }
 .Window_pop_info .pop_info_btn .collect{
@@ -1545,16 +1552,10 @@
     position: relative;
     padding: 0 30px;
     font-size: 18px;
+    color: #5cbdaa;
 }
 .Window_pop_info .pop_info_btn .lnk span:after{
-    content: "";
-    display: inline-block;
-    position: absolute;
-    height: 30px;
-    width: 1px;
-    background-color: #999;
-    right: 0;
-    top: 10px;
+    
 }
 .Window_pop_info .pop_info_btn .lnk span:last-child:after{
     content: none;

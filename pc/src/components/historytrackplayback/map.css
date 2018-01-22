@@ -9,8 +9,8 @@
     padding:20px;
 }
 
-.historytrackplayback{
-    
+.historytrackplayback .deviceinfo span{
+    margin-left: 20px;
 }
 .historytrackplayback .formlist{
     display: -webkit-box;

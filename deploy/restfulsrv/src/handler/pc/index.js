@@ -1,6 +1,7 @@
 const systemconfig = require('../common/systemconfig');
 const userlogin = require('../common/userlogin');
 const device = require('../common/device.js');
+const historydevice = require('../common/historydevice.js');
 const realtimealarm = require('../common/realtimealarm.js');
 const moment = require('moment');
 const historytrack = require('../common/historytrack');
@@ -33,7 +34,7 @@ const authhandler = {
   'uireport_searchalarm':realtimealarm.uireport_searchalarm,
   'uireport_searchalarmdetail':realtimealarm.uireport_searchalarmdetail,
   'uireport_searchposition':historytrack.uireport_searchposition,
-  'uireport_searchdevice':device.uireport_searchdevice,
+  'uireport_searchhistorydevice':historydevice.uireport_searchhistorydevice,
   'serverpush_alarm_sz':realtimealarm.serverpush_alarm_sz,
 };
 

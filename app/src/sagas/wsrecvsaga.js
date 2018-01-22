@@ -145,9 +145,9 @@ export function* wsrecvsagaflow() {
               }
               yield put(querydevicegroup_request({}));
 
-              if(config.ispopalarm){
-                yield put(start_serverpush_alarm_sz({}));
-              }
+              // if(config.ispopalarm){
+              //   yield put(start_serverpush_alarm_sz({}));
+              // }
               //
               // yield put(getworkusers_request({}));
               // //登录成功,获取今天所有报警信息列表

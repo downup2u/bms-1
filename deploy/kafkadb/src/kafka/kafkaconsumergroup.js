@@ -9,7 +9,7 @@ const startsrv = (config,onMessage,onError)=>{
   const consumerGroup = new ConsumerGroup(Object.assign({id: cid}, consumerOptions), topics);
   consumerGroup.on('error', onError);
   consumerGroup.on('message', onMessage);
-
+  console.log(`wait for message!`);
   process.once('SIGINT', ()=> {
     async.each([consumerGroup],  (consumer, callback)=> {
       consumer.close(true, callback);
@@ -17,4 +17,4 @@ const startsrv = (config,onMessage,onError)=>{
   });
 }
 
-exports.startsrv = startsrv;
+module.exports = startsrv;

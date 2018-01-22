@@ -32,7 +32,7 @@ const initial = {
         mapstyle : {
             height : 0,
             top : 0
-        },
+        }
     },
 };
 

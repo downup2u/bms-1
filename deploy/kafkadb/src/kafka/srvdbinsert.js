@@ -1,4 +1,4 @@
-const dbh = require('./db/index.js');
+const dbh = require('../db/index.js');
 
 function onMessage (message) {
   console.log(`获取到消息:${JSON.stringify(message)}`);

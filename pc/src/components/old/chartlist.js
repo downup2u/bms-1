@@ -29,8 +29,8 @@ class Page extends React.Component {
         return (
             <div className="warningPage" style={{height : window.innerHeight+"px"}}>
                 <div className="appbar">
-                    <i className="fa fa-angle-left back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
                     <div className="title">{contentobj.title}</div>
+                    <i className="fa fa-times-circle-o back" aria-hidden="true" onClick={()=>{this.props.history.goBack()}}></i>
                 </div>
                 <iframe src={contentobj.link} style={{width:"100%",height: "100%"}}></iframe>
             </div>

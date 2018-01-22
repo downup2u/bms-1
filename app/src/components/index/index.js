@@ -8,11 +8,12 @@ import Avatar from "../../img/2.png";
 import Userlnk from "../../img/11.png";
 import Setting from "../../img/12.png";
 import Searchimg from "../../img/22.png";
+import Config from "../../env/config";
 
 import Footer from "./footer.js";
 import Collectiondevice from "../collectiondevice";
 
-import {ui_index_selstatus} from '../../actions';
+import {ui_index_selstatus,ui_setmapstyle} from '../../actions';
 
 class Page extends React.Component {
     constructor(props) {
@@ -26,6 +27,9 @@ class Page extends React.Component {
         this.props.dispatch(ui_index_selstatus(v));
         console.log(v);
         //this.setState({selstatus : v});
+    }
+    componentWillMount() {
+        this.props.dispatch(ui_setmapstyle({height : (Config.sysinnerheight-98-66) + "px", top: "98px"}))
     }
     onfocusinput=()=>{
         this.setState({searchonfocus : true});
@@ -43,7 +47,7 @@ class Page extends React.Component {
             <div className="indexPage AppPage"
                 style={{
                     background: "none",
-                    minHeight : `${window.innerHeight}px`,
+                    minHeight : `${Config.sysinnerheight}px`,
                     pointerEvents: "none",
 
                 }}>

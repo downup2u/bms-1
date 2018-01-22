@@ -77,10 +77,11 @@ input,textarea {
     display: flex;
     background: #5cbeaa;
     padding: 20px 15px 8px 15px;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     pointer-events: auto;
     flex-shrink: 0;
+
 }
 .navhead a{
     display: flex;

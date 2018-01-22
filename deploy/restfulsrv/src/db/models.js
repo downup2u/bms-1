@@ -125,8 +125,7 @@ const CanRawDataModel =mongoose.model('canrawdata',  CanRawDataSchema);
 
 //设备历史信息
 const HistoryDeviceSchema = new Schema({
-  deviceid:{ type: Schema.Types.ObjectId, ref: 'device' },
-});
+}, { strict: false });
 HistoryDeviceSchema.plugin(mongoosePaginate);
 const HistoryDeviceModel =mongoose.model('historydevice',  HistoryDeviceSchema);
 

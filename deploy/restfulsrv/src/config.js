@@ -20,6 +20,7 @@ const config =  {
   loginuserexptime:60*60*24*30,//用户登录有效期,30天
   mongodburl:process.env.MONGO_URL || 'mongodb://localhost/bms',
   mapdict:{},
+  kafka_pushalaramtopic:'push.alarm',
   kafka_consumersettings:{
     host: process.env.KAFKA_HOST ||'bmscatl.com28.cn:2181',
     groupId:  process.env.KAFKA_PUSHDEVICEGROUP ||'PUSHDEVICEGROUP',

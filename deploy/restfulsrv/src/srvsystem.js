@@ -2,7 +2,7 @@
  * Created by wangxiaoqing on 2017/3/25.
  */
 const dbinit = require('./db/dbinit');
-const startsrv_devpush = require('./kafka/devpush');
+const startsrv_devpush = require('./kafka/devpush.js');
 const config = require('./config');
 // const mongoose = require('mongoose');
 // const winston = require('./log/log.js');
@@ -49,7 +49,7 @@ const job=()=>{
 
     // createadmin();
     dbinit();
-    // startsrv_devpush(config);
+    startsrv_devpush(config);
 
     // schedule.scheduleJob('0 0 * * *', ()=>{
       //每天0点更新优惠券过期信息

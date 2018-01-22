@@ -37,11 +37,11 @@ const CanRawDataShow = (props) => {
   return (<Show title="设备历史数据" {...props}>
       <SimpleShowLayout>
         <TextField label="设备ID" source="DeviceId" />
-        <DateField label="采集时间" source="DataTime" showTime />
-        <DateField label="Gateway接受到数据时间" source="MessageTime" showTime />
+        <TextField label="采集时间" source="DataTime"  />
+        <TextField label="Gateway接受到数据时间" source="MessageTime" showTime />
         <TextField label="数据序号" source="SN" />
         <TextField label="数据" source="Data" />
-        <DateField label="插入数据库时间" source="created_at" showTime />
+        <TextField label="插入数据库时间" source="created_at" showTime />
       </SimpleShowLayout>
     </Show>
     );
@@ -51,11 +51,11 @@ const CanRawDataList = (props) => (
   <List title="设备历史数据" sort={{field:'created_at',order:'DESC'}} {...props}>
     <Datagrid  bodyOptions={{ showRowHover: true }}>
       <TextField label="设备ID" source="DeviceId" />
-      <DateField label="采集时间" source="DataTime" showTime />
-      <DateField label="Gateway接受到数据时间" source="MessageTime" showTime />
+      <TextField label="采集时间" source="DataTime"  />
+      <TextField label="Gateway接受到数据时间" source="MessageTime"  />
       <TextField label="数据序号" source="SN" />
       <TextField label="数据" source="Data" />
-      <DateField label="插入数据库时间" source="created_at" showTime />
+      <TextField label="插入数据库时间" source="created_at"  />
       <ShowButton />
     </Datagrid>
   </List>

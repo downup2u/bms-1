@@ -11,9 +11,13 @@ import {createmaptrackhistoryplaybackflow} from './mapplayback';
 import {socketflow} from './socketflow';
 import {uiflow} from './ui';
 import {downloadexcel} from './downloadexcel';
+import config from '../config.js';
 
 export default function* rootSaga() {
   try{
+    if(config.softmode === 'app'){
+      yield fork(jpushflow);
+    }
     yield fork(downloadexcel);
     yield fork(socketflow);
     yield fork(createmapmainflow);
@@ -21,9 +25,7 @@ export default function* rootSaga() {
     yield fork(createloadingflow);
     yield fork(uiflow);
     yield fork(wsrecvsagaflow);
-
     yield fork(createsagacallbackflow);
-
     yield fork(apiflow);
   }
   catch(e){
